@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('study_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('grade')->default(0);
-            $table->unsignedInteger('section')->nullable();
-            $table->string('category');
+            $table->foreignId('academic_year_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('semester')->default(1);
+            $table->double('gpa', 5, 2)->default(0);
             $table->timestamps();
-        });
+        });        
     }
 
     /**
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('study_results');
     }
 };
