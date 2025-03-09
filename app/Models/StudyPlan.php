@@ -19,4 +19,19 @@ class StudyPlan extends Model
             'status' => StudyPlanStatus::class,
         ];
     }    
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
+    
+    public function academicYear(): BelongsTo
+    {
+        return $this->belongsTo(AcademicYear::class);
+    }
+
+    public function schedules(): BelongsToMany
+    {
+        return $this->belongsToMany(Schedule::class, 'study_plan_schedule')->withTimestamps();
+    }
 }

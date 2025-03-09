@@ -20,4 +20,14 @@ class Faculty extends Model
             set: fn(string $value) => strtolower($value),
         );
     }
+
+    public function departments(): HasMany
+    {
+        return $this->hasMany(Department::class);
+    }
+    
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
 }

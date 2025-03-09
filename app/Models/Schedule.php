@@ -24,4 +24,34 @@ class Schedule extends Model
             'day_of_week' => ScheduleDay::class,
         ];
     }
+
+    public function faculty(): BelongsTo
+    {
+        return $this->belongsTo(Faculty::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+    
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function classroom(): BelongsTo
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+    
+    public function academicYear(): BelongsTo
+    {
+        return $this->belongsTo(AcademicYear::class);
+    }
+
+    public function studyPlans(): BelongsToMany
+    {
+        return $this->belongsToMany(StudyPlan::class, 'study_plan_schedule')->withTimestamps();
+    }
 }

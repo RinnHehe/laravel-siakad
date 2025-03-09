@@ -20,4 +20,9 @@ class Department extends Model
             set: fn(string $value) => strtolower($value),
         );
     }
+
+    public function faculty(): BelongsTo
+    {
+        return $this->belongsTo(Faculty::class);
+    }
 }
