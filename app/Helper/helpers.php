@@ -7,3 +7,10 @@ if (!function_exists('flashMessage')) {
         session()->flash('type', $type);
     }
 }
+
+if (!function_exists('signatureMidtrans')) {
+    function signatureMidtrans($order_id, $status_code, $gross_amount, $server_key): string
+    {
+        return hash('sha512', $order_id . $status_code . $gross_amount . $server_key);
+    }
+}
