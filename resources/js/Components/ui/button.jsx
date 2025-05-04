@@ -12,18 +12,26 @@ const buttonVariants = cva(
         default:
           "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "bg-destructive text-destructive-fore ground shadow-sm hover:bg-destructive/90",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        red: 'text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700',
+        orange: 'text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700',
+        blue: 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700',
+        green: 'text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700',
+        yellow: 'text-white bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700',
+        purple: 'text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700',
       },
       size: {
-        default: "h-9 px-4 py-2",
+        default: "h-9 px-4 py-2 rounded-lg",
+        xs: 'h-6 rounded-md px-3 text-xs',
         sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
+        lg: "h-10 rounded-xl px-8",
+        xl: 'h-12 rounded-xl px-8',
         icon: "h-9 w-9",
       },
     },
