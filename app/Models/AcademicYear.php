@@ -14,11 +14,11 @@ class AcademicYear extends Model
         'semester',
         'is_active',
     ];
-    
+
     protected function casts(): array
-        {
+    {
         return [
-        'semester' => AcademicYearSemester::class,
+            'semester' => AcademicYearSemester::class,
         ];
     }
 }
