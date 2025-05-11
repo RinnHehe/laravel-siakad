@@ -8,9 +8,13 @@ import { IconLayoutSidebar } from '@tabler/icons-react';
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { flashMessage } from '@/lib/utils';
+import Sidebar from '@/Layouts/Partials/Sidebar';
+import SidebarResponsive from '@/Layouts/Partials/SidebarResponsive';
 
 export default function AppLayout({title, children}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  const { url } = usePage();
   
   const flash = flashMessage(usePage());
   
@@ -20,7 +24,20 @@ export default function AppLayout({title, children}) {
   
   return (
     <>
-      <Head title={title} />
+      <Head title={title}>
+        <style>{`
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          
+          /* Hide scrollbar for IE, Edge and Firefox */
+          .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+          }
+        `}</style>
+      </Head>
       
       <Toaster position="top-center" richColors />
       
@@ -73,14 +90,9 @@ export default function AppLayout({title, children}) {
                     </div>
                   </Transition.Child>
                   
-                  <div className="flex flex-col px-6 pb-2 overflow-y-auto grow gap-y-5 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700">
-                    <div className="flex items-center h-16 shrink-0">
-                      {/* Logo or icon could go here if needed */}
-                    </div>
-                    <nav className="flex flex-col flex-1">
-                      <ul className="flex flex-col flex-1 gap-y-7">
-                      </ul>
-                    </nav>
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto overflow-x-hidden bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-6 pb-2 scrollbar-hide">
+                    {/* sidebar responsive */}
+                    <SidebarResponsive url={url} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -89,9 +101,10 @@ export default function AppLayout({title, children}) {
         </Transition.Root>
         
         <div className="hidden p-2.5 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex flex-col px-4 overflow-y-auto border grow gap-y-5 rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700">
+          <div className="flex flex-col px-4 overflow-y-auto overflow-x-hidden border grow gap-y-5 rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 scrollbar-hide">
             <nav className="flex flex-col flex-1">
-              <ul className="flex flex-col flex-1 gap-y-7">
+              <ul className="flex flex-col flex-1 gap-y-7 scrollbar-hide">
+                <Sidebar url={url} />
               </ul>
             </nav>
           </div>
