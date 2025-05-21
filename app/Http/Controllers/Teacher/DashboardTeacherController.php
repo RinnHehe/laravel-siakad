@@ -15,7 +15,7 @@ class DashboardTeacherController extends Controller
      */
     public function __invoke(): Response
     {
-        return Inertia::render('Teachers/Dashboard', props: [
+        return inertia ('Teachers/Dashboard', [
             'page_settings' => [
                 'title' => 'Dashboard',
                 'subtitle' => 'Menampilkan semua statistik pada platform ini.',
