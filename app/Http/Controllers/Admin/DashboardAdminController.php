@@ -15,7 +15,7 @@ class DashboardAdminController extends Controller
      */
     public function __invoke(): Response
     {
-        return Inertia::render('Admin/Dashboard', props: [
+        return inertia ('Admin/Dashboard', [
             'page_settings' => [
                 'title' => 'Dashboard',
                 'subtitle' => 'Menampilkan semua statistik pada platform ini.',

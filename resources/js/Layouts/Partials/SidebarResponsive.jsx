@@ -1,176 +1,74 @@
-import React from 'react';
-import { Link } from '@inertiajs/react';
-import { 
-  IconLayout2, 
-  IconBuildingSkyscraper, 
-  IconSchool, 
-  IconCalendarTime, 
-  IconDoor, 
+import {
+  IconBooks,
+  IconBuildingSkyscraper,
+  IconCalendar,
+  IconCalendarTime,
   IconCircleKey,
+  IconDoor,
+  IconDroplets,
+  IconLayout2,
+  IconLogout2,
+  IconMoneybag,
+  IconSchool,
+  IconUser,
   IconUsers,
   IconUsersGroup,
-  IconUser,
-  IconBooks,
-  IconCalendar,
-  IconMoneybag,
-  IconDroplets,
-  IconLogout2
 } from '@tabler/icons-react';
+import NavLink from '@/Components/NavLink';
 
-export default function SidebarResponsive({url}) {
-  return (
-    <nav className="flex flex-col flex-1 mt-4 scrollbar-hide">
-      <ul role="list" className="flex flex-col flex-1 overflow-y-auto scrollbar-hide">
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/dashboard') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconLayout2 className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Dashboard</span>
-          </Link>
-        </li>
-        
-        <div className="px-3 py-2 text-xs font-medium text-white">Master</div>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/faculties') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconBuildingSkyscraper className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Fakultas</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/departments') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconSchool className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Program Studi</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/academic-years') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconCalendarTime className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Tahun Ajaran</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/classrooms') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconDoor className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Kelas</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/roles') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconCircleKey className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Peran</span>
-          </Link>
-        </li>
-        
-        <div className="px-3 py-2 text-xs font-medium text-white">Pengguna</div>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/students') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconUsers className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Mahasiswa</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/teachers') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconUsersGroup className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Dosen</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/operators') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconUser className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Operator</span>
-          </Link>
-        </li>
-        
-        <div className="px-3 py-2 text-xs font-medium text-white">Akademik</div>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/courses') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconBooks className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Mata Kuliah</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/schedules') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconCalendar className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Jadwal</span>
-          </Link>
-        </li>
-        
-        <div className="px-3 py-2 text-xs font-medium text-white">Pembayaran</div>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/fees') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconMoneybag className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Uang Kuliah Tunggal</span>
-          </Link>
-        </li>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/admin/fee-groups') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconDroplets className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Golongan UKT</span>
-          </Link>
-        </li>
-        
-        <div className="px-3 py-2 text-xs font-medium text-white">Lainnya</div>
-        
-        <li>
-          <Link
-            href="#"
-            className={`flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 rounded-lg ${url.startsWith('/logout') ? 'bg-blue-800' : 'hover:bg-blue-800'}`}
-          >
-            <IconLogout2 className="w-5 h-5 flex-shrink-0" />
-            <span className="truncate">Logout</span>
-          </Link>
-        </li>
-      </ul>
-    </nav>
-  );
+export default function SidebarResponsive({ url }) {
+    return (
+        <nav className="mt-4 flex flex-1 flex-col">
+            <ul role="list" className="flex flex-1 flex-col">
+                <NavLink url="#" active={url.startsWith('/admin/dashboard')} title="Dashboard" icon={IconLayout2} />
+                <div className="px-3 py-2 text-xs font-medium text-white">Master</div>
+                <NavLink
+                    url="#"
+                    active={url.startsWith('/admin/faculties')}
+                    title="Fakultas"
+                    icon={IconBuildingSkyscraper}
+                />
+                <NavLink
+                    url="#"
+                    active={url.startsWith('/admin/departments')}
+                    title="Program Studi"
+                    icon={IconSchool}
+                />
+                <NavLink
+                    url="#"
+                    active={url.startsWith('/admin/academics-years')}
+                    title="Tahun Ajaran"
+                    icon={IconCalendarTime}
+                />
+                <NavLink url="#" active={url.startsWith('/admin/classrooms')} title="Kelas" icon={IconDoor} />
+                <NavLink url="#" active={url.startsWith('/admin/roles')} title="Peran" icon={IconCircleKey} />
+
+                <div className="px-3 py-2 text-xs font-medium text-white">Pengguna</div>
+                <NavLink url="#" active={url.startsWith('/admin/students')} title="Mahasiswa" icon={IconUsers} />
+                <NavLink url="#" active={url.startsWith('/admin/teachers')} title="Dosen" icon={IconUsersGroup} />
+                <NavLink url="#" active={url.startsWith('/admin/operators')} title="Operator" icon={IconUser} />
+
+                <div className="px-3 py-2 text-xs font-medium text-white">Akademik</div>
+                <NavLink url="#" active={url.startsWith('/admin/courses')} title="Mata Kuliah" icon={IconBooks} />
+                <NavLink url="#" active={url.startsWith('/admin/schedules')} title="Jadwal" icon={IconCalendar} />
+
+                <div className="px-3 py-2 text-xs font-medium text-white">Pembayaran</div>
+                <NavLink
+                    url="#"
+                    active={url.startsWith('/admin/fees')}
+                    title="Uang Kuliah Tunggal"
+                    icon={IconMoneybag}
+                />
+                <NavLink
+                    url="#"
+                    active={url.startsWith('/admin/fee-groups')}
+                    title="Golongan UKT"
+                    icon={IconDroplets}
+                />
+
+                <div className="px-3 py-2 text-xs font-medium text-white">Lainnya</div>
+                <NavLink url="#" active={url.startsWith('/logout')} title="Logout" icon={IconLogout2} />
+            </ul>
+        </nav>
+    );
 }

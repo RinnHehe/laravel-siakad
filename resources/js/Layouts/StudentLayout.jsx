@@ -1,42 +1,39 @@
-import { Head } from '@inertiajs/react';
-import { usePage } from '@inertiajs/react';
-import { Toaster } from 'react-hot-toast';
-import { Card, CardContent } from '@/Components/ui/card';
-import { Banner } from '@/Components/ui/banner';
-import HeaderStudentLayout from '@/Layouts/HeaderStudentLayout';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import Banner from "@/Components/Banner";
+import { Card, CardContent } from "@/Components/ui/card";
+import { Toaster } from "@/Components/ui/toaster";
+import { Head, usePage } from "@inertiajs/react";
+import { toast } from 'sonner';
+import { flashMessage } from '@/lib/utils';
+import HeaderStudentLayout from "./Partials/HeaderStudentLayout";
+import { useEffect } from "react";
 
-export default function StudentLayout({children, title}) {
-    const { flash } = usePage().props;
+export default function StudentLayout({children, title}){
     const checkFee = usePage().props.checkFee;
-    const url = usePage().url;
-    
-    console.log(checkFee);
-    
+    const { url } = usePage();
+    const flash = flashMessage(usePage());
     useEffect(() => {
-        if(flash && flash.message && flash.type === 'warning') toast[flash.type](flash.message);
+        if (flash && flash.message && flash.type == 'warning') toast[flash.type](flash.message);
     }, [flash]);
-    
+
     return (
         <>
-            <Head title={title} />
-            
-            <Toaster position='top-center' richColors />
-            
-            <div className="min-h-screen bg-white">
-                <HeaderStudentLayout url={url} />
-                
-                <div className="px-4 py-6 mx-auto max-w-7xl lg:px-8">
-                    <Card className="overflow-hidden shadow-lg">
-                        <CardContent className="p-4">
-                            {children}
-                        </CardContent>
-                    </Card>
-                    
-                    {checkFee === false && <Banner message="Harap melakukan pembayaran uang kuliah tunggal terlebih dahulu" />}
-                </div>
+        <Head title={title} />
+        <Toaster position='top-center' richColors/>
+        <div className="min-h-full">
+            <div className="pb-32 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700">
+                {/* Header Layout */}
+                <HeaderStudentLayout url={url}/>
             </div>
+            <main className="px-6 pb-12 -mt-32 lg:px-28">
+                <Card>
+                    <CardContent className="p-6">
+                        {children}
+                    </CardContent>
+                </Card>
+                {/* CheckFee*/}
+                {checkFee == false && <Banner message=" Harap melakukan pembayaran uang kuliah tunggal terlebih dahulu"/>}
+            </main>
+        </div>
         </>
     )
-} 
+}
