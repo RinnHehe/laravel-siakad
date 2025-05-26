@@ -11,4 +11,22 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        https: false,
+        host: '127.0.0.1',
+        port: 5174,
+        cors: true,
+        proxy: {
+            '/login': {
+                target: 'http://127.0.0.1:8000',
+                changeOrigin: true,
+                secure: false,
+            },
+            '/api': {
+                target: 'http://127.0.0.1:8000',
+                changeOrigin: true,
+                secure: false,
+            },
+        },
+    },
 });

@@ -12,6 +12,8 @@ import SidebarResponsive from './Partials/SidebarResponsive';
 export default function AppLayout({ title, children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { url } = usePage();
+    const auth = usePage().props.auth.user;
+    console.log(auth);
     const flash = flashMessage(usePage());
     useEffect(() => {
         if (flash && flash.message && flash.type == 'warning') toast[flash.type](flash.message);
@@ -68,7 +70,7 @@ export default function AppLayout({ title, children }) {
                                     </Transition.Child>
                                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-6 pb-2">
                                         {/* Sidebar Responsive */}
-                                        <SidebarResponsive url={url}/>
+                                        <SidebarResponsive auth={auth} url={url} />
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>
@@ -78,7 +80,7 @@ export default function AppLayout({ title, children }) {
                 <div className="hidden p-2.5 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-4">
                         {/* Sidebar */}
-                        <Sidebar url={url} />
+                        <Sidebar auth={auth} url={url} />
                     </div>
                 </div>
                 <div className="sticky top-0 flex items-center gap-x-6 bg-white p-4 shadow-sm sm:px-6 lg:hidden">

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,26 +26,33 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if (Auth::user()->hasRole('Admin')) {
+            return Inertia::location(route('admin.dashboard', absolute: false));
+        } else if (Auth::user()->hasRole('Teacher')) {
+            return Inertia::location(route('teachers.dashboard', absolute: false));
+        } else if (Auth::user()->hasRole('Operator')) {
+            return Inertia::location(route('operators.dashboard', absolute: false));
+        } else if (Auth::user()->hasRole('Student')) {
+            return Inertia::location(route('students.dashboard', absolute: false));
+        }
     }
 
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return Inertia::location('/');
     }
 }
