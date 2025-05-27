@@ -1,14 +1,31 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardAdminController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::redirect('/','login');
+Route::get('/', function () {
+    if (Auth::check()) {
+        return to_route('dashboard');
+    } else {
+        return to_route('login');
+    }
+});
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    if (Auth::user()->hasRole('Admin')) {
+        return Inertia::location(route('admin.dashboard', absolute: false));
+    } else if (Auth::user()->hasRole('Teacher')) {
+        return Inertia::location(route('teachers.dashboard', absolute: false));
+    } else if (Auth::user()->hasRole('Operator')) {
+        return Inertia::location(route('operators.dashboard', absolute: false));
+    } else if (Auth::user()->hasRole('Student')) {
+        return Inertia::location(route('students.dashboard', absolute: false));
+    } else {
+        abort(404, 'Not Found');
+    }
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
