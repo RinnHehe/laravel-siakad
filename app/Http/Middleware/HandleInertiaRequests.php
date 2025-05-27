@@ -58,7 +58,7 @@ class HandleInertiaRequests extends Middleware
             ->where('is_active', true)
             ->first(),
         
-            'checkFee' => fn() => $request->user() && $request->user()->student
+            'checkFee' => fn() => $request->user() && $request->user()->student && activeAcademicYear()
                 ? Fee::query()
                     ->where('student_id', $request->user()->student->id)
                     ->where('academic_year_id', AcademicYear::where('is_active', true)->first()?->id)
