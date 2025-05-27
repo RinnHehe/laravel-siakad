@@ -1,4 +1,6 @@
 import StudentLayout from '@/Layouts/StudentLayout';
+import CardStat from '@/Components/CardStat';
+import { IconBooks, IconCheck, IconCreditCard, IconX } from '@tabler/icons-react';
 
 export default function Dashboard(props) {
     return (
@@ -10,6 +12,38 @@ export default function Dashboard(props) {
                     </h3>
                     <p className="text-sm text-muted-foreground">{props.page_settings.subtitle}</p>
                 </div>
+            </div>
+            <div className='grid gap-4 mb-8 lg:grid-cols-3'>
+                <CardStat
+                    data={{
+                        title: 'Kartu Rencana Studi Diterima',
+                        icon: IconCheck,
+                        background: 'text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-500',
+                        iconClassName: 'text-white',
+                    }}
+                >
+                    <div className='text-2xl font-bold'>{props.count.study_plans_approved}</div>
+                </CardStat>
+                <CardStat
+                    data={{
+                        title: 'Kartu Rencana Studi Ditolak',
+                        icon: IconX,
+                        background: 'text-white bg-gradient-to-r from-red-400 via-red-500 to-red-500',
+                        iconClassName: 'text-white',
+                    }}
+                >
+                    <div className='text-2xl font-bold'>{props.count.study_plans_reject}</div>
+                </CardStat>
+                <CardStat
+                    data={{
+                        title: 'Total Pembayaran',
+                        icon: IconCreditCard,
+                        background: 'text-white bg-gradient-to-r from-green-400 via-green-500 to-green-500',
+                        iconClassName: 'text-white',
+                    }}
+                >
+                    <div className='text-2xl font-bold'>{props.count.total_payments}</div>
+                </CardStat>
             </div>
         </div>
     );
