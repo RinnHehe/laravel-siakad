@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { Card, CardHeader, CardTitle, CardContent } from '@/Components/ui/card';
 
 export default function CardStat({ data, children }) {
     const { title, background, className = '', icon: Icon, iconClassName = '' } = data;

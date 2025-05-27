@@ -32,7 +32,7 @@ export default function SidebarResponsive({ auth, url }) {
                         <NavLink
                             url="#"
                             active={url.startsWith('/admin/faculties')}
-                            title="Fakultas"
+                            title="Jurusan"
                             icon={IconBuildingSkyscraper}
                         />
                         <NavLink
