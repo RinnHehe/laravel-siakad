@@ -20,7 +20,7 @@ export default function SidebarResponsive({ auth, url }) {
     return (
         <nav className="mt-4 flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col">
-            {auth.roles.some((role) => ['Admin'].includes(role)) && (
+                {auth.roles.some((role) => ['Admin'].includes(role)) && (
                     <>
                         <NavLink
                             url="#"

@@ -1,6 +1,6 @@
-import StudentLayout from '@/Layouts/StudentLayout';
 import CardStat from '@/Components/CardStat';
-import { IconBooks, IconCheck, IconCreditCard, IconX } from '@tabler/icons-react';
+import StudentLayout from '@/Layouts/StudentLayout';
+import { IconCheck, IconCreditCard, IconX } from '@tabler/icons-react';
 
 export default function Dashboard(props) {
     return (
@@ -13,7 +13,7 @@ export default function Dashboard(props) {
                     <p className="text-sm text-muted-foreground">{props.page_settings.subtitle}</p>
                 </div>
             </div>
-            <div className='grid gap-4 mb-8 lg:grid-cols-3'>
+            <div className="mb-8 grid gap-4 lg:grid-cols-3">
                 <CardStat
                     data={{
                         title: 'Kartu Rencana Studi Diterima',
@@ -22,7 +22,7 @@ export default function Dashboard(props) {
                         iconClassName: 'text-white',
                     }}
                 >
-                    <div className='text-2xl font-bold'>{props.count.study_plans_approved}</div>
+                    <div className="text-2xl font-bold">{props.count.study_plans_approved}</div>
                 </CardStat>
                 <CardStat
                     data={{
@@ -32,7 +32,7 @@ export default function Dashboard(props) {
                         iconClassName: 'text-white',
                     }}
                 >
-                    <div className='text-2xl font-bold'>{props.count.study_plans_reject}</div>
+                    <div className="text-2xl font-bold">{props.count.study_plans_reject}</div>
                 </CardStat>
                 <CardStat
                     data={{
@@ -42,7 +42,7 @@ export default function Dashboard(props) {
                         iconClassName: 'text-white',
                     }}
                 >
-                    <div className='text-2xl font-bold'>{props.count.total_payments}</div>
+                    <div className="text-2xl font-bold">{props.count.total_payments}</div>
                 </CardStat>
             </div>
         </div>
