@@ -17,10 +17,11 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
 import UseFilter from "@/hooks/UseFilter";
 import AppLayout from "@/Layouts/AppLayout";
-import { formatDateIndo } from "@/lib/utils";
+import { formatDateIndo, flashMessage } from "@/lib/utils";
 import { Link } from "@inertiajs/react";
 import { IconArrowsDownUp, IconBuildingSkyscraper, IconPencil, IconPlus, IconRefresh, IconSearch, IconTrash } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function Index(props) {
     const { data: faculties, meta, links } = props.faculties;
@@ -29,6 +30,18 @@ export default function Index(props) {
         page: props.state?.page,
         load: props.state?.load,
     });
+
+    useEffect(() => {
+        // Check for flash message
+        const flash = props.flash_message;
+        if (flash) {
+            if (flash.type === 'success') {
+                toast.success(flash.message);
+            } else if (flash.type === 'error') {
+                toast.error(flash.message);
+            }
+        }
+    }, []);
 
     const onSortable = (field) => {
         setParams({
