@@ -28,18 +28,28 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
 
-        session()->regenerate();
+            session()->regenerate();
 
-        if (Auth::user()->hasRole('Admin')) {
-            return Inertia::location(route('admin.dashboard', absolute: false));
-        } else if (Auth::user()->hasRole('Teacher')) {
-            return Inertia::location(route('teachers.dashboard', absolute: false));
-        } else if (Auth::user()->hasRole('Operator')) {
-            return Inertia::location(route('operators.dashboard', absolute: false));
-        } else if (Auth::user()->hasRole('Student')) {
-            return Inertia::location(route('students.dashboard', absolute: false));
+            if (Auth::user()->hasRole('Admin')) {
+                return Inertia::location(route('admin.dashboard', absolute: false));
+            } else if (Auth::user()->hasRole('Teacher')) {
+                return Inertia::location(route('teachers.dashboard', absolute: false));
+            } else if (Auth::user()->hasRole('Operator')) {
+                return Inertia::location(route('operators.dashboard', absolute: false));
+            } else if (Auth::user()->hasRole('Student')) {
+                return Inertia::location(route('students.dashboard', absolute: false));
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return Inertia::render('Auth/Login', [
+                'errors' => [
+                    'email' => 'Email atau password yang anda masukkan salah.'
+                ],
+                'canResetPassword' => Route::has('password.request'),
+                'status' => session('status'),
+            ]);
         }
     }
 
