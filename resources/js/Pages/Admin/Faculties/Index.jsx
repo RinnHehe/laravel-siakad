@@ -17,7 +17,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
 import UseFilter from "@/hooks/UseFilter";
 import AppLayout from "@/Layouts/AppLayout";
-import { formatDateIndo, flashMessage } from "@/lib/utils";
+import { formatDateIndo, flashMessage, deleteAction } from "@/lib/utils";
 import { Link } from "@inertiajs/react";
 import { IconArrowsDownUp, IconBuildingSkyscraper, IconPencil, IconPlus, IconRefresh, IconSearch, IconTrash } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
@@ -175,6 +175,7 @@ export default function Index(props) {
                                                                 <IconTrash className="size-4"/>
                                                             </Button>
                                                         }
+                                                        action={() => deleteAction(route('admin.faculties.destroy', [faculty]))}
                                                     />
                                                 </div>
                                             </TableCell>
