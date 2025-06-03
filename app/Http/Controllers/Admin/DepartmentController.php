@@ -93,4 +93,74 @@ class DepartmentController extends Controller
             ]);
         }
     }
+
+    public function edit(Department $department): Response
+    {
+        return Inertia::render('Admin/Departments/Edit', [
+            'page_settings' => [
+                'title' => 'Edit Program Studi',
+                'subtitle' => 'Edit program studi disini, Klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.departments.update', $department),
+            ],
+            'department' => $department,
+            'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name,
+            ]),
+        ]);
+    }
+
+    public function update(Department $department, DepartmentRequest $request)
+    {
+        try{
+            $validated = $request->validated();
+            
+            $department->update([
+                'faculty_id' => $validated['faculty_id'],
+                'name' => $validated['name'],
+            ]);
+            
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::UPDATED->message('Program Studi'));
+
+            return Inertia::location(route('admin.departments.index'));
+            
+        } catch (Throwable $e){
+            return Inertia::render('Admin/Departments/Edit', [
+                'page_settings' => [
+                    'title' => 'Edit Program Studi',
+                    'subtitle' => 'Edit program studi disini, Klik simpan setelah selesai',
+                    'method' => 'PUT',
+                    'action' => route('admin.departments.update', $department),
+                ],
+                'department' => $department,
+                'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                    'value' => $item->id,
+                    'label' => $item->name,
+                ]),
+                'errors' => [
+                    'name' => $e->getMessage()
+                ]
+            ]);
+        }
+    }
+
+    public function destroy(Department $department)
+    {
+        try {
+            $department->delete();
+
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::DELETED->message('Program Studi'));
+
+            return Inertia::location(route('admin.departments.index'));
+
+        } catch (Throwable $e) {
+            session()->flash('type', 'error');
+            session()->flash('message', 'Gagal menghapus program studi: ' . $e->getMessage());
+
+            return back();
+        }
+    }
 }
