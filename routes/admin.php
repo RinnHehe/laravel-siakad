@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\FacultyController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +15,14 @@ Route::prefix('admin')->middleware(['auth','role:Admin'])->group(function () {
         Route::get('faculties/edit/{faculty:slug}', 'edit')->name('admin.faculties.edit');
         Route::put('faculties/edit/{faculty:slug}', 'update')->name('admin.faculties.update');
         Route::delete('faculties/delete/{faculty:slug}', 'destroy')->name('admin.faculties.destroy');
+    });
+
+    Route::controller(DepartmentController::class)->group(function () {
+        Route::get('departments', 'index')->name('admin.departments.index');
+        Route::get('departments/create', 'create')->name('admin.departments.create');
+        Route::post('departments/create', 'store')->name('admin.departments.store');
+        Route::get('departments/edit/{department:slug}', 'edit')->name('admin.departments.edit');
+        Route::put('departments/edit/{department:slug}', 'update')->name('admin.departments.update');
+        Route::delete('departments/delete/{department:slug}', 'destroy')->name('admin.departments.destroy');
     });
 });
