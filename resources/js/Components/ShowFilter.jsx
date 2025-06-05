@@ -1,6 +1,6 @@
-import { Badge } from "@/Components/ui/badge";
-import { Separator } from "@/Components/ui/separator";
-import { cn } from "@/lib/utils";
+import { Badge } from '@/Components/ui/badge';
+import { Separator } from '@/Components/ui/separator';
+import { cn } from '@/lib/utils';
 import { IconFilter } from '@tabler/icons-react';
 
 export default function ShowFilter({ params, className = '' }) {

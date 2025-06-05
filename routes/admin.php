@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AcademicYearController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\FacultyController;
@@ -24,5 +25,14 @@ Route::prefix('admin')->middleware(['auth','role:Admin'])->group(function () {
         Route::get('departments/edit/{department:slug}', 'edit')->name('admin.departments.edit');
         Route::put('departments/edit/{department:slug}', 'update')->name('admin.departments.update');
         Route::delete('departments/delete/{department:slug}', 'destroy')->name('admin.departments.destroy');
+    });
+
+    Route::controller(AcademicYearController::class)->group(function () {
+        Route::get('academic-years', 'index')->name('admin.academic-years.index');
+        Route::get('academic-years/create', 'create')->name('admin.academic-years.create');
+        Route::post('academic-years/create', 'store')->name('admin.academic-years.store');
+        Route::get('academic-years/edit/{academicYear:slug}', 'edit')->name('admin.academic-years.edit');
+        Route::put('academic-years/edit/{academicYear:slug}', 'update')->name('admin.academic-years.update');
+        Route::delete('academic-years/delete/{academicYear:slug}', 'destroy')->name('admin.academic-years.destroy');
     });
 });
