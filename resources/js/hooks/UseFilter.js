@@ -1,5 +1,5 @@
 import { router } from '@inertiajs/react';
-import { debounce, pickBy, isEqual } from 'lodash';
+import { debounce, isEqual, pickBy } from 'lodash';
 import { useCallback, useEffect, useRef } from 'react';
 
 export default function UseFilter({ route, values = {}, only = [], wait = 300 }) {
@@ -14,7 +14,7 @@ export default function UseFilter({ route, values = {}, only = [], wait = 300 })
                 preserveScroll: true,
             });
         }, wait),
-        [route, only, wait]
+        [route, only, wait],
     );
 
     useEffect(() => {

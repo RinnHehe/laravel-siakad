@@ -60,8 +60,8 @@ export default function Sidebar({ auth, url }) {
                             icon={IconSchool}
                         />
                         <NavLink
-                            url="#"
-                            active={url.startsWith('/admin/academics-years')}
+                            url={route('admin.academic-years.index')}
+                            active={url.startsWith('/admin/academic-years')}
                             title="Tahun Ajaran"
                             icon={IconCalendarTime}
                         />
