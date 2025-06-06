@@ -47,7 +47,7 @@ export default function SidebarResponsive({ auth, url }) {
                             title="Tahun Ajaran"
                             icon={IconCalendarTime}
                         />
-                        <NavLink url="#" active={url.startsWith('/admin/classrooms')} title="Kelas" icon={IconDoor} />
+                        <NavLink url={route('admin.classrooms.index')}  active={url.startsWith('/admin/classrooms')} title="Kelas" icon={IconDoor} />
                         <NavLink url="#" active={url.startsWith('/admin/roles')} title="Peran" icon={IconCircleKey} />
 
                         <div className="px-3 py-2 text-xs font-medium text-white">Pengguna</div>

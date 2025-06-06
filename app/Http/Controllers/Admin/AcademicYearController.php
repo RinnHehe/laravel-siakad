@@ -19,7 +19,7 @@ class AcademicYearController extends Controller
     public function index(): Response
     {
         $academicYears = AcademicYear::query()
-            ->select(['id', 'name', 'slug', 'start_date', 'end_date', 'semester', 'is_active', 'created_at'])
+            ->select(['academic_years.id', 'academic_years.name', 'academic_years.slug', 'academic_years.start_date', 'academic_years.end_date', 'academic_years.semester', 'academic_years.is_active', 'academic_years.created_at'])
             ->filter(request()->only('search'))
             ->sorting(request()->only('field', 'direction'))
             ->paginate(request()->load ?? 10);
@@ -59,7 +59,7 @@ class AcademicYearController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             AcademicYear::create([
                 'name' => $validated['name'],
                 'start_date' => $validated['start_date'],
@@ -67,12 +67,12 @@ class AcademicYearController extends Controller
                 'semester' => $validated['semester'],
                 'is_active' => $validated['is_active'],
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::CREATED->message('Tahun Ajaran'));
 
             return Inertia::location(route('admin.academic-years.index'));
-            
+
         } catch (Throwable $e) {
             return Inertia::render('Admin/AcademicYears/Create', [
                 'page_settings' => [
@@ -107,7 +107,7 @@ class AcademicYearController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             $academicYear->update([
                 'name' => $validated['name'],
                 'start_date' => $validated['start_date'],
@@ -115,12 +115,12 @@ class AcademicYearController extends Controller
                 'semester' => $validated['semester'],
                 'is_active' => $validated['is_active'],
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::UPDATED->message('Tahun Ajaran'));
 
             return Inertia::location(route('admin.academic-years.index'));
-            
+
         } catch (Throwable $e) {
             return Inertia::render('Admin/AcademicYears/Edit', [
                 'page_settings' => [

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Classroom extends Model
 {
+    use Sluggable;
+
     protected $fillable = [
         'faculty_id',
         'department_id',
@@ -16,6 +20,15 @@ class Classroom extends Model
         'name',
         'slug',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+            ],
+        ];
+    }
 
     public function faculty(): BelongsTo
     {
@@ -52,5 +65,19 @@ class Classroom extends Model
             'id',
             'course_id'
         );
+    }
+
+    public function scopeFillter(Builder $query, array $filters): void
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('name', 'REGEXP', $search);
+        });
+    }
+
+    public function scopeSorting(Builder $query, array $sorts): void
+    {
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
+            $query->orderBy($sorts['field'], $sorts['direction']);
+        });
     }
 }
