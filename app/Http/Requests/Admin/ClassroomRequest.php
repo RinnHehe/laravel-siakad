@@ -24,7 +24,6 @@ class ClassroomRequest extends FormRequest
         return [
             'faculty_id' => ['required', 'exists:faculties,id'],
             'department_id' => ['required', 'exists:departments,id'],
-            'academic_year_id' => ['required', 'exists:academic_years,id'],
             'name' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
@@ -35,7 +34,6 @@ class ClassroomRequest extends FormRequest
         return [
             'faculty_id' => 'Jurusan',
             'department_id' => 'Program Studi',
-            'academic_year_id' => 'Tahun Ajaran',
             'name' => 'Nama',
         ];
     }

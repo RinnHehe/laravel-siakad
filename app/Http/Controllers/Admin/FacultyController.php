@@ -21,7 +21,7 @@ class FacultyController extends Controller
     public function index(): Response
     {
         $faculties = Faculty::query()
-            ->select(['id', 'name', 'code', 'slug', 'created_at'])
+            ->select(['faculties.id', 'faculties.name', 'faculties.code', 'faculties.slug', 'faculties.created_at'])
             ->filter(request()->only('search'))
             ->sorting(request()->only(['field', 'direction']))
             ->paginate(request()->load ?? 10);
@@ -63,18 +63,18 @@ class FacultyController extends Controller
     {
         try{
             $validated = $request->validated();
-            
+
             Faculty::create([
                 'name' => $validated['name'],
                 'code' => str()->random(5),
                 'logo' => $this->upload_file($request, 'logo', 'faculties')
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::CREATED->message('Jurusan'));
 
             return Inertia::location(route('admin.faculties.index'));
-            
+
         } catch (Throwable $e){
             return Inertia::render('Admin/Faculties/Create', [
                 'page_settings' => [
@@ -107,17 +107,17 @@ class FacultyController extends Controller
     {
         try{
             $validated = $request->validated();
-            
+
             $faculty->update([
                 'name' => $validated['name'],
                 'logo' => $this->update_file($request, $faculty, 'logo', 'faculties')
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::UPDATED->message('Jurusan'));
 
             return Inertia::location(route('admin.faculties.index'));
-            
+
         } catch (Throwable $e){
             return Inertia::render('Admin/Faculties/Edit', [
                 'page_settings' => [

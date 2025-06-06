@@ -19,7 +19,7 @@ class DepartmentController extends Controller
     public function index(): Response
     {
         $departments = Department::query()
-            ->select(['id', 'faculty_id', 'name', 'code', 'slug', 'created_at'])
+            ->select(['departments.id', 'departments.faculty_id', 'departments.name', 'departments.code', 'departments.slug', 'departments.created_at'])
             ->filter(request()->only(['search']))
             ->sorting(request()->only(['field', 'direction']))
             ->with(['faculty'])
@@ -28,7 +28,7 @@ class DepartmentController extends Controller
         return Inertia::render('Admin/Departments/Index', [
             'page_settings' => [
                 'title' => 'Program Studi',
-                'subtitle' => 'Menampilkan semua program studi yang ada di Politeknik Negeri Kotabaru',    
+                'subtitle' => 'Menampilkan semua program studi yang ada di Politeknik Negeri Kotabaru',
                 ],
             'departments' => DepartmentResource::collection($departments)->additional([
                 'meta' => [
@@ -63,18 +63,18 @@ class DepartmentController extends Controller
     {
         try{
             $validated = $request->validated();
-            
+
             Department::create([
                 'faculty_id' => $validated['faculty_id'],
                 'name' => $validated['name'],
                 'code' => str()->random(6),
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::CREATED->message('Program Studi'));
 
             return Inertia::location(route('admin.departments.index'));
-            
+
         } catch (Throwable $e){
             return Inertia::render('Admin/Departments/Create', [
                 'page_settings' => [
@@ -115,17 +115,17 @@ class DepartmentController extends Controller
     {
         try{
             $validated = $request->validated();
-            
+
             $department->update([
                 'faculty_id' => $validated['faculty_id'],
                 'name' => $validated['name'],
             ]);
-            
+
             session()->flash('type', 'success');
             session()->flash('message', MessageType::UPDATED->message('Program Studi'));
 
             return Inertia::location(route('admin.departments.index'));
-            
+
         } catch (Throwable $e){
             return Inertia::render('Admin/Departments/Edit', [
                 'page_settings' => [
