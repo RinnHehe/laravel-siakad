@@ -9,9 +9,9 @@ import { Link, useForm } from '@inertiajs/react';
 import { IconArrowLeft, IconCheck, IconCircleKey } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
-export default function Create(props) {
+export default function Edit(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
+        name: props.role.name ?? '',
         _method: props.page_settings.method,
     });
 
@@ -104,4 +104,4 @@ export default function Create(props) {
     );
 }
 
-Create.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;
+Edit.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;

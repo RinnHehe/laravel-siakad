@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconDoor, IconSchool } from '@tabler/icons-react';
+import { IconArrowLeft, IconCheck, IconDoor } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Edit(props) {
@@ -85,8 +85,9 @@ export default function Edit(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue>
-                                            {props.departments.find((department) => department.value == data.department_id)
-                                                ?.label ?? 'Pilih Program Studi'}
+                                            {props.departments.find(
+                                                (department) => department.value == data.department_id,
+                                            )?.label ?? 'Pilih Program Studi'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>

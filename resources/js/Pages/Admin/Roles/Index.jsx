@@ -3,7 +3,6 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -13,15 +12,7 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import {
-    IconArrowsDownUp,
-    IconBuildingSkyscraper,
-    IconCircleKey,
-    IconPencil,
-    IconPlus,
-    IconRefresh,
-    IconTrash,
-} from '@tabler/icons-react';
+import { IconArrowsDownUp, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 

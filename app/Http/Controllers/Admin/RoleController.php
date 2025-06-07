@@ -29,14 +29,13 @@ class RoleController extends Controller
 
         return Inertia::render('Admin/Roles/Index', [
             'page_settings' => [
-                'title' => 'Peran',
+                'title' =>'Tambah Peran',
                 'subtitle' => 'Menampilkan semua data peran yang tersedia pada Politeknik Negeri Kotabaru',
             ],
             'roles' => RoleResource::collection($roles)->additional([
-            'meta' => [
-                'has_pages' => $roles->hasPages(),
+                'meta' => [
+                    'has_pages' => $roles->hasPages(),
                 ],
-
             ]),
             'state' => [
                 'page' => request()->page ?? 1,
@@ -50,7 +49,7 @@ class RoleController extends Controller
     {
         return Inertia::render('Admin/Roles/Create', [
             'page_settings' => [
-                'title' => 'Peran',
+                'title' => 'Tambah Peran',
                 'subtitle' => 'Buat peran baru disini.Klik simpan setelah selesai',
                 'method' => 'POST',
                 'action' => route('admin.roles.store'),
@@ -88,4 +87,63 @@ class RoleController extends Controller
         }
     }
 
+    public function edit(Role $role): Response
+    {
+        return Inertia::render('Admin/Roles/Edit', [
+            'page_settings' => [
+                'title' => 'Edit Peran',
+                'subtitle' => 'Edit peran disini.Klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.roles.update', $role),
+            ],
+            'role' => $role,
+        ]);
+    }
+
+    public function update(RoleRequest $request, Role $role)
+    {
+        try{
+            $validated = $request->validated();
+
+            $role->update([
+                'name' => $validated['name'],
+            ]);
+
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::UPDATED->message('Peran'));
+
+            return Inertia::location(route('admin.roles.index'));
+
+        } catch (Throwable $e){
+            return Inertia::render('Admin/Roles/Edit', [
+                'page_settings' => [
+                    'title' => 'Edit Peran',
+                    'subtitle' => 'Edit peran disini. Klik simpan setelah selesai',
+                    'method' => 'PUT',
+                    'action' => route('admin.roles.update', $role),
+                ],
+                'errors' => [
+                    'name' => $e->getMessage()
+                ]
+            ]);
+        }
+    }
+
+    public function destroy(Role $role)
+    {
+        try {
+            $role->delete();
+
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::DELETED->message('Peran'));
+
+            return Inertia::location(route('admin.roles.index'));
+
+            } catch (Throwable $e) {
+                session()->flash('type', 'error');
+                session()->flash('message', 'Gagal menghapus peran: ' . $e->getMessage());
+
+            return back();
+        }
+    }
 }

@@ -197,7 +197,11 @@ export default function Index(props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     <Button variant="blue" size="sm" asChild>
-                                                        <Link href={route('admin.academic-years.edit', { academicYear: academicYear.slug })}>
+                                                        <Link
+                                                            href={route('admin.academic-years.edit', {
+                                                                academicYear: academicYear.slug,
+                                                            })}
+                                                        >
                                                             <IconPencil className="size-4" />
                                                         </Link>
                                                     </Button>
@@ -209,7 +213,9 @@ export default function Index(props) {
                                                         }
                                                         action={() =>
                                                             deleteAction(
-                                                                route('admin.academic-years.destroy', { academicYear: academicYear.slug }),
+                                                                route('admin.academic-years.destroy', {
+                                                                    academicYear: academicYear.slug,
+                                                                }),
                                                             )
                                                         }
                                                     />

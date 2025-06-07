@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCalendar, IconCheck, IconSchool } from '@tabler/icons-react';
+import { IconArrowLeft, IconCalendar, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
@@ -95,13 +95,13 @@ export default function Create(props) {
                                 <Label htmlFor="semester">Semester</Label>
                                 <Select
                                     defaultValue={data.semester}
-                                    onValueChange={(value) => setData('semester', value)}    
+                                    onValueChange={(value) => setData('semester', value)}
                                 >
                                     <SelectTrigger>
                                         <SelectValue>
                                             {props.academicYearSemester.find(
-                                                (semester) => semester.value == data.semester)
-                                                ?.label ?? 'Pilih Semester'}
+                                                (semester) => semester.value == data.semester,
+                                            )?.label ?? 'Pilih Semester'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -114,15 +114,15 @@ export default function Create(props) {
                                 </Select>
                                 {errors.semester && <InputError message={errors.semester} />}
                             </div>
-                            <div className='col-span-full'>
-                                <div className='items-top flex space-x-2'>
+                            <div className="col-span-full">
+                                <div className="items-top flex space-x-2">
                                     <Checkbox
                                         id="is_active"
                                         name="is_active"
                                         checked={data.is_active}
                                         onCheckedChange={(checked) => setData('is_active', checked)}
                                     />
-                                    <div className='gap-1/5 grid leading-none'>
+                                    <div className="gap-1/5 grid leading-none">
                                         <Label htmlFor="is_active">Apakah Aktif?</Label>
                                     </div>
                                 </div>
