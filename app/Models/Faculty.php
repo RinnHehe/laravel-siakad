@@ -29,7 +29,7 @@ class Faculty extends Model
             ],
         ];
     }
-    
+
     protected function code(): Attribute
     {
         return Attribute::make(
@@ -42,7 +42,7 @@ class Faculty extends Model
     {
         return $this->hasMany(Department::class);
     }
-    
+
     public function students(): HasMany
     {
         return $this->hasMany(Student::class);
