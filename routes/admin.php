@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\FacultyController;
+use App\Http\Controllers\Admin\FeeGroupController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,5 +55,14 @@ Route::prefix('admin')->middleware(['auth','role:Admin'])->group(function () {
         Route::get('roles/edit/{role}', 'edit')->name('admin.roles.edit');
         Route::put('roles/edit/{role}', 'update')->name('admin.roles.update');
         Route::delete('roles/delete/{role}', 'destroy')->name('admin.roles.destroy');
+    });
+
+    Route::controller(FeeGroupController::class)->group(function () {
+        Route::get('fee-groups', 'index')->name('admin.fee-groups.index');
+        Route::get('fee-groups/create', 'create')->name('admin.fee-groups.create');
+        Route::post('fee-groups/create', 'store')->name('admin.fee-groups.store');
+        Route::get('fee-groups/edit/{feeGroup}', 'edit')->name('admin.fee-groups.edit');
+        Route::put('fee-groups/edit/{feeGroup}', 'update')->name('admin.fee-groups.update');
+        Route::delete('fee-groups/delete/{feeGroup}', 'destroy')->name('admin.fee-groups.destroy');
     });
 });
