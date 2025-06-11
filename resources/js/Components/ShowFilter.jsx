@@ -3,8 +3,8 @@ import { Separator } from '@/Components/ui/separator';
 import { cn } from '@/lib/utils';
 import { IconFilter } from '@tabler/icons-react';
 
-export default function ShowFilter({ params, className = '' }) {
-    const hasFilters = Object.keys(params).some((key) => params[key]);
+export default function ShowFilter({ params = {}, className = '' }) {
+    const hasFilters = params && Object.keys(params).some((key) => params[key]);
     const currentPage = params?.page || 1;
     const currentLoad = params?.load || 2;
 
