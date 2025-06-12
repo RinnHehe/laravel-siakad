@@ -69,7 +69,7 @@ class TeacherController extends Controller
         ]);
     
     }
-    public function store(TeacherRequest $request): RedirectResponse
+    public function store(TeacherRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -124,7 +124,7 @@ class TeacherController extends Controller
         ]);
     
     }
-    public function update(Teacher $teacher, TeacherRequest $request): RedirectResponse
+    public function update(Teacher $teacher, TeacherRequest $request)
     {
         try {
             DB::beginTransaction();
