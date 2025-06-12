@@ -120,4 +120,93 @@ class StudentController extends Controller
             ])->withInput();
         }
     }
+
+    public function edit(Student $student): Response
+    {
+        return Inertia::render('Admin/Students/Edit', [
+            'page_settings' => [
+                'title' => 'Edit Mahasiswa',
+                'subtitle' => 'Edit mahasiswa disini. Klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.students.update', $student),
+            ],
+            'student' => $student->load('user'),
+            'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name,
+            ]),
+            'departments' => Department::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name,
+            ]),
+            'feeGroups' => FeeGroup::query()->select(['id', 'group', 'amount'])->orderBy('group')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => 'Golongan ' . $item->group . ' - ' . number_format($item->amount, 0, ',', '.'),
+            ]),
+            'classrooms' => Classroom::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name,
+            ]),
+        ]);
+    }
+
+    public function update(StudentRequest $request, Student $student)
+    {
+        try {
+            $validated = $request->validated();
+
+            DB::beginTransaction();
+
+            $student->user->update([
+                'faculty_id' => $validated['faculty_id'],
+                'department_id' => $validated['department_id'],
+                'fee_group_id' => $validated['fee_group_id'],
+                'classroom_id' => $validated['classroom_id'],
+                'student_number' => $validated['student_number'],
+                'semester' => $validated['semester'],
+                'batch' => $validated['batch'],
+            ]);
+
+            $student->user->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $validated['password'] ? Hash::make($validated['password']) : $student->user->password,
+                'avatar' => $this->upload_file($request, 'avatar', 'users'),
+            ]);
+
+            DB::commit();
+
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::UPDATED->message('Mahasiswa'));
+
+            return Inertia::location(route('admin.students.index'));
+
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            return back()->withErrors([
+                'name' => $e->getMessage(),
+            ])->withInput();
+        }
+    }
+
+    public function destroy(Student $student)
+    {
+        try {
+            $this->delete_file($student->user, 'avatar');
+            $student->delete();
+
+            session()->flash('type', 'success');
+            session()->flash('message', MessageType::DELETED->message('Mahasiswa'));
+
+            return Inertia::location(route('admin.students.index'));
+
+        } catch (Throwable $e) {
+            session()->flash('type', 'error');
+            session()->flash('message', 'Gagal menghapus mahasiswa: ' . $e->getMessage());
+
+            return back();
+        }
+    }
 }
+
