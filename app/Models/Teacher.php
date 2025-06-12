@@ -45,15 +45,15 @@ class Teacher extends Model
     }
     public function scopeSorting(Builder $query, array $sorts): void
     {
-        $query->when ($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use ($sorts){
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use ($sorts){
             match ($sorts['field']){
                 'faculty_id' => $query->join('faculties', 'teachers.faculty_id', '=', 'faculties.id')
                     ->orderBy('faculties.name', $sorts['direction']),
-                'departemen_id' => $query->join('faculties', 'teachers.departemen_id', '=', 'departements.id')
-                    ->orderBy('departements.name', $sorts['direction']),
-                'name' => $query->join('faculties', 'teachers.user_id', '=', 'users.id')
+                'department_id' => $query->join('departments', 'teachers.department_id', '=', 'departments.id')
+                    ->orderBy('departments.name', $sorts['direction']),
+                'name' => $query->join('users', 'teachers.user_id', '=', 'users.id')
                     ->orderBy('users.name', $sorts['direction']),
-                'email' => $query->join('faculties', 'teachers.user_id', '=', 'users.id')
+                'email' => $query->join('users', 'teachers.user_id', '=', 'users.id')
                     ->orderBy('users.email', $sorts['direction']),
                 default => $query->orderBy($sorts['field'], $sorts['direction']),
             };
