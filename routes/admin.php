@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\AcademicYearController;
 use App\Http\Controllers\Admin\ClassroomController;
+use App\Http\Controllers\Admin\ClassroomStudentController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\Admin\FeeGroupController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,6 +69,22 @@ Route::prefix('admin')->middleware(['auth','role:Admin'])->group(function () {
         Route::delete('fee-groups/delete/{feeGroup}', 'destroy')->name('admin.fee-groups.destroy');
     });
 
+
+    Route::controller(StudentController::class)->group(function () {
+        Route::get('students', 'index')->name('admin.students.index');
+        Route::get('students/create', 'create')->name('admin.students.create');
+        Route::post('students/create', 'store')->name('admin.students.store');
+        Route::get('students/edit/{student:student_number}', 'edit')->name('admin.students.edit');
+        Route::put('students/edit/{student:student_number}', 'update')->name('admin.students.update');
+        Route::delete('students/delete/{student:student_number}', 'destroy')->name('admin.students.destroy');
+    });
+
+    Route::controller(ClassroomStudentController::class)->group(function () {
+        Route::get('classroom/students/{classroom:slug}', 'index')->name('admin.classroom-students.index');
+        Route::put('classroom/students/{classroom:slug}/sync', 'sync')->name('admin.classroom-students.sync');
+        Route::delete('classroom/students/{classroom:slug}/destroy/{student:student_number}', 'destroy')->name('admin.classroom-students.destroy');
+     });
+  
     Route::controller(TeacherController::class)->group(function () {
         Route::get('teachers', 'index')->name('admin.teachers.index');
         Route::get('teachers/create', 'create')->name('admin.teachers.create');

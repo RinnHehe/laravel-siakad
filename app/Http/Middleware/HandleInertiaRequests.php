@@ -47,17 +47,21 @@ class HandleInertiaRequests extends Middleware
                 'type' => $request->session()->get('type'),
                 'message' => $request->session()->get('message'),
             ],
-            
-            
+
+            'flash' => [
+                'type' => fn () => $request->session()->get('type'),
+                'message' => fn () => $request->session()->get('message'),
+            ],
+
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            
+
             'academic_year' => fn() => AcademicYear::query()
             ->where('is_active', true)
             ->first(),
-        
+
             'checkFee' => fn() => $request->user() && $request->user()->student && activeAcademicYear()
                 ? Fee::query()
                     ->where('student_id', $request->user()->student->id)

@@ -5,28 +5,22 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.jsx',
-            ssr: 'resources/js/ssr.jsx',
+            input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
         }),
         react(),
     ],
     server: {
-        https: false,
+        port: 5176,
+        strictPort: false,
         host: '127.0.0.1',
-        port: 5174,
-        cors: true,
-        proxy: {
-            '/login': {
-                target: 'http://127.0.0.1:8000',
-                changeOrigin: true,
-                secure: false,
-            },
-            '/api': {
-                target: 'http://127.0.0.1:8000',
-                changeOrigin: true,
-                secure: false,
-            },
+        hmr: {
+            host: '127.0.0.1'
+        },
+    },
+    resolve: {
+        alias: {
+            '@': '/resources/js',
         },
     },
 });
