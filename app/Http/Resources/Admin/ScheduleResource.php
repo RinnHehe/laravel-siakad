@@ -20,7 +20,7 @@ class ScheduleResource extends JsonResource
             'start_time' => Carbon::parse($this->start_time)->format('H:i'),
             'end_time' => Carbon::parse($this->end_time)->format('H:i'),
             'day_of_week' => $this->day_of_week,
-            'quote' => $this->quote,
+            'quota' => $this->quota,
             'created_at' => $this->created_at,
             'taken_quota' => $this->taken_quota,
             'faculty' => $this->whenLoaded('faculty', [
@@ -40,6 +40,7 @@ class ScheduleResource extends JsonResource
             'classroom' => $this->whenLoaded('classroom', [
                 'id' => $this->classroom?->id,
                 'code' => $this->classroom?->code,
+                'name' => $this->classroom?->name,
                 'slug' => $this->classroom?->slug,
             ]),
             'academicYear' => $this->whenLoaded('academicYear', [

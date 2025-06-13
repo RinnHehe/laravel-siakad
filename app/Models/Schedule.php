@@ -19,7 +19,7 @@ class Schedule extends Model
         'start_time',
         'end_time',
         'day_of_week',
-        'quote',
+        'quota',
     ];
 
     protected function casts(): array
@@ -86,6 +86,14 @@ class Schedule extends Model
                     ->orderBy('courses.name', $sorts['direction']),
                 'classroom_id' => $query->join('classrooms', 'schedules.classroom_id', '=', 'classrooms.id')
                     ->orderBy('classrooms.name', $sorts['direction']),
+                'academic_year_id' => $query->join('academic_years', 'schedules.academic_year_id', '=', 'academic_years.id')
+                    ->orderBy('academic_years.name', $sorts['direction']),
+                'start_time' => $query->orderBy('start_time', $sorts['direction']),
+                'end_time' => $query->orderBy('end_time', $sorts['direction']),
+                'day_of_week' => $query->orderBy('day_of_week', $sorts['direction']),
+                'quota' => $query->orderBy('quota', $sorts['direction']),
+                'created_at' => $query->orderBy('created_at', $sorts['direction']),
+                default => $query->orderBy('id', 'desc')
             };
         });
     }
