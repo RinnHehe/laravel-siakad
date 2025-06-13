@@ -13,12 +13,12 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconTrash, IconUser, IconUsers, IconUsersGroup } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Index(props) {
-    const { data: teachers, meta, links } = props.teachers;
+    const { data: operators, meta, links } = props.operators;
     const [params, setParams] = useState({
         search: props.state?.search,
         page: props.state?.page,
@@ -46,9 +46,9 @@ export default function Index(props) {
     };
 
     UseFilter({
-        route: route('admin.teachers.index'),
+        route: route('admin.operators.index'),
         values: params,
-        only: ['teachers'],
+        only: ['operators'],
     });
 
     return (
@@ -57,10 +57,10 @@ export default function Index(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconUsersGroup}
+                    icon={IconUser}
                 />
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.teachers.create')}>
+                    <Link href={route('admin.operators.create')}>
                         <IconPlus className="size-4" />
                         Tambah
                     </Link>
@@ -96,11 +96,11 @@ export default function Index(props) {
                     {/* Show Filter */}
                     <ShowFilter params={params} />
                     <CardContent className="p-0 [&-td]:whitespace-nowrap [&-td]:px-6 [&-th]:px-6">
-                        {teachers.length == 0 ? (
+                        {operators.length == 0 ? (
                             <EmptyState
-                                icon={IconUsersGroup}
-                                title="Tidak ada dosen"
-                                subtitle="Mulailah dengan membuat dosen baru"
+                                icon={IconUser}
+                                title="Tidak ada operator"
+                                subtitle="Mulailah dengan membuat operator baru"
                             />
                         ) : (
                             <Table className="w-full">
@@ -164,20 +164,9 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
-                                                onClick={() => onSortable('teacher_number')}
+                                                onClick={() => onSortable('employee_number')}
                                             >
-                                                Nomor Induk Dosen Nasional
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('academic_title')}
-                                            >
-                                                Jabatan Akademik
+                                                Nomor Induk Karyawan
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
@@ -197,32 +186,25 @@ export default function Index(props) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {teachers.map((teacher, index) => (
+                                    {operators.map((operator, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell className="flex items-center gap-2">
                                                 <Avatar>
-                                                    <AvatarImage src={teacher.user?.avatar} />
-                                                    <AvatarFallback>
-                                                        {teacher.user?.name?.substring(0, 1) || ''}
-                                                    </AvatarFallback>
+                                                    <AvatarImage src={operator.user?.avatar} />
+                                                    <AvatarFallback>{operator.user?.name?.substring(0, 1) || ''}</AvatarFallback>
                                                 </Avatar>
-                                                <span>{teacher.user?.name}</span>
+                                                <span>{operator.user?.name}</span>
                                             </TableCell>
-                                            <TableCell>{teacher.user?.email}</TableCell>
-                                            <TableCell>{teacher.faculty?.name}</TableCell>
-                                            <TableCell>{teacher.department?.name}</TableCell>
-                                            <TableCell>{teacher.teacher_number}</TableCell>
-                                            <TableCell>{teacher.academic_title}</TableCell>
-                                            <TableCell>{formatDateIndo(teacher.created_at)}</TableCell>
+                                            <TableCell>{operator.user?.email}</TableCell>
+                                            <TableCell>{operator.faculty?.name}</TableCell>
+                                            <TableCell>{operator.department?.name}</TableCell>
+                                            <TableCell>{operator.employee_number}</TableCell>
+                                            <TableCell>{formatDateIndo(operator.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     <Button variant="blue" size="sm" asChild>
-                                                        <Link
-                                                            href={route('admin.teachers.edit', {
-                                                                teacher: teacher.teacher_number,
-                                                            })}
-                                                        >
+                                                        <Link href={route('admin.operators.edit', [operator])}>
                                                             <IconPencil className="size-4" />
                                                         </Link>
                                                     </Button>
@@ -233,7 +215,7 @@ export default function Index(props) {
                                                             </Button>
                                                         }
                                                         action={() =>
-                                                            deleteAction(route('admin.teachers.destroy', [teacher]))
+                                                            deleteAction(route('admin.operators.destroy', [operator]))
                                                         }
                                                     />
                                                 </div>
@@ -247,7 +229,7 @@ export default function Index(props) {
                     <CardFooter className="flex w-full flex-col items-center justify-between gap-y-2 border-t py-3 lg:flex-row">
                         <p className="text-sm text-muted-foreground">
                             Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari{' '}
-                            {meta.total ?? 0} dosen
+                            {meta.total} operator
                         </p>
                         <div className="overflow-x-auto">
                             {meta.has_pages && <PaginationTable meta={meta} links={links} />}

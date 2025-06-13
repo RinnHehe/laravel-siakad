@@ -73,7 +73,7 @@ export default function SidebarResponsive({ auth, url }) {
                             title="Dosen"
                             icon={IconUsersGroup}
                         />
-                        <NavLink url="#" active={url.startsWith('/admin/operators')} title="Operator" icon={IconUser} />
+                        <NavLink url={route('admin.operators.index')} active={url.startsWith('/admin/operators')} title="Operator" icon={IconUser} />
 
                         <div className="px-3 py-2 text-xs font-medium text-white">Akademik</div>
                         <NavLink
