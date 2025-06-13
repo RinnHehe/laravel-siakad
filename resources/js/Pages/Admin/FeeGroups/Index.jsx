@@ -12,7 +12,15 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo, formatToRupiah } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCircleKey, IconDroplet, IconDroplets, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
+import {
+    IconArrowsDownUp,
+    IconDroplet,
+    IconDroplets,
+    IconPencil,
+    IconPlus,
+    IconRefresh,
+    IconTrash,
+} from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -159,7 +167,9 @@ export default function Index(props) {
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell>{feeGroup.group}</TableCell>
                                             <TableCell>{formatToRupiah(feeGroup.amount)}</TableCell>
-                                            <TableCell>{feeGroup.created_at ? formatDateIndo(feeGroup.created_at) : '-'}</TableCell>
+                                            <TableCell>
+                                                {feeGroup.created_at ? formatDateIndo(feeGroup.created_at) : '-'}
+                                            </TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     <Button variant="blue" size="sm" asChild>

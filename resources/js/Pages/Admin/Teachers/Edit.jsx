@@ -8,9 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconSchool, IconUsers, IconUsersGroup } from '@tabler/icons-react';
-import { toast } from 'sonner';
+import { IconArrowLeft, IconCheck, IconUsersGroup } from '@tabler/icons-react';
 import { useRef } from 'react';
+import { toast } from 'sonner';
 
 export default function Edit(props) {
     const fileInputAvatar = useRef(null);
@@ -63,7 +63,7 @@ export default function Edit(props) {
                 <CardContent>
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-                        <div className="col-span-full">
+                            <div className="col-span-full">
                                 <Label htmlFor="name">Nama</Label>
                                 <Input
                                     type="text"
@@ -129,8 +129,9 @@ export default function Edit(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Program Studi">
-                                            {props.departments.find((department) => department.value == data.department_id)
-                                                ?.label ?? 'Pilih Program Studi'}
+                                            {props.departments.find(
+                                                (department) => department.value == data.department_id,
+                                            )?.label ?? 'Pilih Program Studi'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>

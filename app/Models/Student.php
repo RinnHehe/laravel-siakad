@@ -80,7 +80,7 @@ class Student extends Model
         });
     }
 
-    public function scopeSort(Builder $query, array $sorts): void
+    public function scopeSorting(Builder $query, array $sorts): void
     {
         $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
             match ($sorts['field']) {

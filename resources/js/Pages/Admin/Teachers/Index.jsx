@@ -13,7 +13,7 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsers, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -214,7 +214,9 @@ export default function Index(props) {
                                             <TableCell className="flex items-center gap-2">
                                                 <Avatar>
                                                     <AvatarImage src={teacher.user?.avatar} />
-                                                    <AvatarFallback>{teacher.user?.name?.substring(0, 1) || ''}</AvatarFallback>
+                                                    <AvatarFallback>
+                                                        {teacher.user?.name?.substring(0, 1) || ''}
+                                                    </AvatarFallback>
                                                 </Avatar>
                                                 <span>{teacher.user?.name}</span>
                                             </TableCell>
@@ -227,7 +229,11 @@ export default function Index(props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     <Button variant="blue" size="sm" asChild>
-                                                        <Link href={route('admin.teachers.edit', { teacher: teacher.teacher_number })}>
+                                                        <Link
+                                                            href={route('admin.teachers.edit', {
+                                                                teacher: teacher.teacher_number,
+                                                            })}
+                                                        >
                                                             <IconPencil className="size-4" />
                                                         </Link>
                                                     </Button>

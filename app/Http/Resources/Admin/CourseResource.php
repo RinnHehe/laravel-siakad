@@ -31,7 +31,7 @@ class CourseResource extends JsonResource
             ]),
             'teacher' => $this->whenLoaded('teacher',[
                 'id' => $this->teacher?->id,
-                'name' => $this->teacher?->name,
+                'name' => $this->teacher?->user?->name,
             ]),
             'academicYear' => $this->whenLoaded('academicYear',[
                 'id' => $this->academicYear?->id,

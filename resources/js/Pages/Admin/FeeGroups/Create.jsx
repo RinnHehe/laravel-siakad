@@ -6,7 +6,7 @@ import { Label } from '@/Components/ui/label';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconCircleKey, IconDroplet, IconDroplets } from '@tabler/icons-react';
+import { IconArrowLeft, IconCheck, IconDroplets } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
@@ -23,28 +23,32 @@ export default function Create(props) {
     const onHandleSubmit = (e) => {
         e.preventDefault();
 
-        post(route('admin.fee-groups.store'), {
-            group: Number(data.group),
-            amount: Number(data.amount)
-        }, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (success) => {
-                const flash = flashMessage(success);
-                if (flash) {
-                    if (flash.type === 'success') {
-                        toast.success(flash.message);
-                    } else if (flash.type === 'error') {
-                        toast.error(flash.message);
+        post(
+            route('admin.fee-groups.store'),
+            {
+                group: Number(data.group),
+                amount: Number(data.amount),
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (success) => {
+                    const flash = flashMessage(success);
+                    if (flash) {
+                        if (flash.type === 'success') {
+                            toast.success(flash.message);
+                        } else if (flash.type === 'error') {
+                            toast.error(flash.message);
+                        }
                     }
-                }
+                },
+                onError: (errors) => {
+                    Object.keys(errors).forEach((key) => {
+                        toast.error(errors[key]);
+                    });
+                },
             },
-            onError: (errors) => {
-                Object.keys(errors).forEach((key) => {
-                    toast.error(errors[key]);
-                });
-            },
-        });
+        );
     };
 
     return (

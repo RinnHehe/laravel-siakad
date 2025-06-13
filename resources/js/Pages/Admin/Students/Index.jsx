@@ -13,7 +13,7 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsers } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsers } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -22,7 +22,7 @@ export default function Index(props) {
     const [params, setParams] = useState({
         search: props.state?.search,
         page: props.state?.page,
-        load: props.state?.load,
+        load: props.state?.load ?? props.page_settings.load,
     });
 
     useEffect(() => {
@@ -236,7 +236,9 @@ export default function Index(props) {
                                             <TableCell className="flex items-center gap-2">
                                                 <Avatar>
                                                     <AvatarImage src={student.user?.avatar} />
-                                                    <AvatarFallback>{student.user?.name?.substring(0, 1) || ''}</AvatarFallback>
+                                                    <AvatarFallback>
+                                                        {student.user?.name?.substring(0, 1) || ''}
+                                                    </AvatarFallback>
                                                 </Avatar>
                                                 <span>{student.user?.name}</span>
                                             </TableCell>
