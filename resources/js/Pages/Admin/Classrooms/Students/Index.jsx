@@ -1,19 +1,17 @@
-import AppLayout from '@/Layouts/AppLayout';
+import AlertAction from '@/Components/AlertAction';
+import ComboBox from '@/Components/ComboBox';
+import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
-import { flashMessage } from '@/lib/utils';
-import { useForm, router } from '@inertiajs/react';
-import { IconDoor, IconLayout2, IconArrowLeft, IconCheck } from '@tabler/icons-react';
-import { toast } from 'sonner';
+import InputError from '@/Components/InputError';
+import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
-import { Link } from '@inertiajs/react';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import { Label } from '@/Components/ui/label';
-import { Select } from '@/Components/ui/select';
-import ComboBox from '@/Components/ComboBox';
-import InputError from '@/Components/InputError';
-import AlertAction from '@/Components/AlertAction';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
-import EmptyState from '@/Components/EmptyState';
+import AppLayout from '@/Layouts/AppLayout';
+import { flashMessage } from '@/lib/utils';
+import { Link, router, useForm } from '@inertiajs/react';
+import { IconArrowLeft, IconCheck, IconDoor } from '@tabler/icons-react';
+import { toast } from 'sonner';
 
 export default function Index(props) {
     const { data: classroomStudents } = props.classroomStudents;
@@ -76,8 +74,8 @@ export default function Index(props) {
                                 {errors.student && <InputError message={errors.student} />}
                             </div>
                         </div>
-                        <div className="flex flex-col gap-2 mt-8 lg:flex-row lg:justify-end">
-                            <Button variant="blue" type="submit" size='xl' disabled={processing}>
+                        <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
+                            <Button variant="blue" type="submit" size="xl" disabled={processing}>
                                 <IconCheck className="size-4" />
                                 Save
                             </Button>
@@ -94,44 +92,50 @@ export default function Index(props) {
                     ) : (
                         <div className="grid grid-cols-4 gap-4">
                             {Array.from({ length: 20 }).map((_, index) => {
-                                const student = classroomStudents[index]
+                                const student = classroomStudents[index];
                                 return student ? (
                                     <AlertAction
                                         key={index}
                                         trigger={
-                                            <Button size='xl' className='p-16'>
-                                                <div className='flex flex-col items-center gap-y-3'>
+                                            <Button size="xl" className="p-16">
+                                                <div className="flex flex-col items-center gap-y-3">
                                                     <Avatar>
                                                         <AvatarImage src={student.user.avatar} />
-                                                        <AvatarFallback>{student.user.name.substring(0, 1)}</AvatarFallback>
+                                                        <AvatarFallback>
+                                                            {student.user.name.substring(0, 1)}
+                                                        </AvatarFallback>
                                                     </Avatar>
-                                                    <div className='flex flex-col'>
-                                                        <span className='truncate text-base font-semibold'>{student.user.name}</span>
-                                                        <span className='text-sm'>{student.student_number}</span>
+                                                    <div className="flex flex-col">
+                                                        <span className="truncate text-base font-semibold">
+                                                            {student.user.name}
+                                                        </span>
+                                                        <span className="text-sm">{student.student_number}</span>
                                                     </div>
                                                 </div>
                                             </Button>
                                         }
-                                        action={() => deleteAction(
-                                            route('admin.classroom-students.destroy', [props.classroom, student])
-                                        )}
+                                        action={() =>
+                                            deleteAction(
+                                                route('admin.classroom-students.destroy', [props.classroom, student]),
+                                            )
+                                        }
                                     />
                                 ) : (
-                                    <Button variant='outline' size='xl' className='p-16' key={index}>
-                                        <div className='flex flex-col items-center gap-y-3'>
-                                            <div className='flex flex-col'>
-                                                <span className='truncate text-base font-semibold'>{index + 1}</span>
+                                    <Button variant="outline" size="xl" className="p-16" key={index}>
+                                        <div className="flex flex-col items-center gap-y-3">
+                                            <div className="flex flex-col">
+                                                <span className="truncate text-base font-semibold">{index + 1}</span>
                                             </div>
                                         </div>
                                     </Button>
-                                )
+                                );
                             })}
                         </div>
                     )}
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }
 
 Index.layout = (page) => <AppLayout children={page} title={page.props.page_settings.title} />;

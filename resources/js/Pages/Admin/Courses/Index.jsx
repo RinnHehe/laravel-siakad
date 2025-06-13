@@ -3,7 +3,6 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -13,16 +12,16 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconBooks, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Index(props) {
-    const { data: teachers, meta, links } = props.teachers;
+    const { data: courses, meta, links } = props.courses;
     const [params, setParams] = useState({
         search: props.state?.search,
         page: props.state?.page,
-        load: props.state?.load,
+        load: props.state?.load ?? props.page_settings.load,
     });
 
     useEffect(() => {
@@ -46,9 +45,9 @@ export default function Index(props) {
     };
 
     UseFilter({
-        route: route('admin.teachers.index'),
+        route: route('admin.courses.index'),
         values: params,
-        only: ['teachers'],
+        only: ['courses'],
     });
 
     return (
@@ -57,10 +56,10 @@ export default function Index(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconUsersGroup}
+                    icon={IconBooks}
                 />
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.teachers.create')}>
+                    <Link href={route('admin.courses.create')}>
                         <IconPlus className="size-4" />
                         Tambah
                     </Link>
@@ -96,11 +95,11 @@ export default function Index(props) {
                     {/* Show Filter */}
                     <ShowFilter params={params} />
                     <CardContent className="p-0 [&-td]:whitespace-nowrap [&-td]:px-6 [&-th]:px-6">
-                        {teachers.length == 0 ? (
+                        {courses.length == 0 ? (
                             <EmptyState
-                                icon={IconUsersGroup}
-                                title="Tidak ada dosen"
-                                subtitle="Mulailah dengan membuat dosen baru"
+                                icon={IconBooks}
+                                title="Tidak ada mata kuliah"
+                                subtitle="Mulailah dengan membuat mata kuliah baru"
                             />
                         ) : (
                             <Table className="w-full">
@@ -113,28 +112,6 @@ export default function Index(props) {
                                                 onClick={() => onSortable('id')}
                                             >
                                                 #<span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('name')}
-                                            >
-                                                Nama
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('email')}
-                                            >
-                                                Email
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>
@@ -164,9 +141,9 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
-                                                onClick={() => onSortable('teacher_number')}
+                                                onClick={() => onSortable('teacher_id')}
                                             >
-                                                Nomor Induk Dosen Nasional
+                                                Dosen
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
@@ -175,9 +152,42 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
-                                                onClick={() => onSortable('academic_title')}
+                                                onClick={() => onSortable('code')}
                                             >
-                                                Jabatan Akademik
+                                                Kode Mata Kuliah
+                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                <IconArrowsDownUp className="size-4" />
+                                            </Button>
+                                        </TableHead>
+                                        <TableHead>
+                                            <Button
+                                                variant="ghost"
+                                                className="group inline-flex"
+                                                onClick={() => onSortable('name')}
+                                            >
+                                                Nama
+                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                <IconArrowsDownUp className="size-4" />
+                                            </Button>
+                                        </TableHead>
+                                        <TableHead>
+                                            <Button
+                                                variant="ghost"
+                                                className="group inline-flex"
+                                                onClick={() => onSortable('credit')}
+                                            >
+                                                SKS
+                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                <IconArrowsDownUp className="size-4" />
+                                            </Button>
+                                        </TableHead>
+                                        <TableHead>
+                                            <Button
+                                                variant="ghost"
+                                                className="group inline-flex"
+                                                onClick={() => onSortable('semester')}
+                                            >
+                                                Semester
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
@@ -197,32 +207,21 @@ export default function Index(props) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {teachers.map((teacher, index) => (
+                                    {courses.map((course, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
-                                            <TableCell className="flex items-center gap-2">
-                                                <Avatar>
-                                                    <AvatarImage src={teacher.user?.avatar} />
-                                                    <AvatarFallback>
-                                                        {teacher.user?.name?.substring(0, 1) || ''}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <span>{teacher.user?.name}</span>
-                                            </TableCell>
-                                            <TableCell>{teacher.user?.email}</TableCell>
-                                            <TableCell>{teacher.faculty?.name}</TableCell>
-                                            <TableCell>{teacher.department?.name}</TableCell>
-                                            <TableCell>{teacher.teacher_number}</TableCell>
-                                            <TableCell>{teacher.academic_title}</TableCell>
-                                            <TableCell>{formatDateIndo(teacher.created_at)}</TableCell>
+                                            <TableCell>{course.faculty?.name}</TableCell>
+                                            <TableCell>{course.department?.name}</TableCell>
+                                            <TableCell>{course.teacher?.name}</TableCell>
+                                            <TableCell>{course.code}</TableCell>
+                                            <TableCell>{course.name}</TableCell>
+                                            <TableCell>{course.credit}</TableCell>
+                                            <TableCell>{course.semester}</TableCell>
+                                            <TableCell>{formatDateIndo(course.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     <Button variant="blue" size="sm" asChild>
-                                                        <Link
-                                                            href={route('admin.teachers.edit', {
-                                                                teacher: teacher.teacher_number,
-                                                            })}
-                                                        >
+                                                        <Link href={route('admin.courses.edit', { course })}>
                                                             <IconPencil className="size-4" />
                                                         </Link>
                                                     </Button>
@@ -233,7 +232,7 @@ export default function Index(props) {
                                                             </Button>
                                                         }
                                                         action={() =>
-                                                            deleteAction(route('admin.teachers.destroy', [teacher]))
+                                                            deleteAction(route('admin.courses.destroy', { course }))
                                                         }
                                                     />
                                                 </div>
@@ -247,7 +246,7 @@ export default function Index(props) {
                     <CardFooter className="flex w-full flex-col items-center justify-between gap-y-2 border-t py-3 lg:flex-row">
                         <p className="text-sm text-muted-foreground">
                             Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari{' '}
-                            {meta.total ?? 0} dosen
+                            {meta.total ?? 0} mata kuliah
                         </p>
                         <div className="overflow-x-auto">
                             {meta.has_pages && <PaginationTable meta={meta} links={links} />}

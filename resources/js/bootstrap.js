@@ -31,7 +31,7 @@ window.axios.interceptors.request.use(
     },
     (error) => {
         return Promise.reject(error);
-    }
+    },
 );
 
 // Add response interceptor for better error handling
@@ -54,5 +54,5 @@ window.axios.interceptors.response.use(
             console.error('Request Error:', error.message);
         }
         return Promise.reject(error);
-    }
+    },
 );

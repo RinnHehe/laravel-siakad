@@ -27,7 +27,7 @@ class StudentController extends Controller
         $students = Student::query()
             ->select(['students.id', 'students.user_id', 'students.faculty_id', 'students.department_id', 'students.classroom_id', 'students.student_number', 'students.fee_group_id', 'students.semester', 'students.batch', 'students.created_at'])
             ->filter(request()->only(['search']))
-            ->filter(request()->only(['field', 'direction']))
+            ->sorting(request()->only(['field', 'direction']))
             ->with(['user', 'faculty', 'department', 'classroom', 'feeGroup'])
             ->whereHas('user', function ($query) {
                 $query->whereHas('roles', fn ($query) => $query->where('name', 'student'));
@@ -38,7 +38,7 @@ class StudentController extends Controller
             'page_settings' => [
                 'title' => 'Mahasiswa',
                 'subtitle' => 'Daftar semua mahasiswa yang terdaftar di Politeknik Negeri Kotabaru',
-
+                'load' => request()->load ?? 10,
             ],
 
             'students' => StudentResource::collection($students)->additional([
