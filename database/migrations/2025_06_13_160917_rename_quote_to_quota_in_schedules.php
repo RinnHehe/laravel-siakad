@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('schdules', function (Blueprint $table) {
+        Schema::table('schedules', function (Blueprint $table) {
             $table->renameColumn('quote', 'quota');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('schdules', function (Blueprint $table) {
+        Schema::table('schedules', function (Blueprint $table) {
             $table->renameColumn('quota', 'quote');
         });
     }

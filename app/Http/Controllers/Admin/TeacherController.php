@@ -67,39 +67,37 @@ class TeacherController extends Controller
                 'label' => $item->name,
             ]),
         ]);
-    
+
     }
-    public function store(TeacherRequest $request)
+    public function store(TeacherRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'name' => $request->validated('name'),
+                'email' => $request->validated('email'),
+                'password' => Hash::make($request->validated('password')),
                 'avatar' => $this->upload_file($request, 'avatar', 'users'),
             ]);
 
             $user->teacher()->create([
-                'faculty_id' => $request->faculty_id,
-                'department_id' => $request->department_id,
-                'teacher_number' => $request->teacher_number,
-                'academic_title' => $request->academic_title,
+                'faculty_id' => $request->validated('faculty_id'),
+                'department_id' => $request->validated('department_id'),
+                'teacher_number' => $request->validated('teacher_number'),
+                'academic_title' => $request->validated('academic_title'),
             ]);
 
             $user->assignRole('Teacher');
             DB::commit();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Dosen'));
+            flashMessage(MessageType::CREATED->message('Dosen'));
 
-            return Inertia::location(route('admin.teachers.index'));
+            return to_route('admin.teachers.index');
 
         } catch (Throwable $e){
             DB::rollBack();
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return back()->withInput();
         }
     }
 
@@ -122,51 +120,48 @@ class TeacherController extends Controller
                 'label' => $item->name,
             ]),
         ]);
-    
+
     }
-    public function update(Teacher $teacher, TeacherRequest $request)
+    public function update(TeacherRequest $request, Teacher $teacher): RedirectResponse
     {
         try {
             DB::beginTransaction();
             $teacher->update([
-                'faculty_id' => $request->faculty_id,
-                'department_id' => $request->department_id,
-                'teacher_number' => $request->teacher_number,
-                'academic_title' => $request->academic_title,
+                'faculty_id' => $request->validated('faculty_id'),
+                'department_id' => $request->validated('department_id'),
+                'teacher_number' => $request->validated('teacher_number'),
+                'academic_title' => $request->validated('academic_title'),
             ]);
             $teacher->user()->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password ? Hash::make($request->password) : $teacher->user->password,
+                'name' => $request->validated('name'),
+                'email' => $request->validated('email'),
+                'password' => $request->validated('password') ? Hash::make($request->validated('password')) : $teacher->user->password,
                 'avatar' => $this->update_file($request, $teacher->user, 'avatar', 'users'),
             ]);
             DB::commit();
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Dosen'));
-            return Inertia::location(route('admin.teachers.index'));
+            flashMessage(MessageType::UPDATED->message('Dosen'));
+            return to_route('admin.teachers.index');
         } catch (Throwable $e){
             DB::rollBack();
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.teachers.index');
         }
+
     }
-    public function destroy(Teacher $teacher)
+
+    public function destroy(Teacher $teacher): RedirectResponse
     {
         try {
             $this->delete_file($teacher->user, 'avatar');
             $teacher->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Dosen'));
+            flashMessage(MessageType::DELETED->message('Dosen'));
 
-            return Inertia::location(route('admin.teachers.index'));
+            return to_route('admin.teachers.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus dosen: ' . $e->getMessage());
-
-            return back();
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.teachers.index');
         }
     }
 }

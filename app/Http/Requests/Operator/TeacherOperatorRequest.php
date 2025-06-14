@@ -13,7 +13,7 @@ class TeacherOperatorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check() && Auth::user() && Auth::user()->hasRole('operator');
+        return Auth::check() && Auth::user()->hasRole('Operator');
     }
 
     /**
@@ -34,14 +34,13 @@ class TeacherOperatorRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->teacher?->user),
+                Rule::unique('users')->ignore(request()->route('teacher')?->user_id),
             ],
-            'password'=> Rule::when($this->routeIs('operators.teachers.store'),[
+            'password'=> Rule::when(request()->routeIs('operators.teachers.store'),[
                 'required',
                 'min:8',
                 'max:255',
-            ]),
-            Rule::when($this->routeIs('operators.teachers.update'),[
+            ],[
                 'nullable',
                 'min:8',
                 'max:255',
