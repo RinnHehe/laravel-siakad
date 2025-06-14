@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Operator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Operator\TeacherOperatorRequest;
+use App\Http\Resources\Operator\TeacherOperatorResource;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,7 +33,7 @@ class TeacherOperatorController extends Controller
                 'title' => 'Dosen',
                 'subtitle' => 'Menampilkan semua data dosen yang tersedia di Universitas ini.',
             ],
-            'teachers' => TeacherOperatorRequest::collection($teachers)->additional([
+            'teachers' => TeacherOperatorResource::collection($teachers)->additional([
                 'meta' => [
                     'has_pages' => $teachers->hasPages(),
                 ],
