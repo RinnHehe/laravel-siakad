@@ -13,7 +13,6 @@ import { useRef } from 'react';
 import { toast } from 'sonner';
 
 export default function Edit(props) {
-    const fileInputAvatar = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         faculty_id: props.course.faculty_id ?? null,
         department_id: props.course.department_id ?? null,
@@ -38,7 +37,6 @@ export default function Edit(props) {
 
     const onHandleReset = () => {
         reset();
-        fileInputAvatar.current.value = null;
     };
 
     return (
