@@ -20,7 +20,7 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::query()
             ->select(['classrooms.id', 'classrooms.name', 'classrooms.faculty_id', 'classrooms.department_id', 'classrooms.academic_year_id', 'classrooms.slug', 'classrooms.created_at'])
-            ->fillter(request()->only(['search']))
+            ->filter(request()->only(['search']))
             ->sorting(request()->only(['field', 'direction']))
             ->with(['faculty', 'department', 'academicYear'])
             ->paginate(request()->load ?? 10);

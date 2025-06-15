@@ -67,7 +67,7 @@ class Classroom extends Model
         );
     }
 
-    public function scopeFillter(Builder $query, array $filters): void
+    public function scopeFilter(Builder $query, array $filters): void
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('name', 'REGEXP', $search);
