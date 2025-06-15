@@ -13,9 +13,7 @@ import { toast } from 'sonner';
 
 export default function Edit(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        faculty_id: props.classroom.faculty_id ?? null,
-        department_id: props.classroom.department_id ?? null,
-        academic_year_id: props.academic_year.name,
+        academic_year_id: props.classroom.academic_year.name ?? props.academic_year.name,
         name: props.classroom.name ?? '',
         _method: props.page_settings.method,
     });
@@ -44,7 +42,7 @@ export default function Edit(props) {
                     icon={IconDoor}
                 />
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.classrooms.index')}>
+                    <Link href={route('operators.classrooms.index')}>
                         <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
@@ -55,51 +53,6 @@ export default function Edit(props) {
                 <CardContent>
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-                            <div className="col-span-full">
-                                <Label htmlFor="faculty_id">Jurusan</Label>
-                                <Select
-                                    defaultValue={data.faculty_id}
-                                    onValueChange={(value) => setData('faculty_id', value)}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue>
-                                            {props.faculties.find((faculty) => faculty.value == data.faculty_id)
-                                                ?.label ?? 'Pilih Jurusan'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.faculties.map((faculty, index) => (
-                                            <SelectItem key={index} value={faculty.value}>
-                                                {faculty.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.faculty_id && <InputError message={errors.faculty_id} />}
-                            </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="department_id">Program Studi</Label>
-                                <Select
-                                    defaultValue={data.department_id}
-                                    onValueChange={(value) => setData('department_id', value)}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue>
-                                            {props.departments.find(
-                                                (department) => department.value == data.department_id,
-                                            )?.label ?? 'Pilih Program Studi'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.departments.map((department, index) => (
-                                            <SelectItem key={index} value={department.value}>
-                                                {department.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.department_id && <InputError message={errors.department_id} />}
-                            </div>
                             <div className="col-span-full">
                                 <Label htmlFor="academic_year_id">Tahun Ajaran</Label>
                                 <Input

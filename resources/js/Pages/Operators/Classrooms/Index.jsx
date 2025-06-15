@@ -45,7 +45,7 @@ export default function Index(props) {
     };
 
     UseFilter({
-        route: route('admin.classrooms.index'),
+        route: route('operators.classrooms.index'),
         values: params,
         only: ['classrooms'],
     });
@@ -59,7 +59,7 @@ export default function Index(props) {
                     icon={IconDoor}
                 />
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.classrooms.create')}>
+                    <Link href={route('operators.classrooms.create')}>
                         <IconPlus className="size-4" />
                         Tambah
                     </Link>
@@ -119,28 +119,6 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
-                                                onClick={() => onSortable('faculty_id')}
-                                            >
-                                                Jurusan
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('department_id')}
-                                            >
-                                                Program Studi
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
                                                 onClick={() => onSortable('academic_year_id')}
                                             >
                                                 Tahun Ajaran
@@ -177,20 +155,13 @@ export default function Index(props) {
                                     {classrooms.map((classroom, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
-                                            <TableCell>{classroom.faculty.name}</TableCell>
-                                            <TableCell>{classroom.department.name}</TableCell>
                                             <TableCell>{classroom.academicYear.name}</TableCell>
                                             <TableCell>{classroom.name}</TableCell>
                                             <TableCell>{formatDateIndo(classroom.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
-                                                <Button variant="purple" size="sm" asChild>
-                                                        <Link href={route('admin.classroom-students.index', [classroom])}>
-                                                            <IconUsersGroup className="size-4" />
-                                                        </Link>
-                                                    </Button>
                                                     <Button variant="blue" size="sm" asChild>
-                                                        <Link href={route('admin.classrooms.edit', [classroom])}>
+                                                        <Link href={route('operators.classrooms.edit', [classroom])}>
                                                             <IconPencil className="size-4" />
                                                         </Link>
                                                     </Button>
@@ -201,7 +172,7 @@ export default function Index(props) {
                                                             </Button>
                                                         }
                                                         action={() =>
-                                                            deleteAction(route('admin.classrooms.destroy', [classroom]))
+                                                            deleteAction(route('operators.classrooms.destroy', [classroom]))
                                                         }
                                                     />
                                                 </div>

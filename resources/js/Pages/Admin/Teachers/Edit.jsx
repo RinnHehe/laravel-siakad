@@ -16,7 +16,7 @@ export default function Edit(props) {
     const fileInputAvatar = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         faculty_id: props.teacher.faculty_id ?? null,
-        department_id: props.teacher.user.department_id ?? null,
+        department_id: props.teacher.department_id ?? null,
         name: props.teacher.user.name ?? '',
         email: props.teacher.user.email ?? '',
         password: '',
