@@ -23,8 +23,7 @@ class CourseOperatorResource extends JsonResource
             'created_at' => $this->created_at,
             'teacher' => $this->whenLoaded('teacher', [
                 'id' => $this->teacher->id,
-                'name' => $this->teacher?->name,
-                'email' => $this->teacher?->email,
+                'name' => $this->teacher->user->name,
             ]),
             'academicYear' => $this->whenLoaded('academicYear', [
                 'id' => $this->academicYear?->id,
