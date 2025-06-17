@@ -49,7 +49,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                         <div className="hidden lg:mx-10 lg:block">
                                             <div className="flex space-x-4">
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.dashboard')}
                                                     active={url.startsWith('/students/dashboard')}
                                                     title="Dashboard"
                                                 />
@@ -64,7 +64,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                                     title="Kartu Rencana Studi"
                                                 />
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('student.study-plans.index')}
                                                     active={url.startsWith('/students/study-results')}
                                                     title="Kartu Hasil Studi"
                                                 />
@@ -144,7 +144,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                             <div className="space-y-1 px-2 pb-3 pt-2">
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.dashboard')}
                                     className={cn(
                                         url.startsWith('/students/dashboard')
                                             ? 'bg-blue-500 text-white'
@@ -168,7 +168,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('student.study-plans.index')}
                                     className={cn(
                                         url.startsWith('/students/study-plans')
                                             ? 'bg-blue-500 text-white'
