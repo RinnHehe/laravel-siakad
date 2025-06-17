@@ -8,9 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCalendar, IconCheck, IconSchool, IconUser, IconUsers, IconUsersGroup } from '@tabler/icons-react';
+import { IconArrowLeft, IconCalendar, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
-import { useRef } from 'react';
 
 export default function Edit(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -48,7 +47,7 @@ export default function Edit(props) {
                     icon={IconCalendar}
                 />
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                        <Link href={route('operators.schedules.index')}>
+                    <Link href={route('operators.schedules.index')}>
                         <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
@@ -69,8 +68,8 @@ export default function Edit(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Mata Kuliah">
-                                            {props.courses.find((course) => course.value == data.course_id)
-                                                ?.label ?? 'Pilih Mata Kuliah'}
+                                            {props.courses.find((course) => course.value == data.course_id)?.label ??
+                                                'Pilih Mata Kuliah'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -141,8 +140,8 @@ export default function Edit(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Hari">
-                                            {props.days.find((day) => day.value == data.day_of_week)
-                                                ?.label ?? 'Pilih Hari'}
+                                            {props.days.find((day) => day.value == data.day_of_week)?.label ??
+                                                'Pilih Hari'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>

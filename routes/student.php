@@ -10,9 +10,9 @@ Route::prefix('students')->middleware(['auth','role:Student'])->group(function (
 
     Route::controller(StudyPlanStudentController::class)->group(function(){
         Route::get('study-plans', 'index')->name('students.study.plans.index');
-        Route::get('study-plans/create', 'create')->name('students.study.plans.index');
-        Route::post('study-plans/create', 'store',)->name('students.study.plans.index');
-        Route::get('study-plans/detail/{studyPlan}')->name('students.study.plans.index');
+        Route::get('study-plans/create', 'create')->name('students.study.plans.create');
+        Route::post('study-plans/create', 'store')->name('students.study.plans.store');
+        Route::get('study-plans/detail/{studyPlan}', 'show')->name('students.study.plans.show');
     });
 
     Route::get('schedules', ScheduleStudentController::class)->name('students.schedules.index');

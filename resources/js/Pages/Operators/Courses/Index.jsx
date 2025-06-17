@@ -111,8 +111,7 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('id')}
                                             >
-                                                #
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                #<span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>

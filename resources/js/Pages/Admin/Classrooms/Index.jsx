@@ -12,7 +12,15 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconDoor, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
+import {
+    IconArrowsDownUp,
+    IconDoor,
+    IconPencil,
+    IconPlus,
+    IconRefresh,
+    IconTrash,
+    IconUsersGroup,
+} from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -184,8 +192,10 @@ export default function Index(props) {
                                             <TableCell>{formatDateIndo(classroom.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
-                                                <Button variant="purple" size="sm" asChild>
-                                                        <Link href={route('admin.classroom-students.index', [classroom])}>
+                                                    <Button variant="purple" size="sm" asChild>
+                                                        <Link
+                                                            href={route('admin.classroom-students.index', [classroom])}
+                                                        >
                                                             <IconUsersGroup className="size-4" />
                                                         </Link>
                                                     </Button>

@@ -54,17 +54,17 @@ export default function HeaderStudentLayout({ auth, url }) {
                                                     title="Dashboard"
                                                 />
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.schedules.index')}
                                                     active={url.startsWith('/students/schedules')}
                                                     title="Jadwal"
                                                 />
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.study.plans.index')}
                                                     active={url.startsWith('/students/study-plans')}
                                                     title="Kartu Rencana Studi"
                                                 />
                                                 <NavigationMenu
-                                                    url={route('student.study-plans.index')}
+                                                    url="#"
                                                     active={url.startsWith('/students/study-results')}
                                                     title="Kartu Hasil Studi"
                                                 />
@@ -156,7 +156,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.schedules.index')}
                                     className={cn(
                                         url.startsWith('/students/schedules')
                                             ? 'bg-blue-500 text-white'
@@ -168,7 +168,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
-                                    href={route('student.study-plans.index')}
+                                    href={route('students.study.plans.index')}
                                     className={cn(
                                         url.startsWith('/students/study-plans')
                                             ? 'bg-blue-500 text-white'
