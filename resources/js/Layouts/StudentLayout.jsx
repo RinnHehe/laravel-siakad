@@ -1,10 +1,9 @@
 import Banner from '@/Components/Banner';
 import { Card, CardContent } from '@/Components/ui/card';
-import { Toaster } from '@/Components/ui/toaster';
 import { flashMessage } from '@/lib/utils';
 import { Head, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 import HeaderStudentLayout from './Partials/HeaderStudentLayout';
 
 export default function StudentLayout({ children, title }) {

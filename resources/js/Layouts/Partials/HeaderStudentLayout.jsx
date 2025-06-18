@@ -49,17 +49,17 @@ export default function HeaderStudentLayout({ auth, url }) {
                                         <div className="hidden lg:mx-10 lg:block">
                                             <div className="flex space-x-4">
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.dashboard')}
                                                     active={url.startsWith('/students/dashboard')}
                                                     title="Dashboard"
                                                 />
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.schedules.index')}
                                                     active={url.startsWith('/students/schedules')}
                                                     title="Jadwal"
                                                 />
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.study.plans.index')}
                                                     active={url.startsWith('/students/study-plans')}
                                                     title="Kartu Rencana Studi"
                                                 />
@@ -144,7 +144,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                             <div className="space-y-1 px-2 pb-3 pt-2">
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.dashboard')}
                                     className={cn(
                                         url.startsWith('/students/dashboard')
                                             ? 'bg-blue-500 text-white'
@@ -156,7 +156,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.schedules.index')}
                                     className={cn(
                                         url.startsWith('/students/schedules')
                                             ? 'bg-blue-500 text-white'
@@ -168,7 +168,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                 </Disclosure.Button>
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.study.plans.index')}
                                     className={cn(
                                         url.startsWith('/students/study-plans')
                                             ? 'bg-blue-500 text-white'

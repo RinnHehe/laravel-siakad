@@ -92,10 +92,11 @@ export default function Sidebar({ auth, url }) {
                             icon={IconUsersGroup}
                         />
                         <NavLink
-                        url={route('admin.operators.index')}
-                        active={url.startsWith('/admin/operators')}
-                        title="Operator"
-                        icon={IconUser} />
+                            url={route('admin.operators.index')}
+                            active={url.startsWith('/admin/operators')}
+                            title="Operator"
+                            icon={IconUser}
+                        />
 
                         <div className="px-3 py-2 text-xs font-medium text-white">Akademik</div>
                         <NavLink
