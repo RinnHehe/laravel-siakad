@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
-
 import { flashMessage } from '@/lib/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import { Head, Link, usePage } from '@inertiajs/react';
