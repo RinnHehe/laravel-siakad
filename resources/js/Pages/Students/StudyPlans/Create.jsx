@@ -5,7 +5,7 @@ import { Link, useForm } from '@inertiajs/react';
 import HeaderTitle from '@/Components/HeaderTitle';
 import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from '@/Components/ui/table';
 import { cn, flashMessage } from '@/lib/utils';
-import Checkbox from '@/Components/Checkbox';
+import { Checkbox } from '@/Components/ui/checkbox';
 import { toast } from 'sonner';
 
 export default function Create(props) {
@@ -70,8 +70,8 @@ export default function Create(props) {
                                         name="schedule_id"
                                         checked={data.schedule_id.includes(schedule.id)}
                                         disabled={schedule.taken_quota == schedule.quota}
-                                        onChange={e => {
-                                            if (e.target.checked) {
+                                        onCheckedChange={(checked) => {
+                                            if (checked) {
                                                 setData('schedule_id', [...data.schedule_id, schedule.id]);
                                             } else {
                                                 setData('schedule_id', data.schedule_id.filter(id => id !== schedule.id));

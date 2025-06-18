@@ -110,4 +110,22 @@ class StudyPlanStudentController extends Controller
             return to_route('students.study.plans.index');
         }
     }
+
+    public function show(StudyPlan $studyPlan): Response
+    {
+        return Inertia::render('Students/StudyPlans/Show', [
+            'page_settings' => [
+                'title' => 'Detail Kartu Rencana Studi',
+                'subtitle' => 'Menampilkan kartu rencana studi yang sudah anda ajukan',
+            ],
+            'studyPlan' => new StudyPlanStudentResource(
+                $studyPlan->load([
+                    'schedules.course',
+                    'schedules.classroom',
+                    'schedules.academicYear',
+                    'academicYear'
+                ])
+            ),
+        ]);
+    }
 }

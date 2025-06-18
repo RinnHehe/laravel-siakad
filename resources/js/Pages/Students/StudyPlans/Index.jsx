@@ -8,12 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import UseFilter from '@/hooks/UseFilter';
 import StudentLayout from '@/Layouts/StudentLayout';
-import { formatDateIndo } from '@/lib/utils';
+import { formatDateIndo, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { IconArrowsDownUp, IconBuilding, IconEye, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-
+import { Badge } from '@/Components/ui/badge';
 export default function Index(props) {
     const { data: studyPlans, meta, links } = props.studyPlans;
     const [params, setParams] = useState({
@@ -152,7 +152,7 @@ export default function Index(props) {
                                 <TableRow key={index}>
                                     <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                     <TableCell>{studyPlan.academicYear.name}</TableCell>
-                                    <TableCell>{studyPlan.status}</TableCell>
+                                    <TableCell><Badge variant={STUDYPLANSTATUSVARIANT[studyPlan.status]}>{studyPlan.status}</Badge></TableCell>
                                     <TableCell>{formatDateIndo(studyPlan.created_at)}</TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-x-1">

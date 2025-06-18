@@ -18,6 +18,7 @@ class StudyPlanScheduleResource extends JsonResource
         return [
           'id' => $this->id,
           'status' => $this->status,
+          'notes' => $this->notes,
           'created_at' => $this->created_at,
           'academicYear' => $this->whenLoaded('academicYear', [
             'id' => $this->academicYear->id,
