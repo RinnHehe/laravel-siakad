@@ -2,6 +2,7 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
+import { Badge } from '@/Components/ui/badge';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
@@ -13,7 +14,6 @@ import { Link } from '@inertiajs/react';
 import { IconArrowsDownUp, IconBuilding, IconEye, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { Badge } from '@/Components/ui/badge';
 export default function Index(props) {
     const { data: studyPlans, meta, links } = props.studyPlans;
     const [params, setParams] = useState({
@@ -152,7 +152,11 @@ export default function Index(props) {
                                 <TableRow key={index}>
                                     <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                     <TableCell>{studyPlan.academicYear.name}</TableCell>
-                                    <TableCell><Badge variant={STUDYPLANSTATUSVARIANT[studyPlan.status]}>{studyPlan.status}</Badge></TableCell>
+                                    <TableCell>
+                                        <Badge variant={STUDYPLANSTATUSVARIANT[studyPlan.status]}>
+                                            {studyPlan.status}
+                                        </Badge>
+                                    </TableCell>
                                     <TableCell>{formatDateIndo(studyPlan.created_at)}</TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-x-1">
