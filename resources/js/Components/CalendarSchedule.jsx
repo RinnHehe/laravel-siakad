@@ -7,16 +7,6 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
     const containerNav = useRef(null);
     const containerOffset = useRef(null);
 
-    // Debug: tampilkan data yang diterima
-    console.log('=== CALENDAR SCHEDULE DEBUG ===');
-    console.log('Days received:', days);
-    console.log('Schedule table received:', scheduleTable);
-    console.log('Schedule table keys:', Object.keys(scheduleTable));
-    console.log('Schedule table entries:', Object.entries(scheduleTable));
-    console.log('Debug data received:', debug);
-    console.log('All props received:', { days, scheduleTable, student, debug });
-    console.log('================================');
-
     // Helper function to convert time to minutes from 7:00
     const timeToMinutes = (time) => {
         const [hour, minute] = time.split(':').map(Number);

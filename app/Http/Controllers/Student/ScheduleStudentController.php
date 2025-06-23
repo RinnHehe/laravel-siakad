@@ -63,14 +63,6 @@ class ScheduleStudentController extends Controller
             ];
         }
 
-        // Debug: tampilkan hasil akhir
-        Log::info('Final Days:', $days);
-        Log::info('Final Schedule Table:', $scheduleTable);
-
-        // IMPORTANT: Debug JSON serialization
-        Log::info('Schedule Table JSON:', [json_encode($scheduleTable)]);
-        Log::info('Days JSON:', [json_encode($days)]);
-
         // Test serialization
         $testData = [
             'scheduleTable' => $scheduleTable,
@@ -93,7 +85,6 @@ class ScheduleStudentController extends Controller
             ],
         ];
 
-        Log::info('Inertia data to be sent:', $inertiaData);
 
         return Inertia::render('Students/Schedules/Index', $inertiaData);
     }
