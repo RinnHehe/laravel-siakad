@@ -31,7 +31,8 @@ class ScheduleStudentController extends Controller
 
         if (!$studyPlan) {
             flashMessage('Anda belum mengajukan krs', 'warning');
-            return to_route('students.study-plans.index');
+            // Perbaikan: gunakan route name yang benar
+            return to_route('students.study.plans.index');
         }
 
         // Ambil schedules melalui relasi many-to-many
@@ -84,7 +85,6 @@ class ScheduleStudentController extends Controller
                 'rawScheduleTable' => $scheduleTable,
             ],
         ];
-
 
         return Inertia::render('Students/Schedules/Index', $inertiaData);
     }
