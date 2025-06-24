@@ -17,6 +17,7 @@ import { IconArrowLeft, IconArrowsDownUp, IconBuilding, IconPencil, IconPlus, Ic
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import Detail from './Detail';
+import Approve from './Approve';
 
 export default function Index(props) {
     const { data: studyPlans, meta, links } = props.studyPlans;
@@ -216,6 +217,14 @@ export default function Index(props) {
                                                     {/* Detail */}
                                                     <Detail schedules={studyPlan.schedules} name={studyPlan.student.name} />
                                                     {/* Approve */}
+                                                    <Approve
+                                                        name={studyPlan.student.name}
+                                                        statuses={props.statuses}
+                                                        action={route('operators.study-plans.approve', [
+                                                            props.student,
+                                                            studyPlan,
+                                                        ])}
+                                                    />
 
                                                 </div>
                                             </TableCell>
