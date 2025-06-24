@@ -5,6 +5,7 @@ use App\Http\Controllers\Operator\CourseOperatorController;
 use App\Http\Controllers\Operator\DashboardOperatorController;
 use App\Http\Controllers\Operator\ScheduleOperatorController;
 use App\Http\Controllers\Operator\StudentOperatorController;
+use App\Http\Controllers\Operator\StudyPlanOperatorController;
 use App\Http\Controllers\Operator\TeacherOperatorController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,11 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::put('schedules/edit/{schedule}', 'update')->name('operators.schedules.update');
             Route::delete('schedules/delete/{schedule}', 'destroy')->name('operators.schedules.destroy');
 
+        });
+
+        Route::controller(StudyPlanOperatorController::class)->group(function () {
+            Route::get('students/{student:student_number}/study-plans', 'index')->name('operators.study-plans.index');
+            Route::put('students/{student:student_number}/study-plans/{studyPlan}/approve', 'approve')->name('operators.study-plans.approve');
         });
     });
 });
