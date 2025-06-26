@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Student\DashboardStudentController;
+use App\Http\Controllers\Student\FeeStudentController;
 use App\Http\Controllers\Student\ScheduleStudentController;
 use App\Http\Controllers\Student\StudyPlanStudentController;
 use Illuminate\Support\Facades\Route;
@@ -16,4 +17,5 @@ Route::prefix('students')->middleware(['auth','role:Student'])->group(function (
     });
 
     Route::get('schedules', ScheduleStudentController::class)->name('students.schedules.index');
+    Route::get('fees', FeeStudentController::class)->name('students.fees.index');
 });
