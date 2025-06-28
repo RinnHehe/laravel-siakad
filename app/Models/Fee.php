@@ -26,7 +26,7 @@ class Fee extends Model
     {
         return $this->belongsTo(FeeGroup::class);
     }
-    
+
     public function academicYear(): BelongsTo
     {
         return $this->belongsTo(AcademicYear::class);
@@ -35,12 +35,12 @@ class Fee extends Model
     public function scopeFilter(Builder $query, array $filters): void
     {
         $query->when($filters['search'] ?? null, function($query, $search) {
-            $query->where('status', 'RAGEXP', $search)
-            ->orWhereHas('academicYear', fn($query) => $query->where ('name', 'RAGEXP', $search))
+            $query->where('status', 'REGEXP', $search)
+            ->orWhereHas('academicYear', fn($query) => $query->where ('name', 'REGEXP', $search))
             ->orWhereHas('student.user', fn($query) => $query->whereAny([
                 'name',
                 'email',
-            ], 'RAGEXP', $search));
+            ], 'REGEXP', $search));
         });
     }
 
@@ -48,10 +48,10 @@ class Fee extends Model
     {
         $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function($query) use ($sorts){
             match ($sorts['field']) {
-                'academic_year_id' => $query->join('academic_years', 'fees.academic_year_ud', '=', 'academic_years_id')
+                'academic_year_id' => $query->join('academic_years', 'fees.academic_year_id', '=', 'academic_years.id')
                     ->orderBy('academic_years.name', $sorts['direction']),
                 'name' => $query
-                    ->leftJoin('student', 'student_id', '=', 'fees.student_id')
+                    ->leftJoin('students', 'fees.student_id', '=', 'students.id')
                     ->leftJoin('users', 'students.user_id', '=', 'users.id')
                     ->orderBy('users.name', $sorts['direction']),
                 default => $query->orderBy($sorts['field'], $sorts['direction']),
