@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace App\Http\Middleware;
 
@@ -17,4 +17,4 @@ class UserSingleResource
     {
         return $next($request);
     }
-} 
+}
