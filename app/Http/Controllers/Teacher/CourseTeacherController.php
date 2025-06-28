@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Teacher\CourseScheduleResource;
 use App\Http\Resources\Teacher\CourseTeacherResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -38,6 +39,17 @@ class CourseTeacherController extends Controller
                 'search' => request()->search ?? '',
                 'load' => 9,
             ]
+        ]);
+    }
+
+    public function show(Course $course): Response
+    {
+        return Inertia::render('Teachers/Courses/Show', [
+            'page_settings' => [
+                'title' => $course->name,
+                'subtitle' => 'Menampilkan detail mata kuliah',
+            ],
+            'course' => new CourseScheduleResource($course->load(['faculty', 'department', 'academicYear', 'schedules']))
         ]);
     }
 }

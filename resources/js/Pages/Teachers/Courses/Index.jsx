@@ -89,7 +89,7 @@ export default function Index(props) {
                     </div>
                     {/* Show Filter */}
                     <ShowFilter params={params} />
-                    <CardContent className="p-0 [&-td]:whitespace-nowrap [&-td]:px-6 [&-th]:px-6">
+                    <CardContent>
                         {courses.length == 0 ? (
                             <EmptyState
                                 icon={IconBooks}
