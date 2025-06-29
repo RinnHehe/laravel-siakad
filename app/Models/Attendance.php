@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +15,7 @@ class Attendance extends Model
         'classroom_id',
         'status',
         'section',
-    ];    
+    ];
 
     public function course(): BelongsTo
     {
@@ -30,5 +31,10 @@ class Attendance extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
-    
+
+    public function scopeActive(Builder $query)
+    {
+        $query->where('status', true);
+    }
+
 }

@@ -43,7 +43,7 @@ export default function Show(props) {
                                 {props.course.schedules.map((schedule, index) => (
                                     <li key={index} className='overflow-hidden border rounded-xl'>
                                         <Link
-                                            href='#'
+                                            href={route('teachers.classrooms.index', [schedule.course, schedule.classroom])}
                                             className='flex flex-col p-6 gap-x-4 bg-gray-50 hover:bg-blue-50'
                                         >
                                             <div className='text-lg font-bold leading-relaxed text-foreground'>
