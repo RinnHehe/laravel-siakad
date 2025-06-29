@@ -144,7 +144,7 @@ export default function Sidebar({ auth, url }) {
                             icon={IconBooks}
                         />
                         <NavLink
-                            url="#"
+                            url={route('teachers.schedules.index')}
                             active={url.startsWith('/teachers/schedules')}
                             title="Jadwal"
                             icon={IconCalendar}

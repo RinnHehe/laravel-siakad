@@ -1,19 +1,22 @@
-import AlertAction from '@/Components/AlertAction';
 import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuGroup, DropdownMenuTrigger } from '@/Components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu';
 import { Input } from '@/Components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
-import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconBooks, IconDotsDiagonal, IconDotsVertical, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
+import { IconBooks, IconDotsVertical, IconRefresh } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -75,7 +78,7 @@ export default function Index(props) {
                                 <SelectValue placeholder="Load" />
                             </SelectTrigger>
                             <SelectContent>
-                                {[10, 25, 50, 75, 100].map((number, index) => (
+                                {[9, 18, 27, 36].map((number, index) => (
                                     <SelectItem key={index} value={number}>
                                         {number}
                                     </SelectItem>
@@ -97,23 +100,23 @@ export default function Index(props) {
                                 subtitle="Mulailah dengan membuat mata kuliah baru"
                             />
                         ) : (
-                            <ul role='list' className='grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3'>
+                            <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3">
                                 {courses.map((course, index) => (
-                                    <li key={index} className='overflow-hidden border rounded-xl border-secondary'>
-                                        <div className='flex items-center justify-between p-6 border-b border-secondary-900/5 gap-x-4 bg-gray-50'>
+                                    <li key={index} className="overflow-hidden rounded-xl border border-secondary">
+                                        <div className="border-secondary-900/5 flex items-center justify-between gap-x-4 border-b bg-gray-50 p-6">
                                             <Link
                                                 href={route('teachers.courses.show', { course })}
-                                                className='text-sm font-semibold leading-relaxed text-foreground'
+                                                className="text-sm font-semibold leading-relaxed text-foreground"
                                             >
                                                 {course.name}
                                             </Link>
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button variant='ghost'>
+                                                    <Button variant="ghost">
                                                         <IconDotsVertical className="size-4" />
                                                     </Button>
                                                 </DropdownMenuTrigger>
-                                                <DropdownMenuContent className='w-56'>
+                                                <DropdownMenuContent className="w-56">
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem>
                                                             <Link href={route('teachers.courses.show', { course })}>
@@ -124,22 +127,22 @@ export default function Index(props) {
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
                                         </div>
-                                        <dl className='px-6 py-4 -my-3 text-sm leading-6 divide-y divide-gray-100'>
-                                            <div className='flex justify-between py-3 gap-x-4'>
-                                                <dt className='text-foreground'>Jurusan</dt>
-                                                <dd className='text-foreground'>{course.faculty.name}</dd>
+                                        <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+                                            <div className="flex justify-between gap-x-4 py-3">
+                                                <dt className="text-foreground">Jurusan</dt>
+                                                <dd className="text-foreground">{course.faculty.name}</dd>
                                             </div>
-                                            <div className='flex justify-between py-3 gap-x-4'>
-                                                <dt className='text-foreground'>Program Studi</dt>
-                                                <dd className='text-foreground'>{course.department.name}</dd>
+                                            <div className="flex justify-between gap-x-4 py-3">
+                                                <dt className="text-foreground">Program Studi</dt>
+                                                <dd className="text-foreground">{course.department.name}</dd>
                                             </div>
-                                            <div className='flex justify-between py-3 gap-x-4'>
-                                                <dt className='text-foreground'>Satuan Kredit Semester</dt>
-                                                <dd className='text-foreground'>{course.credit}</dd>
+                                            <div className="flex justify-between gap-x-4 py-3">
+                                                <dt className="text-foreground">Satuan Kredit Semester</dt>
+                                                <dd className="text-foreground">{course.credit}</dd>
                                             </div>
-                                            <div className='flex justify-between py-3 gap-x-4'>
-                                                <dt className='text-foreground'>Semester</dt>
-                                                <dd className='text-foreground'>{course.semester}</dd>
+                                            <div className="flex justify-between gap-x-4 py-3">
+                                                <dt className="text-foreground">Semester</dt>
+                                                <dd className="text-foreground">{course.semester}</dd>
                                             </div>
                                         </dl>
                                     </li>
