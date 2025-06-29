@@ -11,9 +11,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import UseFilter from '@/hooks/UseFilter';
 import StudentLayout from '@/Layouts/StudentLayout';
-import { FEESTATUSVARIANT, formatDateIndo, formatToRupiah, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
-import { Link, usePage } from '@inertiajs/react';
-import { IconArrowsDownUp, IconBuilding, IconEye, IconMoneybag, IconPlus, IconRefresh } from '@tabler/icons-react';
+import { FEESTATUSVARIANT, formatDateIndo, formatToRupiah } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
+import { IconArrowsDownUp, IconMoneybag, IconRefresh } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 export default function Index(props) {
@@ -64,52 +64,54 @@ export default function Index(props) {
                 {/* Pembayaran */}
                 {!props.checkFee && (
                     <div>
-                        <Alert variant='orange'>
+                        <Alert variant="orange">
                             <AlertTitle> Periode pembayaran UKT tahun ajaran {props.academic_year.name} </AlertTitle>
-                            <AlertDescription> Silahkan untuk melakukan pembayaran UKT terlebih dahulu agar dapat mengajukan kartu rencana studi </AlertDescription>
+                            <AlertDescription>
+                                {' '}
+                                Silahkan untuk melakukan pembayaran UKT terlebih dahulu agar dapat mengajukan kartu
+                                rencana studi{' '}
+                            </AlertDescription>
                         </Alert>
                     </div>
                 )}
 
-                {(props.fee && props.fee.status != 'Sukses') || !props.fee && (
-                    <Card>
-                        <CardContent className='p-6 space-y-20'>
-                            <div>
-                                <Table className='w-full'>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Nama</TableHead>
-                                            <TableHead>NIM</TableHead>
-                                            <TableHead>Semester</TableHead>
-                                            <TableHead>Kelas</TableHead>
-                                            <TableHead>Program Studi</TableHead>
-                                            <TableHead>Jurusan</TableHead>
-                                            <TableHead>Total Tagihan</TableHead>
-                                            <TableHead>Aksi</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>{auth.name}</TableCell>
-                                            <TableCell>{auth.student.student_number}</TableCell>
-                                            <TableCell>{auth.student.semester}</TableCell>
-                                            <TableCell>{auth.student.classroom.name}</TableCell>
-                                            <TableCell>{auth.student.department.name}</TableCell>
-                                            <TableCell>{auth.student.faculty.name}</TableCell>
-                                            <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
-                                            <TableCell>
-                                                <Button variant='orange'>
-                                                    Bayar
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </div>
-
-                        </CardContent>
-                    </Card>
-                )}
+                {(props.fee && props.fee.status != 'Sukses') ||
+                    (!props.fee && (
+                        <Card>
+                            <CardContent className="space-y-20 p-6">
+                                <div>
+                                    <Table className="w-full">
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Nama</TableHead>
+                                                <TableHead>NIM</TableHead>
+                                                <TableHead>Semester</TableHead>
+                                                <TableHead>Kelas</TableHead>
+                                                <TableHead>Program Studi</TableHead>
+                                                <TableHead>Jurusan</TableHead>
+                                                <TableHead>Total Tagihan</TableHead>
+                                                <TableHead>Aksi</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell>{auth.name}</TableCell>
+                                                <TableCell>{auth.student.student_number}</TableCell>
+                                                <TableCell>{auth.student.semester}</TableCell>
+                                                <TableCell>{auth.student.classroom.name}</TableCell>
+                                                <TableCell>{auth.student.department.name}</TableCell>
+                                                <TableCell>{auth.student.faculty.name}</TableCell>
+                                                <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
+                                                <TableCell>
+                                                    <Button variant="orange">Bayar</Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
                 {/* Filter */}
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center">
                     <Input

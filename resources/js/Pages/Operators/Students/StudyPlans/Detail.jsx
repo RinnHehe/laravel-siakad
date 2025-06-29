@@ -1,25 +1,22 @@
-import { Button } from "@/Components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/Components/ui/sheet";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
-import { IconEye } from "@tabler/icons-react";
+import { Button } from '@/Components/ui/button';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/Components/ui/sheet';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { IconEye } from '@tabler/icons-react';
 
 export default function Detail({ schedules, name }) {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button
-                    variant="purple"
-                    size="sm"
-                >
+                <Button variant="purple" size="sm">
                     <IconEye className="size-4 text-white" />
                 </Button>
             </SheetTrigger>
-            <SheetContent side='top'>
+            <SheetContent side="top">
                 <SheetHeader>
                     <SheetTitle>Detail Kartu Rencana Studi {name}</SheetTitle>
                     <SheetDescription>Detail kartu rencana studi mahasiswa yang diajukan</SheetDescription>
                 </SheetHeader>
-                <Table className='w-full'>
+                <Table className="w-full">
                     <TableHeader>
                         <TableRow>
                             <TableHead>#</TableHead>
@@ -38,12 +35,14 @@ export default function Detail({ schedules, name }) {
                                 <TableCell>{schedule.course.credit}</TableCell>
                                 <TableCell>{schedule.classroom.name}</TableCell>
                                 <TableCell>{schedule.academicYear.name}</TableCell>
-                                <TableCell>{schedule.day_of_week}, {schedule.start_time} : {schedule.end_time}</TableCell>
+                                <TableCell>
+                                    {schedule.day_of_week}, {schedule.start_time} : {schedule.end_time}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </SheetContent>
         </Sheet>
-    )
+    );
 }

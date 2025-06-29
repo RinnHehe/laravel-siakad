@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import { Link } from '@inertiajs/react';
 import { useRef } from 'react';
 
 export default function CalendarSchedule({ days = [], scheduleTable = {}, student = null, debug = null }) {
@@ -62,7 +61,7 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                     <div className="sticky left-0 z-20 -ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-500">
                         {hour.toString().padStart(2, '0')}.00
                     </div>
-                </div>
+                </div>,
             );
             // Add half-hour divider except for last hour
             if (hour < 17) {
@@ -85,7 +84,11 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                 >
                     <div className="grid grid-cols-7 text-sm leading-6 text-gray-900 sm:hidden">
                         {days.map((day, index) => (
-                            <button key={`mobile-day-${index}`} type="button" className="flex flex-col items-center pb-3 pt-2">
+                            <button
+                                key={`mobile-day-${index}`}
+                                type="button"
+                                className="flex flex-col items-center pb-3 pt-2"
+                            >
                                 {day}
                             </button>
                         ))}
@@ -93,7 +96,10 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                     <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-900 sm:grid">
                         <div className="col-end-1 w-14" />
                         {days.map((day, index) => (
-                            <div key={`desktop-day-${index}`} className="flex items-center justify-center py-3 font-semibold">
+                            <div
+                                key={`desktop-day-${index}`}
+                                className="flex items-center justify-center py-3 font-semibold"
+                            >
                                 <span>{day}</span>
                             </div>
                         ))}
@@ -113,7 +119,7 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                         </div>
 
                         {/* Vertical grid lines */}
-                        <div className="hidden grid-cols-7 col-start-1 col-end-2 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
+                        <div className="col-start-1 col-end-2 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
                             <div className="col-start-1 row-span-full" />
                             <div className="col-start-2 row-span-full" />
                             <div className="col-start-3 row-span-full" />
@@ -121,12 +127,12 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                             <div className="col-start-5 row-span-full" />
                             <div className="col-start-6 row-span-full" />
                             <div className="col-start-7 row-span-full" />
-                            <div className="w-8 col-start-8 row-span-full" />
+                            <div className="col-start-8 row-span-full w-8" />
                         </div>
 
                         {/* Schedule events */}
                         <ol
-                            className="grid grid-cols-1 col-start-1 col-end-2 row-start-1 sm:grid-cols-7 sm:pr-8"
+                            className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-7 sm:pr-8"
                             style={{ gridTemplateRows: '1.75rem repeat(22, minmax(0, 1fr))' }}
                         >
                             {/* Debug output */}
@@ -158,13 +164,15 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                                             endTime: schedule.end_time,
                                             startRow: startRow,
                                             endRow: endRow,
-                                            column: column
+                                            column: column,
                                         });
 
                                         // Validate grid position
                                         if (startRow < 2 || endRow > 23 || column < 2 || column > 8) {
                                             console.warn(`Invalid grid position for ${schedule.course}:`, {
-                                                startRow, endRow, column
+                                                startRow,
+                                                endRow,
+                                                column,
                                             });
                                             return null;
                                         }
@@ -175,7 +183,7 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                                         return (
                                             <li
                                                 key={`${startTime}-${day}-${schedule.course}`}
-                                                className="relative flex mt-px"
+                                                className="relative mt-px flex"
                                                 style={{
                                                     gridRow: `${startRow} / span ${rowSpan}`,
                                                     gridColumn: column,
@@ -183,14 +191,14 @@ export default function CalendarSchedule({ days = [], scheduleTable = {}, studen
                                             >
                                                 <div
                                                     className={cn(
-                                                        'absolute flex flex-col p-3 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 shadow-lg border border-white/20',
-                                                        colorClass
+                                                        'group absolute inset-1 flex flex-col overflow-y-auto rounded-lg border border-white/20 p-3 text-xs leading-5 shadow-lg',
+                                                        colorClass,
                                                     )}
                                                 >
-                                                    <p className="order-1 font-bold text-sm mb-1 leading-tight">
+                                                    <p className="order-1 mb-1 text-sm font-bold leading-tight">
                                                         {schedule.course}
                                                     </p>
-                                                    <p className="text-white/90 font-medium">
+                                                    <p className="font-medium text-white/90">
                                                         {startTime} - {schedule.end_time}
                                                     </p>
                                                 </div>

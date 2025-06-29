@@ -1,4 +1,3 @@
-import AlertAction from '@/Components/AlertAction';
 import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
@@ -11,13 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
-import { deleteAction, formatDateIndo } from '@/lib/utils';
+import { formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowLeft, IconArrowsDownUp, IconBuilding, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsers } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowsDownUp, IconBuilding, IconRefresh } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import Detail from './Detail';
 import Approve from './Approve';
+import Detail from './Detail';
 
 export default function Index(props) {
     const { data: studyPlans, meta, links } = props.studyPlans;
@@ -114,8 +113,7 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('id')}
                                             >
-                                                #
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                #<span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>
@@ -215,7 +213,10 @@ export default function Index(props) {
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">
                                                     {/* Detail */}
-                                                    <Detail schedules={studyPlan.schedules} name={studyPlan.student.name} />
+                                                    <Detail
+                                                        schedules={studyPlan.schedules}
+                                                        name={studyPlan.student.name}
+                                                    />
                                                     {/* Approve */}
                                                     <Approve
                                                         name={studyPlan.student.name}
@@ -225,7 +226,6 @@ export default function Index(props) {
                                                             studyPlan,
                                                         ])}
                                                     />
-
                                                 </div>
                                             </TableCell>
                                         </TableRow>

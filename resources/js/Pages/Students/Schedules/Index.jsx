@@ -25,12 +25,7 @@ export default function Index(props) {
                 />
             </div>
 
-            <CalendarSchedule
-                scheduleTable={scheduleTable || {}}
-                days={days || []}
-                student={auth}
-                debug={debug}
-            />
+            <CalendarSchedule scheduleTable={scheduleTable || {}} days={days || []} student={auth} debug={debug} />
         </div>
     );
 }
