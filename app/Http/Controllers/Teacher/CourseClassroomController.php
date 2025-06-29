@@ -259,12 +259,12 @@ class CourseClassroomController extends Controller
                         )
                     ),
                     utsPercentage: (
-                        $this->calculateTaskPercentage(
+                        $this->calculateUTSPercentage(
                             $this->getGradeCount($result->student_id, $course->id, $classroom->id, 'uts')
                         )
                     ),
                     uasPercentage: (
-                        $this->calculateTaskPercentage(
+                        $this->calculateUASPercentage(
                             $this->getGradeCount($result->student_id, $course->id, $classroom->id, 'uas')
                         )
                     ),

@@ -1,6 +1,6 @@
-import { Button } from '@Components/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@Components/ui/sheet';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@Components/ui/table';
+import { Button } from '@/Components/ui/button';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/Components/ui/sheet';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import { IconEye } from '@tabler/icons-react';
 
 export default function Grades({ studyResult, grades, name = null }) {

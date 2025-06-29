@@ -3,9 +3,11 @@
 use App\Http\Controllers\Operator\ClassroomOperatorController;
 use App\Http\Controllers\Operator\CourseOperatorController;
 use App\Http\Controllers\Operator\DashboardOperatorController;
+use App\Http\Controllers\Operator\FeeOperatorController;
 use App\Http\Controllers\Operator\ScheduleOperatorController;
 use App\Http\Controllers\Operator\StudentOperatorController;
 use App\Http\Controllers\Operator\StudyPlanOperatorController;
+use App\Http\Controllers\Operator\StudyResultOperatorController;
 use App\Http\Controllers\Operator\TeacherOperatorController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,5 +68,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('students/{student:student_number}/study-plans', 'index')->name('operators.study-plans.index');
             Route::put('students/{student:student_number}/study-plans/{studyPlan}/approve', 'approve')->name('operators.study-plans.approve');
         });
+
+        Route::get('students/{student:student_number}/fees', FeeOperatorController::class)->name('operators.fees.index');
+        Route::get('students/{student:student_number}/study-results', StudyResultOperatorController::class)->name('operators.study-results.index');
     });
 });
