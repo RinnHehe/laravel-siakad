@@ -7,6 +7,7 @@ use App\Http\Controllers\Operator\FeeOperatorController;
 use App\Http\Controllers\Operator\ScheduleOperatorController;
 use App\Http\Controllers\Operator\StudentOperatorController;
 use App\Http\Controllers\Operator\StudyPlanOperatorController;
+use App\Http\Controllers\Operator\StudyResultOperatorController;
 use App\Http\Controllers\Operator\TeacherOperatorController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,5 +70,6 @@ Route::middleware(['web', 'auth'])->group(function () {
         });
 
         Route::get('students/{student:student_number}/fees', FeeOperatorController::class)->name('operators.fees.index');
+        Route::get('students/{student:student_number}/study-results', StudyResultOperatorController::class)->name('operators.study-results.index');
     });
 });

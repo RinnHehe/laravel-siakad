@@ -20,10 +20,12 @@ class ScheduleTeacherController extends Controller
     {
         $courses = Course::query()
             ->where('teacher_id', Auth::user()->teacher->id)
+            ->where('academic_year_id', activeAcademicYear()->id)
             ->pluck('id');
 
         $schedules = Schedule::query()
             ->whereIn('course_id', $courses)
+            ->with('course')
             ->get();
 
         $days = ScheduleDay::cases();
