@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 use Midtrans\Config;
 use Midtrans\Snap;
 
@@ -128,5 +130,10 @@ class PaymentController extends Controller
                     'message' => 'Status transaksi tidak diketahui',
                 ], 400);
         }
+    }
+
+    public function success(): Response
+    {
+        return Inertia::render('Payments\Success');
     }
 }
