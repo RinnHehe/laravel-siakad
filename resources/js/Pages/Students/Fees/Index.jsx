@@ -21,41 +21,52 @@ export default function Index(props) {
     const auth = usePage().props.auth.user;
     const { data: fees, meta, links } = props.fees;
     const [params, setParams] = useState({
-        search: props.state?.search,
-        page: props.state?.page,
-        load: props.state?.load,
+        search: props.state?.search || '',
+        page: props.state?.page || 1,
+        load: props.state?.load || 10,
     });
 
     const handlePayment = async () => {
         try {
-            const response = await axios.post(route('payment.create'), {
+            const paymentData = {
                 fee_code: feeCodeGenerator(),
                 gross_amount: auth.student.feeGroup.amount,
                 first_name: auth.name,
                 last_name: 'SIA',
                 email: auth.email,
-            });
+                student_id: auth.student.id,
+                fee_group_id: auth.student.fee_group_id,
+                academic_year_id: props.academic_year.id,
+                semester: auth.student.semester,
+            };
+
+            console.log('Payment Data:', paymentData);
+
+            const response = await axios.post(route('payments.create'), paymentData);
 
             const snapToken = response.data.snapToken;
 
             window.snap.pay(snapToken, {
                 onSuccess: function(result) {
-                    toast['success']('Pembayaran berhasil');
-                    router.get(route('students.fees.index'));
+                    toast.success('Pembayaran berhasil');
+                    router.get(route('payments.success'));
                 },
                 onPending: function(result) {
-                    toast['warning']('Pembayaran tertunda');
+                    toast.warning('Pembayaran tertunda');
+                    router.get(route('students.fees.index'));
                 },
                 onError: function(result) {
-                    toast['error']('Kesalahan pembayaran ${error}');
+                    toast.error(`Kesalahan pembayaran: ${result.status_message}`);
+                    router.get(route('students.fees.index'));
                 },
                 onClose: function() {
-                    toast['info']('Pembayaran ditutup');
+                    toast.info('Pembayaran ditutup');
+                    router.get(route('students.fees.index'));
                 },
             });
 
         } catch (error) {
-            toast['error']('Kesalahan pembayaran: ${error}')
+            toast.error(`Kesalahan pembayaran: ${error.response?.data?.error || error.message}`);
         }
     }
 
@@ -109,43 +120,42 @@ export default function Index(props) {
                     </div>
                 )}
 
-                {(props.fee && props.fee.status != 'Sukses') ||
-                    (!props.fee && (
-                        <Card>
-                            <CardContent className="space-y-20 p-6">
-                                <div>
-                                    <Table className="w-full">
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Nama</TableHead>
-                                                <TableHead>NIM</TableHead>
-                                                <TableHead>Semester</TableHead>
-                                                <TableHead>Kelas</TableHead>
-                                                <TableHead>Program Studi</TableHead>
-                                                <TableHead>Jurusan</TableHead>
-                                                <TableHead>Total Tagihan</TableHead>
-                                                <TableHead>Aksi</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>{auth.name}</TableCell>
-                                                <TableCell>{auth.student.student_number}</TableCell>
-                                                <TableCell>{auth.student.semester}</TableCell>
-                                                <TableCell>{auth.student.classroom.name}</TableCell>
-                                                <TableCell>{auth.student.department.name}</TableCell>
-                                                <TableCell>{auth.student.faculty.name}</TableCell>
-                                                <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
-                                                <TableCell>
-                                                    <Button variant="orange" onClick={handlePayment}>Bayar</Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                {(!props.fee || (props.fee && props.fee.status !== 'Sukses')) && (
+                    <Card>
+                        <CardContent className="space-y-20 p-6">
+                            <div>
+                                <Table className="w-full">
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Nama</TableHead>
+                                            <TableHead>NIM</TableHead>
+                                            <TableHead>Semester</TableHead>
+                                            <TableHead>Kelas</TableHead>
+                                            <TableHead>Program Studi</TableHead>
+                                            <TableHead>Jurusan</TableHead>
+                                            <TableHead>Total Tagihan</TableHead>
+                                            <TableHead>Aksi</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>{auth.name}</TableCell>
+                                            <TableCell>{auth.student.student_number}</TableCell>
+                                            <TableCell>{auth.student.semester}</TableCell>
+                                            <TableCell>{auth.student.classroom.name}</TableCell>
+                                            <TableCell>{auth.student.department.name}</TableCell>
+                                            <TableCell>{auth.student.faculty.name}</TableCell>
+                                            <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
+                                            <TableCell>
+                                                <Button variant="orange" onClick={handlePayment}>Bayar</Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
                 {/* Filter */}
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center">
                     <Input
@@ -200,6 +210,17 @@ export default function Index(props) {
                                         onClick={() => onSortable('fee_code')}
                                     >
                                         Kode Pembayaran
+                                        <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                        <IconArrowsDownUp className="size-4" />
+                                    </Button>
+                                </TableHead>
+                                <TableHead>
+                                    <Button
+                                        variant="ghost"
+                                        className="group inline-flex"
+                                        onClick={() => onSortable('fee_group_id')}
+                                    >
+                                        Golongan
                                         <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                         <IconArrowsDownUp className="size-4" />
                                     </Button>

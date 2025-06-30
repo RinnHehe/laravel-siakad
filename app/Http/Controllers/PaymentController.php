@@ -62,7 +62,7 @@ class PaymentController extends Controller
     {
         $serverKey = config('services.midtrans.server_key');
         $signatureKey = signatureMidtrans(
-            $request->fee_code,
+            $request->order_id,
             $request->status_code,
             $request->gross_amount,
             $serverKey
@@ -75,7 +75,7 @@ class PaymentController extends Controller
         }
 
         $fee = Fee::query()
-        ->where('fee_code', $request->fee_code)
+        ->where('fee_code', $request->order_id)
         ->first();
 
         if(!$fee) {
@@ -134,6 +134,6 @@ class PaymentController extends Controller
 
     public function success(): Response
     {
-        return Inertia::render('Payments\Success');
+        return Inertia::render('Payments/Success');
     }
 }
