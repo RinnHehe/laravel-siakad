@@ -1,0 +1,15 @@
+version: "2"
+authtoken: 2zF4514e04CN1fd09wmbACKQUEZ_2H7NSKBjuPxPJtJC3ZBxH
+tunnels:
+  laravel:
+    addr: http://localhost:8000
+    proto: http
+  vite:
+    addr: http://localhost:5173
+    proto: http
+
+  # Jika Anda membutuhkan tunnel tambahan, tambahkan di sini
+  # contoh:
+  # vite:
+  #   proto: http
+  #   addr: 5173
