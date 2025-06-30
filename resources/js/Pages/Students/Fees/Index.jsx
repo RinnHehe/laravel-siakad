@@ -11,11 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import UseFilter from '@/hooks/UseFilter';
 import StudentLayout from '@/Layouts/StudentLayout';
-import { FEESTATUSVARIANT, formatDateIndo, formatToRupiah } from '@/lib/utils';
-import { usePage } from '@inertiajs/react';
+import { feeCodeGenerator, FEESTATUSVARIANT, formatDateIndo, formatToRupiah } from '@/lib/utils';
+import { router, usePage } from '@inertiajs/react';
 import { IconArrowsDownUp, IconMoneybag, IconRefresh } from '@tabler/icons-react';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 export default function Index(props) {
     const auth = usePage().props.auth.user;
     const { data: fees, meta, links } = props.fees;
@@ -24,6 +25,39 @@ export default function Index(props) {
         page: props.state?.page,
         load: props.state?.load,
     });
+
+    const handlePayment = async () => {
+        try {
+            const response = await axios.post(route('payment.create'), {
+                fee_code: feeCodeGenerator(),
+                gross_amount: auth.student.feeGroup.amount,
+                first_name: auth.name,
+                last_name: 'SIA',
+                email: auth.email,
+            });
+
+            const snapToken = response.data.snapToken;
+
+            window.snap.pay(snapToken, {
+                onSuccess: function(result) {
+                    toast['success']('Pembayaran berhasil');
+                    router.get(route('students.fees.index'));
+                },
+                onPending: function(result) {
+                    toast['warning']('Pembayaran tertunda');
+                },
+                onError: function(result) {
+                    toast['error']('Kesalahan pembayaran ${error}');
+                },
+                onClose: function() {
+                    toast['info']('Pembayaran ditutup');
+                },
+            });
+
+        } catch (error) {
+            toast['error']('Kesalahan pembayaran: ${error}')
+        }
+    }
 
     useEffect(() => {
         // Check for flash message
@@ -103,7 +137,7 @@ export default function Index(props) {
                                                 <TableCell>{auth.student.faculty.name}</TableCell>
                                                 <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
                                                 <TableCell>
-                                                    <Button variant="orange">Bayar</Button>
+                                                    <Button variant="orange" onClick={handlePayment}>Bayar</Button>
                                                 </TableCell>
                                             </TableRow>
                                         </TableBody>
