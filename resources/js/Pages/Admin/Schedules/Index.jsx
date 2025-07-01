@@ -24,18 +24,6 @@ export default function Index(props) {
         load: props.state?.load,
     });
 
-    useEffect(() => {
-        // Check for flash message
-        const flash = props.flash_message;
-        if (flash) {
-            if (flash.type === 'success') {
-                toast.success(flash.message);
-            } else if (flash.type === 'error') {
-                toast.error(flash.message);
-            }
-        }
-    }, []);
-
     const onSortable = (field) => {
         setParams({
             ...params,
@@ -207,17 +195,6 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
-                                                onClick={() => onSortable('quota')}
-                                            >
-                                                Kuota
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
                                                 onClick={() => onSortable('created_at')}
                                             >
                                                 Dibuat Pada
@@ -240,7 +217,6 @@ export default function Index(props) {
                                             <TableCell>{schedule.start_time}</TableCell>
                                             <TableCell>{schedule.end_time}</TableCell>
                                             <TableCell>{schedule.day_of_week}</TableCell>
-                                            <TableCell>{schedule.quota}</TableCell>
                                             <TableCell>{formatDateIndo(schedule.created_at)}</TableCell>
                                             <TableCell>
                                                 <div className="flex items-center gap-x-1">

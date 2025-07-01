@@ -28,7 +28,7 @@ class DepartmentController extends Controller
         return Inertia::render('Admin/Departments/Index', [
             'page_settings' => [
                 'title' => 'Program Studi',
-                'subtitle' => 'Menampilkan semua program studi yang ada di Politeknik Negeri Kotabaru',
+                'subtitle' => 'Menampilkan semua program studi yang ada di Politeknik Kotabaru',
                 ],
             'departments' => DepartmentResource::collection($departments)->additional([
                 'meta' => [
@@ -59,7 +59,7 @@ class DepartmentController extends Controller
         ]);
     }
 
-    public function store(DepartmentRequest $request)
+    public function store(DepartmentRequest $request): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -70,27 +70,12 @@ class DepartmentController extends Controller
                 'code' => str()->random(6),
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Program Studi'));
-
-            return Inertia::location(route('admin.departments.index'));
+            flashMessage(MessageType::CREATED->message('Program Studi'));
+            return to_route('admin.departments.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Departments/Create', [
-                'page_settings' => [
-                    'title' => 'Tambah Program Studi',
-                    'subtitle' => 'Tambahkan program studi baru disini, Klik simpan setelah selesai',
-                    'method' => 'POST',
-                    'action' => route('admin.departments.store'),
-                ],
-                'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
-                    'value' => $item->id,
-                    'label' => $item->name,
-                ]),
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
@@ -111,7 +96,7 @@ class DepartmentController extends Controller
         ]);
     }
 
-    public function update(Department $department, DepartmentRequest $request)
+    public function update(Department $department, DepartmentRequest $request): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -121,45 +106,25 @@ class DepartmentController extends Controller
                 'name' => $validated['name'],
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Program Studi'));
-
-            return Inertia::location(route('admin.departments.index'));
+            flashMessage(MessageType::UPDATED->message('Program Studi'));
+            return to_route('admin.departments.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Departments/Edit', [
-                'page_settings' => [
-                    'title' => 'Edit Program Studi',
-                    'subtitle' => 'Edit program studi disini, Klik simpan setelah selesai',
-                    'method' => 'PUT',
-                    'action' => route('admin.departments.update', $department),
-                ],
-                'department' => $department,
-                'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
-                    'value' => $item->id,
-                    'label' => $item->name,
-                ]),
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
-    public function destroy(Department $department)
+    public function destroy(Department $department): RedirectResponse
     {
         try {
             $department->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Program Studi'));
-
-            return Inertia::location(route('admin.departments.index'));
+            flashMessage(MessageType::DELETED->message('Program Studi'));
+            return to_route('admin.departments.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus program studi: ' . $e->getMessage());
-
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }

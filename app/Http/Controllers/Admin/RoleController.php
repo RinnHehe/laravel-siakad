@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use App\Http\Resources\Admin\RoleResource;
 use Spatie\Permission\Models\Role;
 use Throwable;
+use Illuminate\Http\RedirectResponse;
 
 class RoleController extends Controller
 {
@@ -30,7 +31,7 @@ class RoleController extends Controller
         return Inertia::render('Admin/Roles/Index', [
             'page_settings' => [
                 'title' =>'Tambah Peran',
-                'subtitle' => 'Menampilkan semua data peran yang tersedia pada Politeknik Negeri Kotabaru',
+                'subtitle' => 'Menampilkan semua data peran yang tersedia pada Politeknik Kotabaru',
             ],
             'roles' => RoleResource::collection($roles)->additional([
                 'meta' => [
@@ -57,7 +58,7 @@ class RoleController extends Controller
         ]);
     }
 
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -67,23 +68,12 @@ class RoleController extends Controller
                 'guard_name' => 'web',
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Peran'));
-
-            return Inertia::location(route('admin.roles.index'));
+            flashMessage(MessageType::CREATED->message('Peran'));
+            return to_route('admin.roles.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Roles/Create', [
-                'page_settings' => [
-                    'title' => 'Tambah Peran',
-                    'subtitle' => ' Buat peran baru, Klik simpan untuk menyimpan data peran',
-                    'method' => 'POST',
-                    'action' => route('admin.roles.store'),
-                ],
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
@@ -100,7 +90,7 @@ class RoleController extends Controller
         ]);
     }
 
-    public function update(RoleRequest $request, Role $role)
+    public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -109,40 +99,25 @@ class RoleController extends Controller
                 'name' => $validated['name'],
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Peran'));
-
-            return Inertia::location(route('admin.roles.index'));
+            flashMessage(MessageType::UPDATED->message('Peran'));
+            return to_route('admin.roles.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Roles/Edit', [
-                'page_settings' => [
-                    'title' => 'Edit Peran',
-                    'subtitle' => 'Edit peran disini. Klik simpan setelah selesai',
-                    'method' => 'PUT',
-                    'action' => route('admin.roles.update', $role),
-                ],
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
-    public function destroy(Role $role)
+    public function destroy(Role $role): RedirectResponse
     {
         try {
             $role->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Peran'));
+            flashMessage(MessageType::DELETED->message('Peran'));
+            return to_route('admin.roles.index');
 
-            return Inertia::location(route('admin.roles.index'));
-
-            } catch (Throwable $e) {
-                session()->flash('type', 'error');
-                session()->flash('message', 'Gagal menghapus peran: ' . $e->getMessage());
-
+        } catch (Throwable $e) {
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }

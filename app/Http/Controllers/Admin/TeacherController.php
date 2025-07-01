@@ -42,7 +42,7 @@ class TeacherController extends Controller implements HasMiddleware
         return Inertia::render('Admin/Teachers/Index', [
             'page_settings' => [
                 'title' => 'Dosen',
-                'subtitle' => 'Menampilkan semua data dosen yang tersedia di Universitas ini.',
+                'subtitle' => 'Menampilkan semua data dosen yang tersedia di Politeknik Kotabaru.',
             ],
             'teachers' => TeacherResource::collection($teachers)->additional([
                 'meta' => [
@@ -98,13 +98,12 @@ class TeacherController extends Controller implements HasMiddleware
             $user->assignRole('Teacher');
             DB::commit();
 
-            flashMessage(MessageType::CREATED->message('Dosen'));
-
+            flashMessage(MessageType::CREATED->message('Dosen'), 'success');
             return to_route('admin.teachers.index');
 
         } catch (Throwable $e){
             DB::rollBack();
-            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            flashMessage($e->getMessage(), 'error');
             return back()->withInput();
         }
     }
@@ -147,11 +146,11 @@ class TeacherController extends Controller implements HasMiddleware
                 'avatar' => $this->update_file($request, $teacher->user, 'avatar', 'users'),
             ]);
             DB::commit();
-            flashMessage(MessageType::UPDATED->message('Dosen'));
+            flashMessage(MessageType::UPDATED->message('Dosen'), 'success');
             return to_route('admin.teachers.index');
         } catch (Throwable $e){
             DB::rollBack();
-            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            flashMessage($e->getMessage(), 'error');
             return to_route('admin.teachers.index');
         }
 
@@ -160,15 +159,27 @@ class TeacherController extends Controller implements HasMiddleware
     public function destroy(Teacher $teacher): RedirectResponse
     {
         try {
-            $this->delete_file($teacher->user, 'avatar');
+            DB::beginTransaction();
+
+            // Get user reference before deleting teacher
+            $user = $teacher->user;
+
+            // Delete teacher record
             $teacher->delete();
 
-            flashMessage(MessageType::DELETED->message('Dosen'));
+            // Delete associated user and their avatar
+            if ($user) {
+                $this->delete_file($user, 'avatar');
+                $user->delete();
+            }
 
+            DB::commit();
+            flashMessage(MessageType::DELETED->message('Dosen'), 'success');
             return to_route('admin.teachers.index');
 
         } catch (Throwable $e) {
-            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            DB::rollBack();
+            flashMessage($e->getMessage(), 'error');
             return to_route('admin.teachers.index');
         }
     }

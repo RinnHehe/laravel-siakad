@@ -26,40 +26,12 @@ export default function Create(props) {
 
     const onHandleSubmit = (e) => {
         e.preventDefault();
-
-        // Client-side validation
-        const errors = {};
-        if (!data.name || data.name.trim() === '') {
-            errors.name = 'Nama Jurusan harus diisi';
-            toast.error('Nama Jurusan harus diisi');
-        }
-        if (!data.logo) {
-            errors.logo = 'Logo Jurusan harus diisi';
-            toast.error('Logo Jurusan harus diisi');
-        }
-
-        // If there are validation errors, don't submit
-        if (Object.keys(errors).length > 0) {
-            return;
-        }
-
         post(props.page_settings.action, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (success) => {
                 const flash = flashMessage(success);
-                if (flash) {
-                    if (flash.type === 'success') {
-                        toast.success(flash.message);
-                    } else if (flash.type === 'error') {
-                        toast.error(flash.message);
-                    }
-                }
-            },
-            onError: (errors) => {
-                Object.keys(errors).forEach((key) => {
-                    toast.error(errors[key]);
-                });
+                if (flash) toast[flash.type](flash.message);
             },
         });
     };

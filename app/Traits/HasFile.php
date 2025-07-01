@@ -19,12 +19,15 @@ trait HasFile
     {
         if ($request->hasFile($column)) {
             $this->delete_file($model, $column);
-            $thumbnail = $request->file($column)->store($folder);
-        } else {
-            $thumbnail = $model->$column;
+            return $request->file($column)->store($folder);
         }
 
-        return $thumbnail;
+        if ($request->has($column) && $request->input($column) === null) {
+            $this->delete_file($model, $column);
+            return null;
+        }
+
+        return $model->$column;
     }
 
     public function delete_file(Model $model, string $column): void

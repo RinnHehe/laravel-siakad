@@ -21,16 +21,19 @@ use Throwable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Http\RedirectResponse;
 
 class StudentController extends Controller implements HasMiddleware
 {
     use HasFile;
+
     public static function middleware(): array
     {
         return [
             new Middleware('validateDepartment', ['store', 'update']),
         ];
     }
+
     public function index(): Response
     {
         $students = Student::query()
@@ -46,7 +49,7 @@ class StudentController extends Controller implements HasMiddleware
         return Inertia::render('Admin/Students/Index', [
             'page_settings' => [
                 'title' => 'Mahasiswa',
-                'subtitle' => 'Daftar semua mahasiswa yang terdaftar di Politeknik Negeri Kotabaru',
+                'subtitle' => 'Daftar semua mahasiswa yang terdaftar di Politeknik Kotabaru',
                 'load' => request()->load ?? 10,
             ],
 
@@ -88,7 +91,7 @@ class StudentController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function store(StudentRequest $request)
+    public function store(StudentRequest $request): RedirectResponse
     {
         try {
             $validated = $request->validated();
@@ -116,17 +119,13 @@ class StudentController extends Controller implements HasMiddleware
 
             DB::commit();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Mahasiswa'));
-
-            return Inertia::location(route('admin.students.index'));
+            flashMessage(MessageType::CREATED->message('Mahasiswa'));
+            return to_route('admin.students.index');
 
         } catch (Throwable $e) {
             DB::rollBack();
-
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
@@ -159,14 +158,14 @@ class StudentController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function update(StudentRequest $request, Student $student)
+    public function update(StudentRequest $request, Student $student): RedirectResponse
     {
         try {
             $validated = $request->validated();
 
             DB::beginTransaction();
 
-            $student->user->update([
+            $student->update([
                 'faculty_id' => $validated['faculty_id'],
                 'department_id' => $validated['department_id'],
                 'fee_group_id' => $validated['fee_group_id'],
@@ -180,40 +179,42 @@ class StudentController extends Controller implements HasMiddleware
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => $validated['password'] ? Hash::make($validated['password']) : $student->user->password,
-                'avatar' => $this->upload_file($request, 'avatar', 'users'),
+                'avatar' => $this->update_file($request, $student->user, 'avatar', 'users'),
             ]);
 
             DB::commit();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Mahasiswa'));
-
-            return Inertia::location(route('admin.students.index'));
+            flashMessage(MessageType::UPDATED->message('Mahasiswa'));
+            return to_route('admin.students.index');
 
         } catch (Throwable $e) {
             DB::rollBack();
-
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
-    public function destroy(Student $student)
+    public function destroy(Student $student): RedirectResponse
     {
         try {
-            $this->delete_file($student->user, 'avatar');
+            DB::beginTransaction();
+
+            $user = $student->user;
+
             $student->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Mahasiswa'));
+            if ($user) {
+                $this->delete_file($user, 'avatar');
+                $user->delete();
+            }
 
-            return Inertia::location(route('admin.students.index'));
+            DB::commit();
+            flashMessage(MessageType::DELETED->message('Mahasiswa'), 'success');
+            return to_route('admin.students.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus mahasiswa: ' . $e->getMessage());
-
+            DB::rollBack();
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }

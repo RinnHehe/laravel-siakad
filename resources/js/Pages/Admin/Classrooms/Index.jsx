@@ -32,18 +32,6 @@ export default function Index(props) {
         load: props.state?.load,
     });
 
-    useEffect(() => {
-        // Check for flash message
-        const flash = props.flash_message;
-        if (flash) {
-            if (flash.type === 'success') {
-                toast.success(flash.message);
-            } else if (flash.type === 'error') {
-                toast.error(flash.message);
-            }
-        }
-    }, []);
-
     const onSortable = (field) => {
         setParams({
             ...params,

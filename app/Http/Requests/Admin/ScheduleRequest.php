@@ -32,7 +32,6 @@ class ScheduleRequest extends FormRequest
             'start_time' => ['required'],
             'end_time' => ['required'],
             'day_of_week' => ['required', new Enum(ScheduleDay::class)],
-            'quota' => ['required', 'integer'],
         ];
     }
 
@@ -46,7 +45,6 @@ class ScheduleRequest extends FormRequest
             'start_time' => 'Waktu Mulai',
             'end_time' => 'Waktu Berakhir',
             'day_of_week' => 'Hari',
-            'quota' => 'Kuota',
         ];
     }
 }

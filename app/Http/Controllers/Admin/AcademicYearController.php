@@ -27,7 +27,7 @@ class AcademicYearController extends Controller
         return Inertia::render('Admin/AcademicYears/Index', [
             'page_settings' => [
                 'title' => 'Tahun Ajaran',
-                'subtitle' => 'Menampilkan semua tahun ajaran yang tersedia pada Politeknik Negeri Kota Baru',
+                'subtitle' => 'Menampilkan semua tahun ajaran yang tersedia pada Politeknik Kotabaru',
             ],
             'academicYears' => AcademicYearResource::collection($academicYears)->additional([
                 'meta' => [
@@ -55,7 +55,7 @@ class AcademicYearController extends Controller
         ]);
     }
 
-    public function store(AcademicYearsRequest $request)
+    public function store(AcademicYearsRequest $request): RedirectResponse
     {
         try {
             $validated = $request->validated();
@@ -68,24 +68,12 @@ class AcademicYearController extends Controller
                 'is_active' => $validated['is_active'],
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Tahun Ajaran'));
-
-            return Inertia::location(route('admin.academic-years.index'));
+            flashMessage(MessageType::CREATED->message('Tahun Ajaran'));
+            return to_route('admin.academic-years.index');
 
         } catch (Throwable $e) {
-            return Inertia::render('Admin/AcademicYears/Create', [
-                'page_settings' => [
-                    'title' => 'Tambah Tahun Ajaran',
-                    'subtitle' => 'Buat tahun ajaran baru disini. Klik simpan setelah selesai.',
-                    'method' => 'POST',
-                    'action' => route('admin.academic-years.store'),
-                ],
-                'academicYearSemester' => AcademicYearSemester::options(),
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
@@ -103,7 +91,7 @@ class AcademicYearController extends Controller
         ]);
     }
 
-    public function update(AcademicYear $academicYear, AcademicYearsRequest $request)
+    public function update(AcademicYear $academicYear, AcademicYearsRequest $request): RedirectResponse
     {
         try {
             $validated = $request->validated();
@@ -116,42 +104,25 @@ class AcademicYearController extends Controller
                 'is_active' => $validated['is_active'],
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Tahun Ajaran'));
-
-            return Inertia::location(route('admin.academic-years.index'));
+            flashMessage(MessageType::UPDATED->message('Tahun Ajaran'));
+            return to_route('admin.academic-years.index');
 
         } catch (Throwable $e) {
-            return Inertia::render('Admin/AcademicYears/Edit', [
-                'page_settings' => [
-                    'title' => 'Edit Tahun Ajaran',
-                    'subtitle' => 'Edit tahun ajaran yang sudah ada disini. Klik simpan setelah selesai.',
-                    'method' => 'PUT',
-                    'action' => route('admin.academic-years.update', $academicYear),
-                ],
-                'academicYear' => $academicYear,
-                'academicYearSemester' => AcademicYearSemester::options(),
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
-    public function destroy(AcademicYear $academicYear)
+    public function destroy(AcademicYear $academicYear): RedirectResponse
     {
         try {
             $academicYear->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Tahun Ajaran'));
-
-            return Inertia::location(route('admin.academic-years.index'));
+            flashMessage(MessageType::DELETED->message('Tahun Ajaran'));
+            return to_route('admin.academic-years.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus tahun ajaran: ' . $e->getMessage());
-
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }

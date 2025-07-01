@@ -17,10 +17,19 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
 use App\Traits\HasFile;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Http\RedirectResponse;
 
-class OperatorController extends Controller
+class OperatorController extends Controller implements HasMiddleware
 {
     use HasFile;
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('validateDepartment', ['store', 'update']),
+        ];
+    }
     public function index(): Response
     {
         $operators = Operator::query()
@@ -36,7 +45,7 @@ class OperatorController extends Controller
         return Inertia::render('Admin/Operators/Index', [
             'page_settings' => [
                 'title' => 'Operator',
-                'subtitle' => 'Menampilkan semua data operator yang tersedia di Universitas ini.',
+                'subtitle' => 'Menampilkan semua data operator yang tersedia di Politeknik Kotabaru.',
             ],
             'operators' => OperatorResource::collection($operators)->additional([
                 'meta' => [
@@ -74,7 +83,7 @@ class OperatorController extends Controller
             ),
         ]);
     }
-    public function store(OperatorRequest $request)
+    public function store(OperatorRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -94,16 +103,13 @@ class OperatorController extends Controller
             $user->assignRole('Operator');
             DB::commit();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Operator'));
-
-            return Inertia::location(route('admin.operators.index'));
+            flashMessage(MessageType::CREATED->message('Operator'), 'success');
+            return to_route('admin.operators.index');
 
         } catch (Throwable $e){
             DB::rollBack();
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage($e->getMessage(), 'error');
+            return back()->withInput();
         }
     }
 
@@ -132,7 +138,7 @@ class OperatorController extends Controller
         ]);
 
     }
-    public function update(Operator $operator, OperatorRequest $request)
+    public function update(Operator $operator, OperatorRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -148,31 +154,40 @@ class OperatorController extends Controller
                 'avatar' => $this->update_file($request, $operator->user, 'avatar', 'users'),
             ]);
             DB::commit();
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Operator'));
-            return Inertia::location(route('admin.operators.index'));
+
+            flashMessage(MessageType::UPDATED->message('Operator'), 'success');
+            return to_route('admin.operators.index');
+
         } catch (Throwable $e){
             DB::rollBack();
-            return back()->withErrors([
-                'name' => $e->getMessage(),
-            ])->withInput();
+            flashMessage($e->getMessage(), 'error');
+            return back()->withInput();
         }
     }
-    public function destroy(Operator $operator)
+    public function destroy(Operator $operator): RedirectResponse
     {
         try {
-            $this->delete_file($operator->user, 'avatar');
+            DB::beginTransaction();
+
+            // Get user reference before deleting operator
+            $user = $operator->user;
+
+            // Delete operator record
             $operator->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Operator'));
+            // Delete associated user and their avatar
+            if ($user) {
+                $this->delete_file($user, 'avatar');
+                $user->delete();
+            }
 
-            return Inertia::location(route('admin.operators.index'));
+            DB::commit();
+            flashMessage(MessageType::DELETED->message('Operator'), 'success');
+            return to_route('admin.operators.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus operator: ' . $e->getMessage());
-
+            DB::rollBack();
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }
