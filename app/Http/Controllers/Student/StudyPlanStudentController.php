@@ -15,11 +15,21 @@ use Inertia\Inertia;
 use App\Http\Resources\Student\StudyPlanStudentResource;
 use App\Models\Schedule;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class StudyPlanStudentController extends Controller
+class StudyPlanStudentController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('checkActiveAcademicYear', except:['index']),
+            new Middleware('checkFeeStudent', except:['index']),
+        ];
+    }
+
     public function index(): Response
     {
         $studyPlans = StudyPlan::query()

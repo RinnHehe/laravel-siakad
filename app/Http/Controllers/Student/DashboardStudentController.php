@@ -8,6 +8,7 @@ use App\Models\Fee;
 use App\Enums\StudyPlanStatus;
 use App\Enums\FeeStatus;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -27,13 +28,15 @@ class DashboardStudentController extends Controller
             ],
             'count' => [
                 'study_plans_approved' => StudyPlan::query()
+                    ->where('student_id', FacadesAuth::user()->student->id)
                     ->where('status', StudyPlanStatus::APPROVED->value)
                     ->count(),
-                
+
                 'study_plans_reject' => StudyPlan::query()
+                    ->where('student_id', FacadesAuth::user()->student->id)
                     ->where('status', StudyPlanStatus::REJECT->value)
                     ->count(),
-                
+
                 'total_payments' => Fee::query()
                     ->where('student_id', Auth::user()->student->id)
                     ->where('status', FeeStatus::SUCCESS->value)

@@ -36,7 +36,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         });
 
 
-     Route::controller(ClassroomOperatorController::class)->group(function(){
+     Route::controller(ClassroomOperatorController::class)->middleware(['checkActiveAcademicYear'])->group(function(){
             Route::get('classrooms', 'index')->name('operators.classrooms.index');
             Route::get('classrooms/create', 'create')->name('operators.classrooms.create');
             Route::post('classrooms/create', 'store')->name('operators.classrooms.store');

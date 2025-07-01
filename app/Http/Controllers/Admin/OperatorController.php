@@ -79,16 +79,16 @@ class OperatorController extends Controller
         try {
             DB::beginTransaction();
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'name' => $request->validated('name'),
+                'email' => $request->validated('email'),
+                'password' => Hash::make($request->validated('password')),
                 'avatar' => $this->upload_file($request, 'avatar', 'users'),
             ]);
 
             $user->operator()->create([
-                'faculty_id' => $request->faculty_id,
-                'department_id' => $request->department_id,
-                'employee_number' => $request->employee_number,
+                'faculty_id' => $request->validated('faculty_id'),
+                'department_id' => $request->validated('department_id'),
+                'employee_number' => $request->validated('employee_number'),
             ]);
 
             $user->assignRole('Operator');
@@ -130,21 +130,21 @@ class OperatorController extends Controller
                 ]
             ),
         ]);
-    
+
     }
     public function update(Operator $operator, OperatorRequest $request)
     {
         try {
             DB::beginTransaction();
             $operator->update([
-                'faculty_id' => $request->faculty_id,
-                'department_id' => $request->department_id,
-                'employee_number' => $request->employee_number,
+                'faculty_id' => $request->validated('faculty_id'),
+                'department_id' => $request->validated('department_id'),
+                'employee_number' => $request->validated('employee_number'),
             ]);
             $operator->user()->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password ? Hash::make($request->password) : $operator->user->password,
+                'name' => $request->validated('name'),
+                'email' => $request->validated('email'),
+                'password' => $request->validated('password') ? Hash::make($request->validated('password')) : $operator->user->password,
                 'avatar' => $this->update_file($request, $operator->user, 'avatar', 'users'),
             ]);
             DB::commit();
