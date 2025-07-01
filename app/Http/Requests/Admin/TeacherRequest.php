@@ -24,6 +24,8 @@ class TeacherRequest extends FormRequest
      */
     public function rules(): array
     {
+        $teacher = request()->route('teacher');
+
         return [
             'name' => [
                 'required',
@@ -35,38 +37,38 @@ class TeacherRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->teacher?->user),
+                Rule::unique('users')->ignore($teacher?->user_id),
             ],
-            'password'=> Rule::when($this->routeIs('admin.teachers.store'),[
+            'password' => request()->method() === 'POST' ? [
                 'required',
                 'min:8',
                 'max:255',
-            ]),
-            Rule::when($this->routeIs('admin.teachers.update'),[
+            ] : [
                 'nullable',
                 'min:8',
                 'max:255',
-            ]),
-            'faculty_id'=> [
+            ],
+            'faculty_id' => [
                 'required',
                 'exists:faculties,id',
             ],
-            'department_id'=> [
+            'department_id' => [
                 'required',
                 'exists:departments,id',
             ],
-            'teacher_number'=> [
+            'teacher_number' => [
                 'required',
                 'string',
                 'max:10',
+                Rule::unique('teachers')->ignore($teacher),
             ],
-            'academic_title'=> [
+            'academic_title' => [
                 'required',
                 'string',
                 'min:3',
                 'max:255',
             ],
-            'avatar'=> [
+            'avatar' => [
                 'nullable',
                 'mimes:png,jpg,jpeg,webp',
             ],

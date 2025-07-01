@@ -39,7 +39,7 @@ class CourseController extends Controller implements HasMiddleware
         return Inertia::render('Admin/Courses/Index', [
             'page_settings' => [
                 'title' => 'Mata Kuliah',
-                'subtitle' => 'Menampilkan semua mata kuliah yang ada di Politeknik Negeri Kotabaru',
+                'subtitle' => 'Menampilkan semua mata kuliah yang ada di Politeknik Kotabaru',
             ],
             'courses' => CourseResource::collection($courses)->additional([
                 'meta' => [
@@ -72,12 +72,19 @@ class CourseController extends Controller implements HasMiddleware
                 'value' => $item->id,
                 'label' => $item->name,
             ]),
-            'teachers' => Teacher::query()->select(['id', 'user_id'])->whereHas('user', function($query) {
-                $query->whereHas('roles', fn($query) => $query->where('name', 'Teacher'))->orderBy('name');
-            })->get()->map(fn($item) => [
-                'value' => $item->id,
-                'label' => $item->user?->name,
-            ])
+            'teachers' => Teacher::query()
+                ->select(['teachers.id', 'teachers.user_id', 'teachers.faculty_id', 'teachers.department_id'])
+                ->with(['user' => fn($q) => $q->select('id', 'name')->orderBy('name')])
+                ->whereHas('user', function($query) {
+                    $query->whereHas('roles', fn($q) => $q->where('name', 'Teacher'));
+                })
+                ->get()
+                ->map(fn($item) => [
+                    'value' => $item->id,
+                    'label' => $item->user?->name,
+                    'faculty_id' => $item->faculty_id,
+                    'department_id' => $item->department_id,
+                ])
         ]);
     }
 
@@ -88,7 +95,7 @@ class CourseController extends Controller implements HasMiddleware
                 'faculty_id' => $request->validated('faculty_id'),
                 'department_id' => $request->validated('department_id'),
                 'teacher_id' => $request->validated('teacher_id'),
-                'academic_year' => activeAcademicYear()->id,
+                'academic_year_id' => activeAcademicYear()->id,
                 'code' => str()->random(10),
                 'name' => $request->validated('name'),
                 'credit' => $request->validated('credit'),
@@ -122,12 +129,19 @@ class CourseController extends Controller implements HasMiddleware
                 'value' => $item->id,
                 'label' => $item->name,
             ]),
-            'teachers' => Teacher::query()->select(['id', 'user_id'])->whereHas('user', function($query) {
-                $query->whereHas('roles', fn($query) => $query->where('name', 'Teacher'))->orderBy('name');
-            })->get()->map(fn($item) => [
-                'value' => $item->id,
-                'label' => $item->user?->name,
-            ])
+            'teachers' => Teacher::query()
+                ->select(['teachers.id', 'teachers.user_id', 'teachers.faculty_id', 'teachers.department_id'])
+                ->with(['user' => fn($q) => $q->select('id', 'name')->orderBy('name')])
+                ->whereHas('user', function($query) {
+                    $query->whereHas('roles', fn($q) => $q->where('name', 'Teacher'));
+                })
+                ->get()
+                ->map(fn($item) => [
+                    'value' => $item->id,
+                    'label' => $item->user?->name,
+                    'faculty_id' => $item->faculty_id,
+                    'department_id' => $item->department_id,
+                ])
         ]);
     }
 
@@ -138,6 +152,7 @@ class CourseController extends Controller implements HasMiddleware
                 'faculty_id' => $request->validated('faculty_id'),
                 'department_id' => $request->validated('department_id'),
                 'teacher_id' => $request->validated('teacher_id'),
+                'academic_year_id' => activeAcademicYear()->id,
                 'name' => $request->validated('name'),
                 'credit' => $request->validated('credit'),
                 'semester' => $request->validated('semester'),

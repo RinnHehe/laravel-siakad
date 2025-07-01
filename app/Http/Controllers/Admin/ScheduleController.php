@@ -42,7 +42,7 @@ class ScheduleController extends Controller implements HasMiddleware
         return Inertia::render('Admin/Schedules/Index', [
             'page_settings' => [
                 'title' => 'Jadwal',
-                'subtitle' => 'Menampilkan semua jadwal yang tersedia pada Politeknik Negeri Kotabaru',
+                'subtitle' => 'Menampilkan semua jadwal yang tersedia pada Politeknik Kotabaru',
             ],
             'schedules' => ScheduleResource::collection($schedules)->additional([
                 'meta' => [
@@ -98,7 +98,7 @@ class ScheduleController extends Controller implements HasMiddleware
                 'start_time' => $request->validated('start_time'),
                 'end_time' => $request->validated('end_time'),
                 'day_of_week' => $request->validated('day_of_week'),
-                'quota' => $request->validated('quota'),
+                'quota' => 9999,
             ]);
 
             flashMessage(MessageType::CREATED->message('Jadwal'));
@@ -151,7 +151,7 @@ class ScheduleController extends Controller implements HasMiddleware
                 'start_time' => $request->validated('start_time'),
                 'end_time' => $request->validated('end_time'),
                 'day_of_week' => $request->validated('day_of_week'),
-                'quota' => $request->validated('quota'),
+                'quota' => 9999,
             ]);
 
             flashMessage(MessageType::UPDATED->message('Jadwal'));

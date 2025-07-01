@@ -20,7 +20,6 @@ export default function Edit(props) {
         start_time: props.schedule.start_time ?? '',
         end_time: props.schedule.end_time ?? '',
         day_of_week: props.schedule.day_of_week ?? null,
-        quota: props.schedule.quota ?? '',
         _method: props.page_settings.method,
     });
 
@@ -204,18 +203,6 @@ export default function Edit(props) {
                                     </SelectContent>
                                 </Select>
                                 {errors.day_of_week && <InputError message={errors.day_of_week} />}
-                            </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="quota">Kuota</Label>
-                                <Input
-                                    type="number"
-                                    name="quota"
-                                    id="quota"
-                                    value={data.quota}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukkan kuota"
-                                />
-                                {errors.quota && <InputError message={errors.quota} />}
                             </div>
                         </div>
                         <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">

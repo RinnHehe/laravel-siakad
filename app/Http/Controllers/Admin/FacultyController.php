@@ -21,7 +21,7 @@ class FacultyController extends Controller
     public function index(): Response
     {
         $faculties = Faculty::query()
-            ->select(['faculties.id', 'faculties.name', 'faculties.code', 'faculties.slug', 'faculties.created_at'])
+            ->select(['faculties.id', 'faculties.name', 'faculties.code', 'faculties.logo', 'faculties.slug', 'faculties.created_at'])
             ->filter(request()->only('search'))
             ->sorting(request()->only(['field', 'direction']))
             ->paginate(request()->load ?? 10);
@@ -29,7 +29,7 @@ class FacultyController extends Controller
         return Inertia::render('Admin/Faculties/Index', [
             'page_settings' => [
                 'title' => 'Jurusan',
-                'subtitle' => 'Menampilkan semua data jurusan yang tersedia pada Politeknik Negeri Kotabaru',
+                'subtitle' => 'Menampilkan semua data jurusan yang tersedia pada Politeknik Kotabaru',
                 'breadcrumbs' => [
                     ['name' => 'Jurusan', 'url' => route('admin.faculties.index')]
                 ]
@@ -59,7 +59,7 @@ class FacultyController extends Controller
         ]);
     }
 
-    public function store(FacultyRequest $request)
+    public function store(FacultyRequest $request): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -70,23 +70,12 @@ class FacultyController extends Controller
                 'logo' => $this->upload_file($request, 'logo', 'faculties')
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Jurusan'));
-
-            return Inertia::location(route('admin.faculties.index'));
+            flashMessage(MessageType::CREATED->message('Jurusan'));
+            return to_route('admin.faculties.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Faculties/Create', [
-                'page_settings' => [
-                    'title' => 'Tambah Jurusan',
-                    'subtitle' => ' Buat jurusan baru, Klik simpan untuk menyimpan data jurusan',
-                    'method' => 'POST',
-                    'action' => route('admin.faculties.store'),
-                ],
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
@@ -103,7 +92,7 @@ class FacultyController extends Controller
         ]);
     }
 
-    public function update(Faculty $faculty, FacultyRequest $request)
+    public function update(Faculty $faculty, FacultyRequest $request): RedirectResponse
     {
         try{
             $validated = $request->validated();
@@ -113,41 +102,26 @@ class FacultyController extends Controller
                 'logo' => $this->update_file($request, $faculty, 'logo', 'faculties')
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Jurusan'));
-
-            return Inertia::location(route('admin.faculties.index'));
+            flashMessage(MessageType::UPDATED->message('Jurusan'));
+            return to_route('admin.faculties.index');
 
         } catch (Throwable $e){
-            return Inertia::render('Admin/Faculties/Edit', [
-                'page_settings' => [
-                    'title' => 'Tambah Jurusan',
-                    'subtitle' => ' Buat jurusan baru, Klik simpan untuk menyimpan data jurusan',
-                    'method' => 'POST',
-                    'action' => route('admin.faculties.edit'),
-                ],
-                'errors' => [
-                    'name' => $e->getMessage()
-                ]
-            ]);
+            flashMessage($e->getMessage(), 'error');
+            return back();
         }
     }
 
-    public function destroy(Faculty $faculty)
+    public function destroy(Faculty $faculty): RedirectResponse
     {
         try {
             $this->delete_file($faculty, 'logo');
             $faculty->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Jurusan'));
-
-            return Inertia::location(route('admin.faculties.index'));
+            flashMessage(MessageType::DELETED->message('Jurusan'));
+            return to_route('admin.faculties.index');
 
         } catch (Throwable $e) {
-            session()->flash('type', 'error');
-            session()->flash('message', 'Gagal menghapus jurusan: ' . $e->getMessage());
-
+            flashMessage($e->getMessage(), 'error');
             return back();
         }
     }

@@ -20,8 +20,8 @@ class FacultyResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'slug' => $this->slug,
-            'logo' => $this->logo ? Storage::url($this->url) : null,
+            'logo' => $this->logo ? Storage::url($this->logo) : null,
             'created_at' => $this->created_at,
-        ];  
+        ];
     }
 }

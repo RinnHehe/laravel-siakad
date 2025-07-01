@@ -25,7 +25,7 @@ class CourseRequest extends FormRequest
         return [
             'faculty_id' => ['required', 'exists:faculties,id'],
             'department_id' => ['required', 'exists:departments,id'],
-            'teacher_id' => ['required', 'exists:users,id'],
+            'teacher_id' => ['required', 'exists:teachers,id'],
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'credit' => ['required', 'integer'],
             'semester' => ['required', 'integer'],

@@ -28,7 +28,7 @@ class FacultyRequest extends FormRequest
             'logo' => Rule::when(
                 request()->routeIs('admin.faculties.store'),
                 [
-                    'required',
+                    'nullable',
                     'mimes:png,jpg,jpeg,webp',
                     'max:2048',
                 ]

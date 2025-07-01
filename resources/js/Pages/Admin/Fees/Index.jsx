@@ -107,20 +107,20 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>
-                                        <TableHead> Jurusan </TableHead>
-                                        <TableHead> Program Studi </TableHead>
+                                        <TableHead>Jurusan</TableHead>
+                                        <TableHead>Program Studi</TableHead>
                                         <TableHead>
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('name')}
                                             >
-                                                Nama
+                                                Nama Mahasiswa
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>
-                                        <TableHead> Nomor Pokok Mahasiswa </TableHead>
+                                        <TableHead>Nomor Induk Mahasiswa</TableHead>
                                         <TableHead>
                                             <Button
                                                 variant="ghost"
@@ -162,10 +162,11 @@ export default function Index(props) {
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell>{fee.student.faculty}</TableCell>
                                             <TableCell>{fee.student.department}</TableCell>
+                                            <TableCell>{fee.student.name}</TableCell>
                                             <TableCell>{fee.student.student_number}</TableCell>
                                             <TableCell>{fee.semester}</TableCell>
                                             <TableCell>{fee.status}</TableCell>
-                                            <TableCell>{formatDateIndo(fee.created_at)}</TableCell>
+                                            <TableCell>{fee.created_at ? formatDateIndo(fee.created_at) : '-'}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

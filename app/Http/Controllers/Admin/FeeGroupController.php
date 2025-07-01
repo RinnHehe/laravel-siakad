@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FeeGroupRequest;
 use App\Http\Resources\Admin\FeeGroupResource;
 use App\Models\FeeGroup;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,7 +26,7 @@ class FeeGroupController extends Controller
         return Inertia::render('Admin/FeeGroups/Index', [
             'page_settings' => [
                 'title' => 'Golongan UKT',
-                'subtitle' => 'Menampilkan semua golongan UKT yang tersedia pada platform ini',
+                'subtitle' => 'Menampilkan semua golongan UKT yang tersedia pada Politeknik Kotabaru',
             ],
             'feeGroups' => FeeGroupResource::collection($feeGroups)->additional([
                 'meta' => [
@@ -54,32 +55,20 @@ class FeeGroupController extends Controller
         ]);
     }
 
-    public function store(FeeGroupRequest $request)
+    public function store(FeeGroupRequest $request): RedirectResponse
     {
         try {
-            $validated = $request->validated();
-
             FeeGroup::create([
-                'group' => $validated['group'],
-                'amount' => $validated['amount'],
+                'group' => $request->validated('group'),
+                'amount' => $request->validated('amount'),
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::CREATED->message('Golongan UKT'));
+            flashMessage(MessageType::CREATED->message('Golongan UKT'), 'success');
+            return to_route('admin.fee-groups.index');
 
-            return Inertia::location(route('admin.fee-groups.index'));
         } catch (Throwable $e) {
-            return Inertia::render('Admin/FeeGroups/Create', [
-                'page_settings' => [
-                    'title' => 'Tambah Golongan UKT',
-                    'subtitle' => 'Menambahkan golongan UKT baru ke dalam platform',
-                    'method' => 'POST',
-                    'action' => route('admin.fee-groups.store'),
-                ],
-                'errors' => [
-                    'group' => $e->getMessage()
-                ]
-            ]);
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.fee-groups.index');
         }
     }
 
@@ -96,49 +85,34 @@ class FeeGroupController extends Controller
         ]);
     }
 
-    public function update(FeeGroupRequest $request, FeeGroup $feeGroup)
+    public function update(FeeGroupRequest $request, FeeGroup $feeGroup): RedirectResponse
     {
         try {
-            $validated = $request->validated();
-
             $feeGroup->update([
-                'group' => $validated['group'],
-                'amount' => $validated['amount'],
+                'group' => $request->validated('group'),
+                'amount' => $request->validated('amount'),
             ]);
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::UPDATED->message('Golongan UKT'));
+            flashMessage(MessageType::UPDATED->message('Golongan UKT'), 'success');
+            return to_route('admin.fee-groups.index');
 
-            return Inertia::location(route('admin.fee-groups.index'));
         } catch (Throwable $e) {
-            return Inertia::render('Admin/FeeGroups/Edit', [
-                'page_settings' => [
-                    'title' => 'Edit Golongan UKT',
-                    'subtitle' => 'Mengubah golongan UKT yang sudah ada pada platform',
-                    'method' => 'PUT',
-                    'action' => route('admin.fee-groups.update', $feeGroup),
-                ],
-                'feeGroup' => $feeGroup,
-                'errors' => [
-                    'group' => $e->getMessage()
-                ]
-            ]);
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.fee-groups.index');
         }
     }
 
-    public function destroy(FeeGroup $feeGroup)
+    public function destroy(FeeGroup $feeGroup): RedirectResponse
     {
         try {
             $feeGroup->delete();
 
-            session()->flash('type', 'success');
-            session()->flash('message', MessageType::DELETED->message('Golongan UKT'));
+            flashMessage(MessageType::DELETED->message('Golongan UKT'), 'success');
+            return to_route('admin.fee-groups.index');
 
-            return Inertia::location(route('admin.fee-groups.index'));
         } catch (Throwable $e) {
-            return back()->withErrors([
-                'group' => $e->getMessage()
-            ]);
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+            return to_route('admin.fee-groups.index');
         }
     }
 }

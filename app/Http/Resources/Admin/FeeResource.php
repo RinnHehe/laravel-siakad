@@ -16,6 +16,7 @@ class FeeResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'fee_code' => $this->fee_code,
             'semester' => $this->semester,
             'status' => $this->status,
             'created_at' => $this->created_at,
@@ -28,9 +29,15 @@ class FeeResource extends JsonResource
                 'classroom' => $this->student?->classroom?->name,
             ]),
             'feeGroup' => $this->whenLoaded('feeGroup', [
-                'id' => $this->feeGroup->id,
-                'group' => $this->feeGroup->group,
-                'amount' => $this->feeGroup->amount,
+                'id' => $this->feeGroup?->id,
+                'group' => $this->feeGroup?->group,
+                'amount' => $this->feeGroup?->amount,
+            ]),
+            'academicYear' => $this->whenLoaded('academicYear', [
+                'id' => $this->academicYear?->id,
+                'year' => $this->academicYear?->year,
+                'semester' => $this->academicYear?->semester,
+                'is_active' => $this->academicYear?->is_active,
             ]),
         ];
     }
