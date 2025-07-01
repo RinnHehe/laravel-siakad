@@ -24,7 +24,11 @@ class CheckActiveAcademicYear
              (Auth::user()->hasRole('Operator')) {
                 flashMessage('Tidak ada tahun ajaran yang aktif, Harap hubungi admin', 'warning');
                 return to_route('operators.dashboard');
-            }
+            }elseif
+            (Auth::user()->hasRole('Student')) {
+               flashMessage('Tidak ada tahun ajaran yang aktif, Harap hubungi admin', 'warning');
+               return to_route('students.dashboard');
+           }
         }
         return $next($request);
     }

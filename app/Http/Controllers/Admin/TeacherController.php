@@ -18,10 +18,18 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class TeacherController extends Controller
+class TeacherController extends Controller implements HasMiddleware
 {
     use HasFile;
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('validateDepartment', ['store', 'update']),
+        ];
+    }
     public function index(Request $request): Response
     {
         $teachers = Teacher::query()

@@ -19,9 +19,18 @@ use Inertia\Response;
 use Inertia\Inertia;
 use Throwable;
 use Illuminate\Support\Facades\DB;
-class StudentController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class StudentController extends Controller implements HasMiddleware
 {
     use HasFile;
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('validateDepartment', ['store', 'update']),
+        ];
+    }
     public function index(): Response
     {
         $students = Student::query()

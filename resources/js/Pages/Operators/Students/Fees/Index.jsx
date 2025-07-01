@@ -152,6 +152,17 @@ export default function Index(props) {
                                             <Button
                                                 variant="ghost"
                                                 className="group inline-flex"
+                                                onClick={() => onSortable('fee_group_id')}
+                                            >
+                                                Golongan
+                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
+                                                <IconArrowsDownUp className="size-4" />
+                                            </Button>
+                                        </TableHead>
+                                        <TableHead>
+                                            <Button
+                                                variant="ghost"
+                                                className="group inline-flex"
                                                 onClick={() => onSortable('academic_year_id')}
                                             >
                                                 Tahun Akademik
