@@ -18,7 +18,7 @@ export default function Dashboard(props) {
             <div className="mb-8 flex flex-col">
                 <h2 className="text-xl font-medium leading-relaxed text-foreground">Hi, {auth.name}</h2>
                 <p className="text-sm text-muted-foreground">
-                    Selamat datang kembali di Sistem Informasi Akademik Politeknik Negeri Kotabaru.
+                    Selamat datang kembali di Sistem Informasi Akademik Politeknik Kotabaru.
                 </p>
             </div>
             <div className="mb-8 grid gap-4 lg:grid-cols-4">

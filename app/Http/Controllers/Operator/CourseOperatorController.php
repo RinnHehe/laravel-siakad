@@ -19,6 +19,8 @@ class CourseOperatorController extends Controller
 {
     public function index(): Response
     {
+        $operator = Auth::user()->operator;
+
         $courses = Course::query()
             ->select(['courses.id', 'courses.faculty_id', 'courses.teacher_id', 'courses.academic_year_id', 'courses.code', 'courses.name', 'courses.credit', 'courses.semester', 'courses.created_at'])
             ->filter(request()->only(['search']))
@@ -31,7 +33,7 @@ class CourseOperatorController extends Controller
         return Inertia::render('Operators/Courses/Index', [
             'page_settings' => [
                 'title' => 'Mata Kuliah',
-                'subtitle' => 'Menampilkan semua mata kuliah yang tersedia',
+                'subtitle' => "Daftar semua mata kuliah yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
             ],
             'courses' => CourseOperatorResource::collection($courses)->additional([
                 'meta' => [

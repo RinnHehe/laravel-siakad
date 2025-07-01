@@ -20,8 +20,8 @@ class ScheduleOperatorResource extends JsonResource
             'end_time' => Carbon::parse($this->end_time)->format('H:i'),
             'day_of_week' => $this->day_of_week,
             'quota' => $this->quota,
+            'academic_year_id' => $this->academic_year_id,
             'created_at' => $this->created_at,
-            'taken_quota' => $this->taken_quota,
             'course' => $this->whenLoaded('course', [
                 'id' => $this->course->id,
                 'name' => $this->course->name,
@@ -34,9 +34,9 @@ class ScheduleOperatorResource extends JsonResource
                 'name' => $this->classroom->name,
                 'slug' => $this->classroom->slug,
             ]),
-            'academic_year' => $this->whenLoaded('academicYear', [
-                'id' => $this->academicYear->id,
-                'name' => $this->academicYear->name,
+            'academicYear' => $this->whenLoaded('academicYear', [
+                'id' => $this->academicYear?->id,
+                'name' => $this->academicYear?->name,
             ]),
         ];
     }

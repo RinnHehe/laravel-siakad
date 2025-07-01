@@ -18,11 +18,13 @@ class ClassroomOperatorController extends Controller
 {
     public function index() : Response
     {
+        $operator = Auth::user()->operator;
+
         $classrooms = Classroom::query()
             ->select(['id', 'faculty_id', 'department_id', 'academic_year_id', 'name', 'slug', 'created_at'])
             ->filter(request()->only(['search']))
             ->sorting(request()->only(['field', 'direction']))
-            ->where('faculty_id', Auth::user()->operator->faculty_id)
+            ->where('faculty_id', $operator->faculty_id)
             ->where('department_id', Auth::user()->operator->department_id)
             ->with (['academicYear'])
             ->paginate(request()->load ?? 10);
@@ -30,7 +32,7 @@ class ClassroomOperatorController extends Controller
         return Inertia::render('Operators/Classrooms/Index', [
             'page_settings' => [
                 'title' => 'Kelas',
-                'subtitle' => 'Menampilkan semua kelas yang tersedia',
+                'subtitle' => "Daftar semua kelas yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
             ],
             'classrooms' => ClassroomOperatorResource::collection($classrooms)->additional([
                 'meta' => [
