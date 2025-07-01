@@ -11,10 +11,11 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { IconCheck, IconDoor, IconRefresh } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Link } from '@inertiajs/react';
 
 export default function Index(props) {
     const students = props.students;
@@ -124,43 +125,6 @@ export default function Index(props) {
                 />
             </div>
             <Card>
-                <CardHeader className="mb-4 p-0">
-                    <div className="flex w-full flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center">
-                        <Input
-                            className="w-full lg:w-1/4"
-                            placeholder="Cari nama mahasiswa..."
-                            value={params?.search}
-                            onChange={(e) => setParams((prev) => ({ ...prev, search: e.target.value }))}
-                        />
-                        <Button variant="red" size="xl" onClick={(e) => setParams(props.state)}>
-                            <IconRefresh className="size-4" />
-                            Bersihkan
-                        </Button>
-                    </div>
-                    <div className="space-y-4 px-6 py-4">
-                        <Alert variant="destructive">
-                            <AlertDescription>
-                                Harap isi dengan teliti, data yang disimpan tidak diperbarui
-                            </AlertDescription>
-                        </Alert>
-                        {errors && Object.keys(errors).length > 0 && (
-                            <Alert variant="red">
-                                <AlertDescription>
-                                    {typeof errors === 'string' ? (
-                                        errors
-                                    ) : (
-                                        <ul>
-                                            {Object.entries(errors).map(([key, message]) => (
-                                                <li key={key}>{message}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </AlertDescription>
-                            </Alert>
-                        )}
-                    </div>
-                    <ShowFilter params={params} />
-                </CardHeader>
                 <CardContent className="p-0 [&-td]:whitespace-nowrap [&-td]:px-6 [&-th]:px-6">
                     {students.length === 0 ? (
                         <EmptyState
@@ -368,6 +332,11 @@ export default function Index(props) {
                                 </TableBody>
                                 <TableFooter>
                                     <TableRow>
+                                        <TableCell colSpan="37">
+                                            <Button type="button" variant="outline" onClick={() => router.get(route('teachers.courses.index'))}>
+                                                Kembali
+                                            </Button>
+                                        </TableCell>
                                         <TableCell colSpan="37">
                                             <Button variant="orange" type="submit" size="lg" disabled={processing}>
                                                 <IconCheck />
