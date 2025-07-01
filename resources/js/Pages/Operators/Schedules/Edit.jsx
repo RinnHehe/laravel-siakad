@@ -15,10 +15,9 @@ export default function Edit(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
         course_id: props.schedule.course_id ?? null,
         classroom_id: props.schedule.classroom_id ?? null,
-        start_time: props.schedule.start_time_id ?? '',
-        end_time: props.schedule.end_time_id ?? '',
+        start_time: props.schedule.start_time ?? '',
+        end_time: props.schedule.end_time ?? '',
         day_of_week: props.schedule.day_of_week ?? null,
-        quota: props.schedule.quota ?? 0,
         _method: props.page_settings.method,
     });
 
@@ -153,18 +152,6 @@ export default function Edit(props) {
                                     </SelectContent>
                                 </Select>
                                 {errors.day_of_week && <InputError message={errors.day_of_week} />}
-                            </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="quota">Kuota</Label>
-                                <Input
-                                    type="number"
-                                    name="quota"
-                                    id="quota"
-                                    value={data.quota}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukkan kuota"
-                                />
-                                {errors.quota && <InputError message={errors.quota} />}
                             </div>
                         </div>
                         <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">

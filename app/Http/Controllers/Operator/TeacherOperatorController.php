@@ -23,6 +23,8 @@ class TeacherOperatorController extends Controller
     use HasFile;
     public function index(): Response
     {
+        $operator = Auth::user()->operator;
+
         $teachers = Teacher::query()
         ->select(['teachers.id', 'teachers.user_id', 'teachers.faculty_id', 'teachers.department_id', 'teachers.teacher_number', 'teachers.academic_title', 'teachers.created_at'])
         ->filter(request()->only(['search']))
@@ -38,7 +40,7 @@ class TeacherOperatorController extends Controller
         return Inertia::render('Operators/Teachers/Index', [
             'page_settings' => [
                 'title' => 'Dosen',
-                'subtitle' => 'Menampilkan semua data dosen yang tersedia di Universitas ini.',
+                'subtitle' => "Daftar semua dosen yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
             ],
             'teachers' => TeacherOperatorResource::collection($teachers)->additional([
                 'meta' => [
@@ -145,10 +147,13 @@ class TeacherOperatorController extends Controller
             $teacher->user()->delete();
             $teacher->delete();
 
+            DB::commit();
+
             flashMessage(MessageType::DELETED->message('Dosen'));
             return to_route('operators.teachers.index');
 
         } catch (Throwable $e) {
+            DB::rollBack();
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
             return to_route('operators.teachers.index');
         }
