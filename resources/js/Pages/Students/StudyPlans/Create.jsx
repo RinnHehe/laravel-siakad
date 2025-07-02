@@ -53,7 +53,6 @@ export default function Create(props) {
                             <TableHead>Kelas</TableHead>
                             <TableHead>Hari</TableHead>
                             <TableHead>Jam</TableHead>
-                            <TableHead>Kouta</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -84,13 +83,6 @@ export default function Create(props) {
                                 <TableCell>{schedule.classroom.name}</TableCell>
                                 <TableCell>{schedule.day_of_week}</TableCell>
                                 <TableCell>{schedule.start_time}</TableCell>
-                                <TableCell
-                                    className={cn(
-                                        schedule.taken_quota == schedule.quota ? 'text-red-500' : 'text-green-500',
-                                    )}
-                                >
-                                    {schedule.taken_quota} / {schedule.quota}
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
