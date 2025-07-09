@@ -20,4 +20,7 @@ Route::prefix('students')->middleware(['auth','role:Student'])->group(function (
     Route::get('schedules', ScheduleStudentController::class)->name('students.schedules.index');
     Route::get('fees', FeeStudentController::class)->name('students.fees.index');
     Route::get('study-results', StudyResultStudentController::class)->name('students.study.results.index');
+    Route::get('/study-results/{id}/download', [StudyResultStudentController::class, 'download'])
+    ->name('student.study-results.download');
+
 });
