@@ -13,8 +13,7 @@ import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { IconArrowsDownUp, IconDoor, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: classrooms, meta, links } = props.classrooms;

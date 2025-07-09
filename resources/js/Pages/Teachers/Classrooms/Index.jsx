@@ -1,10 +1,8 @@
 import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
-import ShowFilter from '@/Components/ShowFilter';
-import { Alert, AlertDescription } from '@/Components/ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
-import { Card, CardContent, CardHeader } from '@/Components/ui/card';
+import { Card, CardContent } from '@/Components/ui/card';
 import { Checkbox } from '@/Components/ui/checkbox';
 import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
@@ -12,10 +10,9 @@ import UseFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { router, useForm } from '@inertiajs/react';
-import { IconCheck, IconDoor, IconRefresh } from '@tabler/icons-react';
+import { IconCheck, IconDoor } from '@tabler/icons-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Link } from '@inertiajs/react';
 
 export default function Index(props) {
     const students = props.students;
@@ -333,7 +330,11 @@ export default function Index(props) {
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell colSpan="37">
-                                            <Button type="button" variant="outline" onClick={() => router.get(route('teachers.courses.index'))}>
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => router.get(route('teachers.courses.index'))}
+                                            >
                                                 Kembali
                                             </Button>
                                         </TableCell>

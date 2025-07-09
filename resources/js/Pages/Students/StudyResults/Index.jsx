@@ -3,22 +3,12 @@ import Grades from '@/Components/Grades';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { Badge } from '@/Components/ui/badge';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
-import UseFilter from '@/hooks/UseFilter';
-import AppLayout from '@/Layouts/AppLayout';
 import StudentLayout from '@/Layouts/StudentLayout';
-import { formatDateIndo, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
-import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconBuilding, IconDownload, IconEye, IconPlus, IconRefresh, IconSchool } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { IconDownload as IconDownloadTabler } from '@tabler/icons-react';
-
-
+import { formatDateIndo } from '@/lib/utils';
+import { IconDownload as IconDownloadTabler, IconSchool } from '@tabler/icons-react';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: studyResults, meta, links } = props.studyResults;
@@ -27,7 +17,6 @@ export default function Index(props) {
         page: props.state?.page,
         load: props.state?.load,
     });
-
 
     return (
         <div className="flex w-full flex-col pb-32">
@@ -39,7 +28,6 @@ export default function Index(props) {
                 />
             </div>
             <div className="flex flex-col gap-y-8">
-
                 {/* Show Filter */}
                 <ShowFilter params={params} />
                 {studyResults.length === 0 ? (
@@ -70,10 +58,7 @@ export default function Index(props) {
                                     <TableCell>{formatDateIndo(studyResult.created_at)}</TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-x-1">
-                                            <Grades
-                                                studyResult={studyResult}
-                                                grades={studyResult.grades}
-                                            />
+                                            <Grades studyResult={studyResult} grades={studyResult.grades} />
                                             <Button
                                                 variant="orange"
                                                 size="sm"
@@ -81,11 +66,9 @@ export default function Index(props) {
                                                     const url = `/students/study-results/${studyResult.id}/download`;
                                                     window.open(url, '_blank');
                                                 }}
-
                                             >
                                                 <IconDownloadTabler size={16} />
                                             </Button>
-
                                         </div>
                                     </TableCell>
                                 </TableRow>

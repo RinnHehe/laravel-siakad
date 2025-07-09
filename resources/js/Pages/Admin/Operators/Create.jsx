@@ -16,7 +16,6 @@ export default function Create(props) {
     const fileInputAvatar = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         faculty_id: null ?? '',
-        department_id: null ?? '',
         name: '',
         email: '',
         password: '',
@@ -102,17 +101,26 @@ export default function Create(props) {
                                 {errors.password && <InputError message={errors.password} />}
                             </div>
                             <div className="col-span-full">
-                                <Label htmlFor="faculty_id">Jurusan</Label>
+                                <Label htmlFor="faculty_id">Program Studi</Label>
                                 <Select
                                     defaultValue={data.faculty_id}
-                                    onValueChange={(value) => setData('faculty_id', value)}
-                                    name="faculty_id"
-                                    id="faculty_id"
+                                    onValueChange={(value) => {
+                                        setData('faculty_id', value);
+                                        const selectedFaculty = props.faculties.find((f) => f.value == value);
+                                        const matchedDepartment = props.departments.find(
+                                            (d) => d.label === selectedFaculty?.label,
+                                        );
+                                        if (matchedDepartment) {
+                                            setData('department_id', matchedDepartment.value);
+                                        } else {
+                                            setData('department_id', '');
+                                        }
+                                    }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Pilih Jurusan">
+                                        <SelectValue placeholder="Program Studi">
                                             {props.faculties.find((faculty) => faculty.value == data.faculty_id)
-                                                ?.label ?? 'Pilih Jurusan'}
+                                                ?.label ?? 'Program Studi'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -124,31 +132,6 @@ export default function Create(props) {
                                     </SelectContent>
                                 </Select>
                                 {errors.faculty_id && <InputError message={errors.faculty_id} />}
-                            </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="department_id">Program Studi</Label>
-                                <Select
-                                    defaultValue={data.department_id}
-                                    onValueChange={(value) => setData('department_id', value)}
-                                    name="department_id"
-                                    id="department_id"
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Pilih Program Studi">
-                                            {props.departments.find(
-                                                (department) => department.value == data.department_id,
-                                            )?.label ?? 'Pilih Program Studi'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.departments.map((department, index) => (
-                                            <SelectItem key={index} value={department.value}>
-                                                {department.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.department_id && <InputError message={errors.department_id} />}
                             </div>
                             <div className="col-span-2">
                                 <Label htmlFor="employee_number">Nomor Induk Karyawan</Label>

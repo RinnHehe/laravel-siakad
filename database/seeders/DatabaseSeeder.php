@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(FeeGroupSeeder::class);
 
         User::factory()->create([
-            'name' => 'Monkey D Luffy',
-            'email' => 'luffy@siakubwa.test',
+            'name' => 'Admin POLTEKAB',
+            'email' => 'admin@poltekab.com',
         ])->assignRole(
             Role::firstOrCreate([
                 'name' => 'Admin',

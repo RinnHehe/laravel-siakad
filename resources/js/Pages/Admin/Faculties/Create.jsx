@@ -56,12 +56,12 @@ export default function Create(props) {
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
                             <div className="col-span-full">
-                                <Label htmlFor="name">Nama Jurusan</Label>
+                                <Label htmlFor="name">Nama Program Studi</Label>
                                 <Input
                                     type="text"
                                     id="name"
                                     name="name"
-                                    placeholder="Masukkan Nama Jurusan"
+                                    placeholder="Masukkan Nama Program Studi"
                                     value={data.name}
                                     onChange={(e) => setData(e.target.name, e.target.value)}
                                     className={errors.name ? 'border-red-500 focus:border-red-500' : ''}

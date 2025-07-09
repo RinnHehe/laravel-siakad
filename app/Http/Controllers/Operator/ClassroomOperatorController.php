@@ -32,7 +32,7 @@ class ClassroomOperatorController extends Controller
         return Inertia::render('Operators/Classrooms/Index', [
             'page_settings' => [
                 'title' => 'Kelas',
-                'subtitle' => "Daftar semua kelas yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
+                'subtitle' => "Daftar semua kelas yang terdaftar di Program Studi {$operator->faculty?->name}",
             ],
             'classrooms' => ClassroomOperatorResource::collection($classrooms)->additional([
                 'meta' => [

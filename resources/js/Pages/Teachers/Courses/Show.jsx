@@ -38,7 +38,7 @@ export default function Show(props) {
                                             {schedule.classroom.name}
                                         </div>
                                         <div className="text-sm font-medium leading-relaxed text-muted-foreground">
-                                            {schedule.faculty.name} - {schedule.department.name}
+                                            {schedule.faculty.name}
                                         </div>
                                     </Link>
                                 </li>

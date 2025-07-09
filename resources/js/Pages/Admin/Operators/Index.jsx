@@ -14,8 +14,7 @@ import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUser } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: operators, meta, links } = props.operators;
@@ -132,17 +131,6 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('faculty_id')}
                                             >
-                                                Jurusan
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('department_id')}
-                                            >
                                                 Program Studi
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
@@ -188,7 +176,6 @@ export default function Index(props) {
                                             </TableCell>
                                             <TableCell>{operator.user?.email}</TableCell>
                                             <TableCell>{operator.faculty?.name}</TableCell>
-                                            <TableCell>{operator.department?.name}</TableCell>
                                             <TableCell>{operator.employee_number}</TableCell>
                                             <TableCell>{formatDateIndo(operator.created_at)}</TableCell>
                                             <TableCell>

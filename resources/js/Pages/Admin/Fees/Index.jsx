@@ -107,7 +107,6 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </Button>
                                         </TableHead>
-                                        <TableHead>Jurusan</TableHead>
                                         <TableHead>Program Studi</TableHead>
                                         <TableHead>
                                             <Button
@@ -161,12 +160,13 @@ export default function Index(props) {
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell>{fee.student.faculty}</TableCell>
-                                            <TableCell>{fee.student.department}</TableCell>
                                             <TableCell>{fee.student.name}</TableCell>
                                             <TableCell>{fee.student.student_number}</TableCell>
                                             <TableCell>{fee.semester}</TableCell>
                                             <TableCell>{fee.status}</TableCell>
-                                            <TableCell>{fee.created_at ? formatDateIndo(fee.created_at) : '-'}</TableCell>
+                                            <TableCell>
+                                                {fee.created_at ? formatDateIndo(fee.created_at) : '-'}
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

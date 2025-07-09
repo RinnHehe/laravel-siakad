@@ -56,12 +56,12 @@ export default function Edit(props) {
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
                             <div className="col-span-full">
-                                <Label htmlFor="name">Nama Jurusan</Label>
+                                <Label htmlFor="name">Nama Program Studi</Label>
                                 <Input
                                     type="text"
                                     id="name"
                                     name="name"
-                                    placeholder="Masukkan Nama Jurusan"
+                                    placeholder="Masukkan Nama Program Studi"
                                     value={data.name}
                                     onChange={(e) => setData(e.target.name, e.target.value)}
                                     className={errors.name ? 'border-red-500 focus:border-red-500' : ''}
@@ -69,7 +69,7 @@ export default function Edit(props) {
                                 {errors.name && <div className="mt-2 text-sm text-red-600">{errors.name}</div>}
                             </div>
                             <div className="col-span-full">
-                                <Label htmlFor="logo">Logo Jurusan</Label>
+                                <Label htmlFor="logo">Logo Program Studi</Label>
                                 <Input
                                     type="file"
                                     id="logo"
