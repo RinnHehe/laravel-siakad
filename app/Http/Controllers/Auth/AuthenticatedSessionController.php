@@ -63,6 +63,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Inertia::location('/');
+        return Inertia::location('/login');
     }
 }

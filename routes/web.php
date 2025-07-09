@@ -2,11 +2,17 @@
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Student\StudyResultStudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 Route::get('/', function () {
+    return Inertia::render('Home');
+});
+
+Route::get('/login', function () {
     if (Auth::check()) {
         return to_route('dashboard');
     } else {

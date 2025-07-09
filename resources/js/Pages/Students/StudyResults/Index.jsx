@@ -13,9 +13,13 @@ import AppLayout from '@/Layouts/AppLayout';
 import StudentLayout from '@/Layouts/StudentLayout';
 import { formatDateIndo, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconBuilding, IconEye, IconPlus, IconRefresh, IconSchool } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconBuilding, IconDownload, IconEye, IconPlus, IconRefresh, IconSchool } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { IconDownload as IconDownloadTabler } from '@tabler/icons-react';
+
+
+
 export default function Index(props) {
     const { data: studyResults, meta, links } = props.studyResults;
     const [params, setParams] = useState({
@@ -70,6 +74,18 @@ export default function Index(props) {
                                                 studyResult={studyResult}
                                                 grades={studyResult.grades}
                                             />
+                                            <Button
+                                                variant="orange"
+                                                size="sm"
+                                                onClick={() => {
+                                                    const url = `/students/study-results/${studyResult.id}/download`;
+                                                    window.open(url, '_blank');
+                                                }}
+
+                                            >
+                                                <IconDownloadTabler size={16} />
+                                            </Button>
+
                                         </div>
                                     </TableCell>
                                 </TableRow>
