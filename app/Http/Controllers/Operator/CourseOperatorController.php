@@ -33,7 +33,7 @@ class CourseOperatorController extends Controller
         return Inertia::render('Operators/Courses/Index', [
             'page_settings' => [
                 'title' => 'Mata Kuliah',
-                'subtitle' => "Daftar semua mata kuliah yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
+                'subtitle' => "Daftar semua mata kuliah yang terdaftar di Program Studi {$operator->faculty?->name}",
             ],
             'courses' => CourseOperatorResource::collection($courses)->additional([
                 'meta' => [

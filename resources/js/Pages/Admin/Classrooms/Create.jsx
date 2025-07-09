@@ -56,13 +56,25 @@ export default function Create(props) {
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
                             <div className="col-span-full">
-                                <Label htmlFor="faculty_id">Jurusan</Label>
+                                <Label htmlFor="faculty_id">Program Studi</Label>
                                 <Select
                                     defaultValue={data.faculty_id}
-                                    onValueChange={(value) => setData('faculty_id', value)}
+                                    onValueChange={(value) => {
+                                        setData('faculty_id', value);
+
+                                        const selectedFaculty = props.faculties.find((f) => f.value == value);
+                                        const matchedDepartment = props.departments.find(
+                                            (d) => d.label === selectedFaculty?.label,
+                                        );
+                                        if (matchedDepartment) {
+                                            setData('department_id', matchedDepartment.value);
+                                        } else {
+                                            setData('department_id', '');
+                                        }
+                                    }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue>
+                                        <SelectValue placeholder="Pilih Jurusan">
                                             {props.faculties.find((faculty) => faculty.value == data.faculty_id)
                                                 ?.label ?? 'Pilih Jurusan'}
                                         </SelectValue>
@@ -77,29 +89,7 @@ export default function Create(props) {
                                 </Select>
                                 {errors.faculty_id && <InputError message={errors.faculty_id} />}
                             </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="department_id">Program Studi</Label>
-                                <Select
-                                    defaultValue={data.department_id}
-                                    onValueChange={(value) => setData('department_id', value)}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue>
-                                            {props.departments.find(
-                                                (department) => department.value == data.department_id,
-                                            )?.label ?? 'Pilih Program Studi'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.departments.map((department, index) => (
-                                            <SelectItem key={index} value={department.value}>
-                                                {department.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.department_id && <InputError message={errors.department_id} />}
-                            </div>
+
                             <div className="col-span-full">
                                 <Label htmlFor="academic_year_id">Tahun Ajaran</Label>
                                 <Input

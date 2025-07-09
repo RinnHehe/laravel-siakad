@@ -16,7 +16,7 @@ import { router, usePage } from '@inertiajs/react';
 import { IconArrowsDownUp, IconMoneybag, IconRefresh } from '@tabler/icons-react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { toast, Toaster } from 'sonner';
+import { toast } from 'sonner';
 export default function Index(props) {
     const auth = usePage().props.auth.user;
     const { data: fees, meta, links } = props.fees;
@@ -47,28 +47,27 @@ export default function Index(props) {
             const snapToken = response.data.snapToken;
 
             window.snap.pay(snapToken, {
-                onSuccess: function(result) {
+                onSuccess: function (result) {
                     toast.success('Pembayaran berhasil');
                     router.get(route('payments.success'));
                 },
-                onPending: function(result) {
+                onPending: function (result) {
                     toast.warning('Pembayaran tertunda');
                     router.get(route('students.fees.index'));
                 },
-                onError: function(result) {
+                onError: function (result) {
                     toast.error(`Kesalahan pembayaran: ${result.status_message}`);
                     router.get(route('students.fees.index'));
                 },
-                onClose: function() {
+                onClose: function () {
                     toast.info('Pembayaran ditutup');
                     router.get(route('students.fees.index'));
                 },
             });
-
         } catch (error) {
             toast.error(`Kesalahan pembayaran: ${error.response?.data?.error || error.message}`);
         }
-    }
+    };
 
     useEffect(() => {
         // Check for flash message
@@ -132,7 +131,6 @@ export default function Index(props) {
                                             <TableHead>Semester</TableHead>
                                             <TableHead>Kelas</TableHead>
                                             <TableHead>Program Studi</TableHead>
-                                            <TableHead>Jurusan</TableHead>
                                             <TableHead>Total Tagihan</TableHead>
                                             <TableHead>Aksi</TableHead>
                                         </TableRow>
@@ -143,11 +141,12 @@ export default function Index(props) {
                                             <TableCell>{auth.student.student_number}</TableCell>
                                             <TableCell>{auth.student.semester}</TableCell>
                                             <TableCell>{auth.student.classroom.name}</TableCell>
-                                            <TableCell>{auth.student.department.name}</TableCell>
                                             <TableCell>{auth.student.faculty.name}</TableCell>
                                             <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
                                             <TableCell>
-                                                <Button variant="orange" onClick={handlePayment}>Bayar</Button>
+                                                <Button variant="orange" onClick={handlePayment}>
+                                                    Bayar
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>

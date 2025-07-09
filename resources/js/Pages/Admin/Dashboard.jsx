@@ -21,26 +21,16 @@ export default function Dashboard(props) {
                     Selamat datang kembali di Sistem Informasi Akademik Politeknik Kotabaru.
                 </p>
             </div>
-            <div className="mb-8 grid gap-4 lg:grid-cols-4">
+            <div className="mb-8 grid gap-3 lg:grid-cols-3">
                 <CardStat
                     data={{
-                        title: 'Total Jurusan',
+                        title: 'Total Program Studi',
                         icon: IconBuildingSkyscraper,
                         background: 'text-white bg-gradient-to-r from-red-400 via-red-500 to-red-500',
                         iconClassName: 'text-white',
                     }}
                 >
                     <div className="text-2xl font-bold">{props.count.faculties}</div>
-                </CardStat>
-                <CardStat
-                    data={{
-                        title: 'Total Program Studi',
-                        icon: IconSchool,
-                        background: 'text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-500',
-                        iconClassName: 'text-white',
-                    }}
-                >
-                    <div className="text-2xl font-bold">{props.count.departments}</div>
                 </CardStat>
                 <CardStat
                     data={{

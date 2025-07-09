@@ -34,7 +34,7 @@ class ScheduleOperatorController extends Controller
         return Inertia::render('Operators/Schedules/Index', [
             'page_settings' => [
                 'title' => 'Jadwal',
-                'subtitle' => "Daftar semua jadwal yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
+                'subtitle' => "Daftar semua jadwal yang terdaftar di Program Studi {$operator->faculty?->name}",
             ],
             'schedules' => ScheduleOperatorResource::collection($schedules)->additional([
                 'meta' => [

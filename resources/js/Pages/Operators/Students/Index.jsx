@@ -24,8 +24,7 @@ import {
     IconTrash,
     IconUsers,
 } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: students, meta, links } = props.students;

@@ -21,8 +21,7 @@ import {
     IconTrash,
     IconUsersGroup,
 } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: classrooms, meta, links } = props.classrooms;
@@ -117,17 +116,6 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('faculty_id')}
                                             >
-                                                Jurusan
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('department_id')}
-                                            >
                                                 Program Studi
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
@@ -174,7 +162,6 @@ export default function Index(props) {
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell>{classroom.faculty.name}</TableCell>
-                                            <TableCell>{classroom.department.name}</TableCell>
                                             <TableCell>{classroom.academicYear.name}</TableCell>
                                             <TableCell>{classroom.name}</TableCell>
                                             <TableCell>{formatDateIndo(classroom.created_at)}</TableCell>

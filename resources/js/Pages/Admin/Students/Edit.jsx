@@ -107,7 +107,20 @@ export default function Edit(props) {
                                 <Label htmlFor="faculty_id">Jurusan</Label>
                                 <Select
                                     defaultValue={data.faculty_id}
-                                    onValueChange={(value) => setData('faculty_id', value)}
+                                    onValueChange={(value) => {
+                                        setData('faculty_id', value);
+                                        // Karena nama Department == nama Faculty, ambil Department yang match
+                                        const matchedDepartment = props.departments.find(
+                                            (department) =>
+                                                department.label ===
+                                                props.faculties.find((faculty) => faculty.value == value)?.label,
+                                        );
+                                        if (matchedDepartment) {
+                                            setData('department_id', matchedDepartment.value);
+                                        } else {
+                                            setData('department_id', '');
+                                        }
+                                    }}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Jurusan">
@@ -125,29 +138,7 @@ export default function Edit(props) {
                                 </Select>
                                 {errors.faculty_id && <InputError message={errors.faculty_id} />}
                             </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="department_id">Program Studi</Label>
-                                <Select
-                                    defaultValue={data.department_id}
-                                    onValueChange={(value) => setData('department_id', value)}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Pilih Program Studi">
-                                            {props.departments.find(
-                                                (department) => department.value == data.department_id,
-                                            )?.label ?? 'Pilih Program Studi'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.departments.map((department, index) => (
-                                            <SelectItem key={index} value={department.value}>
-                                                {department.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.department_id && <InputError message={errors.department_id} />}
-                            </div>
+
                             <div className="col-span-full">
                                 <Label htmlFor="classroom_id">Kelas</Label>
                                 <Select

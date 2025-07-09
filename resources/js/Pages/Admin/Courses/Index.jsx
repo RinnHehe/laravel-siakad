@@ -121,17 +121,6 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('faculty_id')}
                                             >
-                                                Jurusan
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('department_id')}
-                                            >
                                                 Program Studi
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
@@ -211,7 +200,6 @@ export default function Index(props) {
                                         <TableRow key={index}>
                                             <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
                                             <TableCell>{course.faculty?.name}</TableCell>
-                                            <TableCell>{course.department?.name}</TableCell>
                                             <TableCell>{course.teacher?.name}</TableCell>
                                             <TableCell>{course.code}</TableCell>
                                             <TableCell>{course.name}</TableCell>

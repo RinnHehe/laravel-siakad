@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Department;
 use Throwable;
 
 class FacultyController extends Controller
@@ -28,10 +29,10 @@ class FacultyController extends Controller
 
         return Inertia::render('Admin/Faculties/Index', [
             'page_settings' => [
-                'title' => 'Jurusan',
-                'subtitle' => 'Menampilkan semua data jurusan yang tersedia pada Politeknik Kotabaru',
+                'title' => 'Program Studi',
+                'subtitle' => 'Menampilkan semua data program studi yang tersedia pada Politeknik Kotabaru',
                 'breadcrumbs' => [
-                    ['name' => 'Jurusan', 'url' => route('admin.faculties.index')]
+                    ['name' => 'Program Studi', 'url' => route('admin.faculties.index')]
                 ]
             ],
             'faculties' => FacultyResource::collection($faculties)->additional([
@@ -51,8 +52,8 @@ class FacultyController extends Controller
     {
         return Inertia::render('Admin/Faculties/Create', [
             'page_settings' => [
-                'title' => 'Tambah Jurusan',
-                'subtitle' => ' Buat jurusan baru, Klik simpan untuk menyimpan data jurusan',
+                'title' => 'Tambah Program Studi',
+                'subtitle' => ' Buat program studi baru, Klik simpan untuk menyimpan data program studi',
                 'method' => 'POST',
                 'action' => route('admin.faculties.store'),
             ]
@@ -61,30 +62,38 @@ class FacultyController extends Controller
 
     public function store(FacultyRequest $request): RedirectResponse
     {
-        try{
+        try {
             $validated = $request->validated();
 
-            Faculty::create([
+            $faculty = Faculty::create([
                 'name' => $validated['name'],
                 'code' => str()->random(5),
                 'logo' => $this->upload_file($request, 'logo', 'faculties')
             ]);
 
-            flashMessage(MessageType::CREATED->message('Jurusan'));
+            // Buat department otomatis
+            Department::create([
+                'faculty_id' => $faculty->id,
+                'name' => $faculty->name,
+                'code' => $faculty->code,
+            ]);
+
+            flashMessage(MessageType::CREATED->message('Program Studi'));
             return to_route('admin.faculties.index');
 
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             flashMessage($e->getMessage(), 'error');
             return back();
         }
     }
 
+
     public function edit(Faculty $faculty): Response
     {
         return Inertia::render('Admin/Faculties/Edit', [
             'page_settings' => [
-                'title' => 'Edit Jurusan',
-                'subtitle' => 'Edit jurusan baru, Klik simpan untuk menyimpan data jurusan',
+                'title' => 'Edit Program Studi',
+                'subtitle' => 'Edit program studi baru, Klik simpan untuk menyimpan data program studi',
                 'method' => 'PUT',
                 'action' => route('admin.faculties.update', $faculty),
             ],
@@ -94,7 +103,7 @@ class FacultyController extends Controller
 
     public function update(Faculty $faculty, FacultyRequest $request): RedirectResponse
     {
-        try{
+        try {
             $validated = $request->validated();
 
             $faculty->update([
@@ -102,14 +111,31 @@ class FacultyController extends Controller
                 'logo' => $this->update_file($request, $faculty, 'logo', 'faculties')
             ]);
 
-            flashMessage(MessageType::UPDATED->message('Jurusan'));
+            // Update department yang terkait (mengambil department pertama yang terkait, jika lebih dari 1 disesuaikan logic-nya)
+            $department = $faculty->departments()->first();
+            if ($department) {
+                $department->update([
+                    'name' => $faculty->name,
+                    'code' => $faculty->code,
+                ]);
+            } else {
+                // Jika belum ada department terkait, buat baru
+                Department::create([
+                    'faculty_id' => $faculty->id,
+                    'name' => $faculty->name,
+                    'code' => $faculty->code,
+                ]);
+            }
+
+            flashMessage(MessageType::UPDATED->message('Program Studi'));
             return to_route('admin.faculties.index');
 
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             flashMessage($e->getMessage(), 'error');
             return back();
         }
     }
+
 
     public function destroy(Faculty $faculty): RedirectResponse
     {
@@ -117,7 +143,7 @@ class FacultyController extends Controller
             $this->delete_file($faculty, 'logo');
             $faculty->delete();
 
-            flashMessage(MessageType::DELETED->message('Jurusan'));
+            flashMessage(MessageType::DELETED->message('Program Studi'));
             return to_route('admin.faculties.index');
 
         } catch (Throwable $e) {

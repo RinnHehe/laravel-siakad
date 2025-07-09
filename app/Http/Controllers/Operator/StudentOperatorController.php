@@ -45,7 +45,7 @@ class StudentOperatorController extends Controller
         return Inertia::render('Operators/Students/Index', [
             'page_settings' => [
                 'title' => 'Mahasiswa',
-                'subtitle' => "Daftar semua mahasiswa yang terdaftar di Jurusan {$operator->faculty?->name} dan program studi {$operator->department?->name}",
+                'subtitle' => "Daftar semua mahasiswa yang terdaftar di Program Studi {$operator->faculty?->name}",
             ],
             'students' => StudentOperatorResource::collection($students)->additional([
                 'meta' => [

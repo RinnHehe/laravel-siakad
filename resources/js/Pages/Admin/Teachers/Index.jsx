@@ -14,8 +14,7 @@ import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUsersGroup } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function Index(props) {
     const { data: teachers, meta, links } = props.teachers;
@@ -132,17 +131,6 @@ export default function Index(props) {
                                                 className="group inline-flex"
                                                 onClick={() => onSortable('faculty_id')}
                                             >
-                                                Jurusan
-                                                <span className="ml-2 flex-none rounded text-muted-foreground"></span>
-                                                <IconArrowsDownUp className="size-4" />
-                                            </Button>
-                                        </TableHead>
-                                        <TableHead>
-                                            <Button
-                                                variant="ghost"
-                                                className="group inline-flex"
-                                                onClick={() => onSortable('department_id')}
-                                            >
                                                 Program Studi
                                                 <span className="ml-2 flex-none rounded text-muted-foreground"></span>
                                                 <IconArrowsDownUp className="size-4" />
@@ -199,7 +187,6 @@ export default function Index(props) {
                                             </TableCell>
                                             <TableCell>{teacher.user?.email}</TableCell>
                                             <TableCell>{teacher.faculty?.name}</TableCell>
-                                            <TableCell>{teacher.department?.name}</TableCell>
                                             <TableCell>{teacher.teacher_number}</TableCell>
                                             <TableCell>{teacher.academic_title}</TableCell>
                                             <TableCell>{formatDateIndo(teacher.created_at)}</TableCell>

@@ -13,17 +13,18 @@ import { toast } from 'sonner';
 
 export default function Create(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        faculty_id: null ?? '',
-        department_id: null ?? '',
-        course_id: null ?? '',
-        classroom_id: null ?? '',
+        faculty_id: '',
+        department_id: '',
+        course_id: '',
+        classroom_id: '',
         start_time: '',
         end_time: '',
-        day_of_week: null ?? '',
+        day_of_week: '',
         _method: props.page_settings.method,
     });
 
     const onHandleChange = (e) => setData(e.target.name, e.target.value);
+
     const onHandleSubmit = (e) => {
         e.preventDefault();
         post(props.page_settings.action, {
@@ -35,9 +36,7 @@ export default function Create(props) {
         });
     };
 
-    const onHandleReset = () => {
-        reset();
-    };
+    const onHandleReset = () => reset();
 
     return (
         <div className="flex w-full flex-col pb-32">
@@ -59,18 +58,29 @@ export default function Create(props) {
                 <CardContent>
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+                            {/* FACULTY */}
                             <div className="col-span-full">
-                                <Label htmlFor="faculty_id">Jurusan</Label>
+                                <Label htmlFor="faculty_id">Program Studi</Label>
                                 <Select
                                     defaultValue={data.faculty_id}
-                                    onValueChange={(value) => setData('faculty_id', value)}
+                                    onValueChange={(value) => {
+                                        setData('faculty_id', value);
+                                        const selectedFaculty = props.faculties.find(f => f.value == value);
+                                        const matchedDepartment = props.departments.find(
+                                            d => d.label === selectedFaculty?.label
+                                        );
+                                        if (matchedDepartment) {
+                                            setData('department_id', matchedDepartment.value);
+                                        } else {
+                                            setData('department_id', '');
+                                        }
+                                    }}
                                     name="faculty_id"
                                     id="faculty_id"
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Pilih Jurusan">
-                                            {props.faculties.find((faculty) => faculty.value == data.faculty_id)
-                                                ?.label ?? 'Pilih Jurusan'}
+                                        <SelectValue placeholder="Pilih Program Studi">
+                                            {props.faculties.find(faculty => faculty.value == data.faculty_id)?.label ?? 'Pilih Program Studi'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -83,31 +93,8 @@ export default function Create(props) {
                                 </Select>
                                 {errors.faculty_id && <InputError message={errors.faculty_id} />}
                             </div>
-                            <div className="col-span-full">
-                                <Label htmlFor="department_id">Program Studi</Label>
-                                <Select
-                                    defaultValue={data.department_id}
-                                    onValueChange={(value) => setData('department_id', value)}
-                                    name="department_id"
-                                    id="department_id"
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Pilih Program Studi">
-                                            {props.departments.find(
-                                                (department) => department.value == data.department_id,
-                                            )?.label ?? 'Pilih Program Studi'}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {props.departments.map((department, index) => (
-                                            <SelectItem key={index} value={department.value}>
-                                                {department.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                {errors.department_id && <InputError message={errors.department_id} />}
-                            </div>
+
+                            {/* COURSE */}
                             <div className="col-span-full">
                                 <Label htmlFor="course_id">Mata Kuliah</Label>
                                 <Select
@@ -118,8 +105,7 @@ export default function Create(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Mata Kuliah">
-                                            {props.courses.find((course) => course.value == data.course_id)?.label ??
-                                                'Pilih Mata Kuliah'}
+                                            {props.courses.find(course => course.value == data.course_id)?.label ?? 'Pilih Mata Kuliah'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -132,6 +118,8 @@ export default function Create(props) {
                                 </Select>
                                 {errors.course_id && <InputError message={errors.course_id} />}
                             </div>
+
+                            {/* CLASSROOM */}
                             <div className="col-span-full">
                                 <Label htmlFor="classroom_id">Kelas</Label>
                                 <Select
@@ -142,8 +130,7 @@ export default function Create(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Kelas">
-                                            {props.classrooms.find((classroom) => classroom.value == data.classroom_id)
-                                                ?.label ?? 'Pilih Kelas'}
+                                            {props.classrooms.find(classroom => classroom.value == data.classroom_id)?.label ?? 'Pilih Kelas'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -156,6 +143,8 @@ export default function Create(props) {
                                 </Select>
                                 {errors.classroom_id && <InputError message={errors.classroom_id} />}
                             </div>
+
+                            {/* START TIME */}
                             <div className="col-span-2">
                                 <Label htmlFor="start_time">Waktu Mulai</Label>
                                 <Input
@@ -168,6 +157,8 @@ export default function Create(props) {
                                 />
                                 {errors.start_time && <InputError message={errors.start_time} />}
                             </div>
+
+                            {/* END TIME */}
                             <div className="col-span-2">
                                 <Label htmlFor="end_time">Waktu Selesai</Label>
                                 <Input
@@ -180,6 +171,8 @@ export default function Create(props) {
                                 />
                                 {errors.end_time && <InputError message={errors.end_time} />}
                             </div>
+
+                            {/* DAY */}
                             <div className="col-span-full">
                                 <Label htmlFor="day_of_week">Hari</Label>
                                 <Select
@@ -190,8 +183,7 @@ export default function Create(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Pilih Hari">
-                                            {props.days.find((day) => day.value == data.day_of_week)?.label ??
-                                                'Pilih Hari'}
+                                            {props.days.find(day => day.value == data.day_of_week)?.label ?? 'Pilih Hari'}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
@@ -205,6 +197,7 @@ export default function Create(props) {
                                 {errors.day_of_week && <InputError message={errors.day_of_week} />}
                             </div>
                         </div>
+
                         <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
                             <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
                                 Reset
