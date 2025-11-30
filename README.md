@@ -12,7 +12,7 @@ Sistem Informasi Akademik (SIAKAD) berbasis web untuk manajemen akademik sekolah
 
 ## ✨ Fitur
 
-- Manajemen data akademik (mahasiswa, dosen, fakultas, jurusan, kelas, mata kuliah)
+- Manajemen data akademik (mahasiswa, dosen, prodi, kelas, mata kuliah)
 - Autentikasi pengguna (superadmin / admin prodi / dosen / mahasiswa)
 - CRUD data akademik & referensi
 - Pengaturan jadwal & data akademik lain
